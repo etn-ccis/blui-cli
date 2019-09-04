@@ -1,0 +1,35 @@
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/build
+.nyc_output
+
+# Dependencies
+**/**/node_modules
+**/**/package-lock.json
+**/**/npm-debug.log*
+**/**/yarn-error.log*
+**/**/*.log
+**/**/*.tmp
+**/**/*.tmp.*
+
+# System Files
+**/**/.DS_Store
+**/**/Thumbs.db
+
+# Local Environment Config
+**/**/.env.local
+**/**/.env.development.local
+**/**/.env.test.local
+**/**/.env.production.local
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Testing
+/coverage
