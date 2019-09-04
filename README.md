@@ -6,6 +6,7 @@ To install the CLI:
 ```shell
 $ yarn global add @pxblue/cli
 ```
+> NOTE: this is not published here yet. It's currently published as **pxb-cli**
 
 To develop with a local copy of the CLI:
 ```shell
