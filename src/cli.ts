@@ -18,7 +18,7 @@ async function run(argv?: string[] | string): Promise<GluegunToolbox> {
         toolbox.print.info(`v${toolbox.meta.version()}`)
       }
     })
-    // .checkForUpdates(50)
+    .checkForUpdates(5)
     .version({
       name: 'version',
       alias: ['v'],

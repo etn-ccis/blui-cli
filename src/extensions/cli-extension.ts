@@ -58,8 +58,8 @@ module.exports = (toolbox: GluegunToolbox) => {
 
   toolbox.parse = async (query: Array<Question> = [{question:"Which Repository?", required: true}]): Promise<Array<string>> => {
     if (query.length < 1) return [];
-    
-    let params = toolbox.parameters.array;
+
+    let params = [...toolbox.parameters.array];
     let questions = [];
     let promptResult: object;
     
