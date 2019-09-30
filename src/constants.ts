@@ -5,7 +5,7 @@ export const EXAMPLE_BRANCHES: Array<Branch> = [
     name: 'angular',
     node: 'node:12.6-browsers',
     test: 'yarn test --watch=false --no-progress',
-    build: 'yarn build'
+    build: 'yarn build --prod --aot --no-progress'
   },
   {
     name: 'react',
