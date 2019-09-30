@@ -98,44 +98,79 @@ export const ROOT_COMPONENT = {
 
 export const SUPPORTED_BROWSERS = {
   asObject: {
-    production: [ 
-      ">0.2%",
-      "not dead",
-      "not op_mini all",
-      "ie 11"
-    ],
+    production: ['>0.2%', 'not dead', 'not op_mini all', 'ie 11'],
     development: [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version",
-      "ie 11"
+      'last 1 chrome version',
+      'last 1 firefox version',
+      'last 1 safari version',
+      'ie 11'
     ]
   },
   asString: `> 0.5%\r\nlast 2 versions\r\nFirefox ESR\r\nnot dead\r\nIE 11`
 }
 
 export const REQUIRED_LABELS = [
-  { name: "android", description: "Affects Android implementation", color: "567bc4" },
-  { name: "angular", description: "Affects Angular implementation", color: "e59e9e" },
-  { name: "bug", description: "Something not working as expected", color: "d73a4a" },
-  { name: "chrome", description: "Limited to Chrome browser", color: "ec9917" },
+  {
+    name: 'android',
+    description: 'Affects Android implementation',
+    color: '567bc4'
+  },
+  {
+    name: 'angular',
+    description: 'Affects Angular implementation',
+    color: 'e59e9e'
+  },
+  {
+    name: 'bug',
+    description: 'Something not working as expected',
+    color: 'd73a4a'
+  },
+  { name: 'chrome', description: 'Limited to Chrome browser', color: 'ec9917' },
   // { name: "cordova", description: "Affects Cordova implementation", color:"f8e597" },
   // { name: "docs", description: "Problem with the documentation", color:"29f4aa" },
   // { name: "duplicate", description: "Already captured by another issue", color:"cfd3d7" },
-  { name: "edge", description: "Limited to Edge browser", color: "0075ee" },
+  { name: 'edge', description: 'Limited to Edge browser', color: '0075ee' },
   // { name: "electron", description: "Affects Electron implementation", color:"9cdb90" },
-  { name: "enhancement", description: "Request for improvement or new feature", color: "a2eeef" },
-  { name: "external dependency", description: "Depends on an upstream package or library", color: "9006e0" },
-  { name: "firefox", description: "Limited to Firefox browser", color: "ecbe23" },
+  {
+    name: 'enhancement',
+    description: 'Request for improvement or new feature',
+    color: 'a2eeef'
+  },
+  {
+    name: 'external dependency',
+    description: 'Depends on an upstream package or library',
+    color: '9006e0'
+  },
+  {
+    name: 'firefox',
+    description: 'Limited to Firefox browser',
+    color: 'ecbe23'
+  },
   // { name: "good first issue", description: "A good issue for new contributors to get exposure", color:"7057ff" },
   // { name: "help wanted", description: "Need help from external contributors", color:"008672" },
-  { name: "ie11", description: "Limited to IE11 browser", color: "0068b3" },
+  { name: 'ie11', description: 'Limited to IE11 browser', color: '0068b3' },
   // { name: "invalid", description: "Not a valid issue", color:"e4e669" },
-  { name: "ionic", description: "Affects Ionic implementation", color: "fabb90" },
+  {
+    name: 'ionic',
+    description: 'Affects Ionic implementation',
+    color: 'fabb90'
+  },
   // { name: "performance", description: "Performance-related", color:"3aff23" },
   // { name: "question", description: "A question about the resource", color:"d110cd" },
-  { name: "react-native", description: "Affects react-native implementation", color: "cc9ff7" },
-  { name: "react", description: "Affects React implementation", color: "80c4f9" },
-  { name: "safari", description: "Limited to Safari browser", color: "333d43" },
-  { name: "wontfix", description: "Can't or won't be fixed by the dev team", color: "ffffff" }
-];
+  {
+    name: 'react-native',
+    description: 'Affects react-native implementation',
+    color: 'cc9ff7'
+  },
+  {
+    name: 'react',
+    description: 'Affects React implementation',
+    color: '80c4f9'
+  },
+  { name: 'safari', description: 'Limited to Safari browser', color: '333d43' },
+  {
+    name: 'wontfix',
+    description: "Can't or won't be fixed by the dev team",
+    color: 'ffffff'
+  }
+]

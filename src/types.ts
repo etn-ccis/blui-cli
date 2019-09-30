@@ -33,10 +33,10 @@ export type UpdateExampleProps = {
 }
 
 export type MetaFiles = {
-  readme: boolean,
-  circle: boolean,
-  editor: boolean,
-  ignore: boolean,
-  license: boolean,
+  readme: boolean
+  circle: boolean
+  editor: boolean
+  ignore: boolean
+  license: boolean
   images: boolean
 }

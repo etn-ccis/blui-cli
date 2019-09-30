@@ -46,21 +46,21 @@ module.exports = (toolbox: GluegunToolbox) => {
 
     const createBranchesCommand = (repository: string, folder: string, framework: string, update: boolean = false): string => {
         const branch = EXAMPLE_BRANCHES.filter((b) => b.name === framework)[0];
-        const branch_name = branch ? branch.name : framework;
+        const branchName = branch ? branch.name : framework;
         let str = `
             cd ${TEMP_FOLDER}/${folder}
         `;
         if (!update) {
             str += `
                 git init
-                git checkout -b ${branch_name}
+                git checkout -b ${branchName}
                 git remote add origin https://github.com/pxblue/${repository}.git
             `;
         }
         str += `
             git add -A
-            git commit -m "Create ${strings.startCase(branch_name)} Branch"
-            git push -u origin ${branch_name}
+            git commit -m "Create ${strings.startCase(branchName)} Branch"
+            git push -u origin ${branchName}
         `;
         return str;
     }

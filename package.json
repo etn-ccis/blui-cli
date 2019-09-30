@@ -1,6 +1,6 @@
 {
   "name": "pxb-cli",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "PX Blue CLI",
   "private": false,
   "bin": {
@@ -27,9 +27,9 @@
   ],
   "license": "BSD-3-Clause",
   "dependencies": {
-    "gluegun": "^3.0.0",
+    "gluegun": "^4.0.0",
     "ts-node": "^7.0.1",
-    "typescript": "3.2.2"
+    "typescript": "^3.2.2"
   },
   "devDependencies": {
     "@types/jest": "^23.3.10",
