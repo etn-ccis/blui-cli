@@ -1,4 +1,4 @@
-export type Framework = 'angular' | 'react' | 'ionic' | 'reactnative'
+export type Framework = 'angular' | 'react' | 'ionic' | 'reactnative' | string
 export type Dependency = {
   name: string
   version: string
@@ -10,7 +10,7 @@ export type PackageJSON = {
 }
 
 export type Branch = {
-  name: Framework
+  name: Framework | string
   node: string
   test: string
   build: string
@@ -23,4 +23,20 @@ export type BuildExampleProps = {
   clean?: boolean
   update?: boolean
   branches?: Array<Branch>
+}
+
+export type UpdateExampleProps = {
+  repository: string
+  description: string
+  files: MetaFiles
+  branches?: Array<Branch>
+}
+
+export type MetaFiles = {
+  readme: boolean
+  circle: boolean
+  editor: boolean
+  ignore: boolean
+  license: boolean
+  images: boolean
 }
