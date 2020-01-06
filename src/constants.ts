@@ -1,4 +1,15 @@
 import { Branch } from './types'
+import { AxiosProxyConfig } from 'axios';
+
+// TODO: Find a way to make the proxy work...I believe this is now an issue with Eaton self-signed SSL certificate
+export const PROXY: AxiosProxyConfig | false = false;//process.env.HTTP_PROXY ? {
+//     host: 'http://proxy.etn.com',//process.env.HTTP_PROXY.split(':')[0],
+//     port: 8080,//process.env.HTTP_PROXY.split(':')[1]
+//     auth:{
+//       username: 'Enumber',
+//       password: 'password'
+//     }
+// } : false;
 
 export const EXAMPLE_BRANCHES: Array<Branch> = [
   {
@@ -73,12 +84,45 @@ export const PXBLUE_DEV_DEPENDENCIES = {
     { name: 'react-test-renderer', version: '^16.8.6' }
   ]
 }
+export const PXBLUE_DEV_DEPENDENCIES_TS = {
+  react: [
+    { name: '@pxblue/eslint-config', version: 'latest' },
+    { name: 'eslint', version: 'latest' },
+    { name: 'eslint-config-prettier', version: 'latest' },
+    { name: '@typescript-eslint/eslint-plugin', version: 'latest' },
+    { name: '@typescript-eslint/parser', version: 'latest' },
+    { name: 'eslint-plugin-react', version: 'latest' },
+    { name: 'prettier', version: 'latest' },
+    { name: '@pxblue/prettier-config', version: 'latest' },
+  ],
+  reactnative: []
+}
+export const PXBLUE_SCRIPTS_TS = {
+  react: [
+    { name: 'lint', command: `eslint \"src/**/**.{tsx,ts}\"` },
+    { name: 'lint:fix', command: `eslint \"src/**/**.{tsx,ts}\" --fix` },
+    { name: 'prettier', command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write` }
+  ],
+  reactnative: []
+}
+
+export const LINT_CONFIG = `module.exports =  {
+  parser:  '@typescript-eslint/parser',
+  extends:  [ '@pxblue/eslint-config/tsx' ],
+  parserOptions:  {
+      project: "./tsconfig.json",
+  },
+  env: {
+      browser: true
+  }
+};`;
 
 export const PXBLUE_IMPORTS = {
   angular: [],
   react: [
     "import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';",
     "import CssBaseline from '@material-ui/core/CssBaseline';",
+    "//@ts-ignore",
     "import * as PXBThemes from '@pxblue/themes/react';",
     "require ('typeface-open-sans');"
   ],

@@ -1,6 +1,6 @@
 {
   "name": "pxb-cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "PX Blue CLI",
   "private": false,
   "bin": {
@@ -32,6 +32,7 @@
     "typescript": "^3.2.2"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.12",
     "jest": "^23.6.0",

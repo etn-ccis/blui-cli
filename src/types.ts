@@ -3,10 +3,15 @@ export type Dependency = {
   name: string
   version: string
 }
+export type Script = {
+  name: string;
+  command: string;
+}
 export type PackageJSON = {
-  dependencies: object
-  devDependencies?: object
-  browserslist?: object
+  dependencies: object;
+  devDependencies?: object;
+  browserslist?: object;
+  scripts?: object;
 }
 
 export type Branch = {

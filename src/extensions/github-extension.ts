@@ -1,6 +1,6 @@
 import { GluegunToolbox } from 'gluegun';
 import { ApiResponse } from 'apisauce';
-import { EXAMPLE_BRANCHES, REQUIRED_LABELS } from '../constants';
+import { EXAMPLE_BRANCHES, REQUIRED_LABELS, PROXY } from '../constants';
 
 module.exports = (toolbox: GluegunToolbox) => {
     // get the prompt function from the toolbox
@@ -18,7 +18,8 @@ module.exports = (toolbox: GluegunToolbox) => {
         headers: {
             "Accept": 'application/vnd.github.v3+json, application/vnd.github.symmetra-preview+json, application/vnd.github.dorian-preview+json, application/vnd.github.baptiste-preview+json, application/vnd.github.luke-cage-preview+json',
             "Content-Type": "application/json"
-        }
+        },
+        proxy: PROXY,
     });
 
     interface Label {
