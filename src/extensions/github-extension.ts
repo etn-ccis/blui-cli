@@ -16,7 +16,7 @@ module.exports = (toolbox: GluegunToolbox) => {
     const api = http.create({
         baseURL: 'https://api.github.com/',
         headers: {
-            "Accept": 'application/vnd.github.v3+json, application/vnd.github.symmetra-preview+json, application/vnd.github.dorian-preview+json, application/vnd.github.baptiste-preview+json, application/vnd.github.luke-cage-preview+json',
+            "Accept": 'application/vnd.github.v3+json, application/vnd.github.symmetra-preview+json, application/vnd.github.dorian-preview+json, application/vnd.github.baptiste-preview+json, application/vnd.github.luke-cage-preview+json, application/vnd.github.london-preview+json',
             "Content-Type": "application/json"
         },
         proxy: PROXY,
@@ -124,6 +124,15 @@ module.exports = (toolbox: GluegunToolbox) => {
         }
     }
 
+    async function setVulnerabilityUpdates(repository: string): Promise<void> {
+        await checkToken();
+
+        const response = await api.delete(`repos/pxblue/${repository}/automated-security-fixes`);
+        if (!response || response.status !== 204) {
+            print.warning(`Unable to disable vulnerability updates for ${repository}`);
+        }
+    }
+
     async function repairMissingBranches(repository: string, description: string): Promise<void> {
         await checkToken();
 
@@ -194,6 +203,11 @@ module.exports = (toolbox: GluegunToolbox) => {
                 spinner = toolbox.print.spin('Enabling Vulnerability Checks');
                 await setVulnerabilityAlerts(repository);
                 spinner.succeed('Vulnerability Checks Added');
+
+                // disable automated security updates
+                spinner = toolbox.print.spin('Disabling Automated Vulnerability Updates');
+                await setVulnerabilityUpdates(repository);
+                spinner.succeed('Vulnerability Updates Disabled');
 
                 // output the repository status
                 toolbox.status.printSingle(repository, true);
@@ -330,6 +344,8 @@ module.exports = (toolbox: GluegunToolbox) => {
         removeBranchRestrictions,
         repairRepositoryLabels,
         repairMissingBranches,
-        createPullRequest
+        createPullRequest,
+        setVulnerabilityAlerts,
+        setVulnerabilityUpdates,
     };
 }
