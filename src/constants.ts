@@ -88,7 +88,7 @@ export const PXBLUE_DEV_DEPENDENCIES = {
     { name: 'react-test-renderer', version: '^16.8.6' }
   ]
 }
-export const PXBLUE_DEV_DEPENDENCIES_TS = [
+export const PXBLUE_LINT_DEPENDENCIES_TS = [
   { name: '@pxblue/eslint-config', version: 'latest' },
   { name: 'eslint', version: 'latest' },
   { name: 'eslint-config-prettier', version: 'latest' },
@@ -97,8 +97,13 @@ export const PXBLUE_DEV_DEPENDENCIES_TS = [
   { name: 'eslint-plugin-react', version: 'latest' },
   { name: 'prettier', version: 'latest' },
   { name: '@pxblue/prettier-config', version: 'latest' },
-
 ]
+export const PXBLUE_DEV_DEPENDENCIES_TS = {
+  angular: [],
+  react: [{ name: 'eslint-plugin-react', version: 'latest' }],
+  ionic: [],
+  reactnative: []
+}
 export const PXBLUE_SCRIPTS_TS = {
   angular: [
     { name: 'lint', command: `eslint \"src/**/**.{tsx,ts}\"` },

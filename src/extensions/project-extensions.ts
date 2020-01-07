@@ -1,5 +1,5 @@
 import { GluegunToolbox } from 'gluegun';
-import { PXBLUE_DEPENDENCIES, PXBLUE_DEV_DEPENDENCIES, STYLES, PXBLUE_IMPORTS, ROOT_COMPONENT, PXBLUE_SCRIPTS_TS, LINT_CONFIG, PXBLUE_DEV_DEPENDENCIES_TS } from '../constants';
+import { PXBLUE_DEPENDENCIES, PXBLUE_DEV_DEPENDENCIES, STYLES, PXBLUE_IMPORTS, ROOT_COMPONENT, PXBLUE_SCRIPTS_TS, LINT_CONFIG, PXBLUE_DEV_DEPENDENCIES_TS, PXBLUE_LINT_DEPENDENCIES_TS } from '../constants';
 import { Framework } from '../types';
 
 import { newProjectCommand, updatePackageDependencies, updateBrowsersListFile, updateBrowsersListJson, updateScripts } from '../utilities/utilities';
@@ -31,7 +31,7 @@ module.exports = (toolbox: GluegunToolbox) => {
 
         // Add Linting and Prettier
         filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, { jsonIndent: 4 });
-        packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS);
+        packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_LINT_DEPENDENCIES_TS.concat(PXBLUE_DEV_DEPENDENCIES_TS.angular));
         packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.angular);
         packageJSON.prettier = "@pxblue/prettier-config";
 
@@ -83,7 +83,7 @@ module.exports = (toolbox: GluegunToolbox) => {
         // Add linting and prettier for TS files
         if (!js) {
             filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, { jsonIndent: 4 });
-            packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS);
+            packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_LINT_DEPENDENCIES_TS.concat(PXBLUE_DEV_DEPENDENCIES_TS.react));
             packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.react);
             packageJSON.prettier = "@pxblue/prettier-config";
 
@@ -124,7 +124,7 @@ module.exports = (toolbox: GluegunToolbox) => {
         
         // Add Linting and Prettier
         filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, { jsonIndent: 4 });
-        packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS);
+        packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_LINT_DEPENDENCIES_TS.concat(PXBLUE_DEV_DEPENDENCIES_TS.ionic));
         packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.ionic);
         packageJSON.prettier = "@pxblue/prettier-config";
         
@@ -160,7 +160,7 @@ module.exports = (toolbox: GluegunToolbox) => {
         // Add linting and prettier for TS files
         if (!js) {
             filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, { jsonIndent: 4 });
-            packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS);
+            packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_LINT_DEPENDENCIES_TS.concat(PXBLUE_DEV_DEPENDENCIES_TS.reactnative));
             packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.reactnative);
             packageJSON.prettier = "@pxblue/prettier-config";
         }
