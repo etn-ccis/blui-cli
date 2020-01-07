@@ -1,6 +1,6 @@
 {
   "name": "pxb-cli",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "PX Blue CLI",
   "private": false,
   "bin": {
