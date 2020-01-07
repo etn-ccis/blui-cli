@@ -16,7 +16,7 @@ export const newProjectCommand = (framework: Framework, name: string, directory:
             if(ci) command += ' --no-deps --no-git';
             break;
         case 'reactnative':
-            command = `npx -p expo-cli expo init --name=${name} --template=blank "${directory}/${name}"`;
+            command = `npx -p expo-cli expo init --name=${name} --template=${!js ? 'expo-template-blank-typescript' : 'blank'} "${directory}/${name}"`;
             break;
         default:
             return '';

@@ -69,7 +69,11 @@ export const PXBLUE_DEPENDENCIES = {
     { name: '@angular/material', version: '^8.1.2' },
     { name: 'typeface-open-sans', version: '0.0.75' }
   ],
-  reactnative: [{ name: '@pxblue/colors', version: '^1.0.13' }]
+  reactnative: [
+    { name: '@pxblue/colors', version: '^1.0.13' },
+    { name: '@pxblue/react-native-components', version: 'latest' },
+    { name: 'react-native-vector-icons', version: 'latest' }
+  ]
 }
 export const PXBLUE_DEV_DEPENDENCIES = {
   angular: [],
@@ -95,7 +99,16 @@ export const PXBLUE_DEV_DEPENDENCIES_TS = {
     { name: 'prettier', version: 'latest' },
     { name: '@pxblue/prettier-config', version: 'latest' },
   ],
-  reactnative: []
+  reactnative: [
+    { name: '@pxblue/eslint-config', version: 'latest' },
+    { name: 'eslint', version: 'latest' },
+    { name: 'eslint-config-prettier', version: 'latest' },
+    { name: '@typescript-eslint/eslint-plugin', version: 'latest' },
+    { name: '@typescript-eslint/parser', version: 'latest' },
+    { name: 'eslint-plugin-react', version: 'latest' },
+    { name: 'prettier', version: 'latest' },
+    { name: '@pxblue/prettier-config', version: 'latest' },
+  ]
 }
 export const PXBLUE_SCRIPTS_TS = {
   react: [
@@ -103,7 +116,11 @@ export const PXBLUE_SCRIPTS_TS = {
     { name: 'lint:fix', command: `eslint \"src/**/**.{tsx,ts}\" --fix` },
     { name: 'prettier', command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write` }
   ],
-  reactnative: []
+  reactnative: [
+    { name: 'lint', command: `eslint \"**/**.{tsx,ts}\"` },
+    { name: 'lint:fix', command: `eslint \"**/**.{tsx,ts}\" --fix` },
+    { name: 'prettier', command: `prettier \"**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write` }
+  ]
 }
 
 export const LINT_CONFIG = `module.exports =  {

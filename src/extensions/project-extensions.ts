@@ -142,6 +142,15 @@ module.exports = (toolbox: GluegunToolbox) => {
         packageJSON.author = "PX Blue <pxblue@eaton.com>";
         packageJSON = updatePackageDependencies(packageJSON, PXBLUE_DEPENDENCIES.reactnative, PXBLUE_DEV_DEPENDENCIES.reactnative);
         packageJSON.scripts.test = 'jest';
+
+        // Add linting and prettier for TS files
+        if(!js){
+            filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, {jsonIndent: 4});
+            packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS.reactnative);
+            packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.reactnative);
+            packageJSON.prettier = "@pxblue/prettier-config";
+        }
+
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 2 });
     }
 
