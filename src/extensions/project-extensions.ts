@@ -11,10 +11,10 @@ module.exports = (toolbox: GluegunToolbox) => {
         await toolbox.system.run(newProjectCommand(framework, name, directory, ci, js), { trim: true });
         await toolbox.system.run(`cd ${directory}/${name} && rm -rf package-lock.json && rm -rf yarn.lock`, { trim: true });
         if (withBlue) {
-            if(framework === 'angular') await addPXBlueAngular(name, directory);
-            else if(framework === 'react') await addPXBlueReact(name, directory, js);
-            else if(framework === 'ionic') await addPXBlueIonic(name, directory);
-            else if(framework === 'reactnative') await addPXBlueReactNative(name, directory, js);
+            if (framework === 'angular') await addPXBlueAngular(name, directory);
+            else if (framework === 'react') await addPXBlueReact(name, directory, js);
+            else if (framework === 'ionic') await addPXBlueIonic(name, directory);
+            else if (framework === 'reactnative') await addPXBlueReactNative(name, directory, js);
         }
         if (!ci) await toolbox.system.run(`cd ${directory}/${name} && yarn`, { trim: true });
     }
@@ -22,12 +22,19 @@ module.exports = (toolbox: GluegunToolbox) => {
 
     const addPXBlueAngular = async (name: string, directory: string = './'): Promise<void> => {
         const folder = `./${directory}/${name}`;
-        
+
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
         packageJSON.author = "PX Blue <pxblue@eaton.com>";
         packageJSON.scripts.start = "ng serve --configuration es5";
         packageJSON = updatePackageDependencies(packageJSON, PXBLUE_DEPENDENCIES.angular, PXBLUE_DEV_DEPENDENCIES.angular);
+
+        // Add Linting and Prettier
+        filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, { jsonIndent: 4 });
+        packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS);
+        packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.angular);
+        packageJSON.prettier = "@pxblue/prettier-config";
+
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 2 });
 
         // Update browsers list
@@ -54,7 +61,7 @@ module.exports = (toolbox: GluegunToolbox) => {
         angularJSON.projects[name].architect.build.configurations['es5'] = { tsConfig: "./tsconfig.es5.json" };
         angularJSON.projects[name].architect.serve.configurations['es5'] = { browserTarget: `${name}:build:es5` };
         filesystem.write(`${folder}/tsconfig.es5.json`, `{\r\n\t"extends": "./tsconfig.json",\r\n\t"compilerOptions": {\r\n\t\t"target": "es5"\r\n\t}\r\n}`);
-        
+
         filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 2 });
 
         // Update styles.scss
@@ -69,14 +76,14 @@ module.exports = (toolbox: GluegunToolbox) => {
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
         packageJSON.author = "PX Blue <pxblue@eaton.com>";
         packageJSON = updatePackageDependencies(packageJSON, PXBLUE_DEPENDENCIES.react, PXBLUE_DEV_DEPENDENCIES.react);
-        
+
         // Update Browsers List for IE 11
         packageJSON = updateBrowsersListJson(packageJSON);
 
         // Add linting and prettier for TS files
-        if(!js){
-            filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, {jsonIndent: 4});
-            packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS.react);
+        if (!js) {
+            filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, { jsonIndent: 4 });
+            packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS);
             packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.react);
             packageJSON.prettier = "@pxblue/prettier-config";
 
@@ -104,7 +111,7 @@ module.exports = (toolbox: GluegunToolbox) => {
         html = html.replace(/<title>.*<\/title>/ig, `<title>${name}</title>`);
         filesystem.write(`${folder}/public/index.html`, html);
 
-        
+
     }
 
     const addPXBlueIonic = async (name: string, directory: string): Promise<void> => {
@@ -114,6 +121,13 @@ module.exports = (toolbox: GluegunToolbox) => {
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
         packageJSON.author = "PX Blue <pxblue@eaton.com>";
         packageJSON = updatePackageDependencies(packageJSON, PXBLUE_DEPENDENCIES.ionic, PXBLUE_DEV_DEPENDENCIES.ionic);
+        
+        // Add Linting and Prettier
+        filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, { jsonIndent: 4 });
+        packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS);
+        packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.ionic);
+        packageJSON.prettier = "@pxblue/prettier-config";
+        
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 2 });
 
         // Update index.html
@@ -144,9 +158,9 @@ module.exports = (toolbox: GluegunToolbox) => {
         packageJSON.scripts.test = 'jest';
 
         // Add linting and prettier for TS files
-        if(!js){
-            filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, {jsonIndent: 4});
-            packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS.reactnative);
+        if (!js) {
+            filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, { jsonIndent: 4 });
+            packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS);
             packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.reactnative);
             packageJSON.prettier = "@pxblue/prettier-config";
         }

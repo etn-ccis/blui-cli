@@ -88,29 +88,28 @@ export const PXBLUE_DEV_DEPENDENCIES = {
     { name: 'react-test-renderer', version: '^16.8.6' }
   ]
 }
-export const PXBLUE_DEV_DEPENDENCIES_TS = {
-  react: [
-    { name: '@pxblue/eslint-config', version: 'latest' },
-    { name: 'eslint', version: 'latest' },
-    { name: 'eslint-config-prettier', version: 'latest' },
-    { name: '@typescript-eslint/eslint-plugin', version: 'latest' },
-    { name: '@typescript-eslint/parser', version: 'latest' },
-    { name: 'eslint-plugin-react', version: 'latest' },
-    { name: 'prettier', version: 'latest' },
-    { name: '@pxblue/prettier-config', version: 'latest' },
-  ],
-  reactnative: [
-    { name: '@pxblue/eslint-config', version: 'latest' },
-    { name: 'eslint', version: 'latest' },
-    { name: 'eslint-config-prettier', version: 'latest' },
-    { name: '@typescript-eslint/eslint-plugin', version: 'latest' },
-    { name: '@typescript-eslint/parser', version: 'latest' },
-    { name: 'eslint-plugin-react', version: 'latest' },
-    { name: 'prettier', version: 'latest' },
-    { name: '@pxblue/prettier-config', version: 'latest' },
-  ]
-}
+export const PXBLUE_DEV_DEPENDENCIES_TS = [
+  { name: '@pxblue/eslint-config', version: 'latest' },
+  { name: 'eslint', version: 'latest' },
+  { name: 'eslint-config-prettier', version: 'latest' },
+  { name: '@typescript-eslint/eslint-plugin', version: 'latest' },
+  { name: '@typescript-eslint/parser', version: 'latest' },
+  { name: 'eslint-plugin-react', version: 'latest' },
+  { name: 'prettier', version: 'latest' },
+  { name: '@pxblue/prettier-config', version: 'latest' },
+
+]
 export const PXBLUE_SCRIPTS_TS = {
+  angular: [
+    { name: 'lint', command: `eslint \"src/**/**.{tsx,ts}\"` },
+    { name: 'lint:fix', command: `eslint \"src/**/**.{tsx,ts}\" --fix` },
+    { name: 'prettier', command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write` }
+  ],
+  ionic: [
+    { name: 'lint', command: `eslint \"src/**/**.{tsx,ts}\"` },
+    { name: 'lint:fix', command: `eslint \"src/**/**.{tsx,ts}\" --fix` },
+    { name: 'prettier', command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write` }
+  ],
   react: [
     { name: 'lint', command: `eslint \"src/**/**.{tsx,ts}\"` },
     { name: 'lint:fix', command: `eslint \"src/**/**.{tsx,ts}\" --fix` },
