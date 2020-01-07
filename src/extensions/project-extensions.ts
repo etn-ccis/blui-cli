@@ -14,7 +14,7 @@ module.exports = (toolbox: GluegunToolbox) => {
             if(framework === 'angular') await addPXBlueAngular(name, directory);
             else if(framework === 'react') await addPXBlueReact(name, directory, js);
             else if(framework === 'ionic') await addPXBlueIonic(name, directory);
-            else if(framework === 'reactnative') await addPXBlueReactNative(name, directory);
+            else if(framework === 'reactnative') await addPXBlueReactNative(name, directory, js);
         }
         if (!ci) await toolbox.system.run(`cd ${directory}/${name} && yarn`, { trim: true });
     }
@@ -79,6 +79,10 @@ module.exports = (toolbox: GluegunToolbox) => {
             packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_DEV_DEPENDENCIES_TS.react);
             packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.react);
             packageJSON.prettier = "@pxblue/prettier-config";
+
+            let serviceWorker = filesystem.read(`${folder}/src/serviceWorker.ts`);
+            serviceWorker = '/* eslint-disable */\r\n' + serviceWorker;
+            filesystem.write(`${folder}/src/serviceWorker.ts`, serviceWorker);
         }
 
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
@@ -130,7 +134,7 @@ module.exports = (toolbox: GluegunToolbox) => {
         filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 2 });
     }
 
-    const addPXBlueReactNative = async (name: string, directory: string): Promise<void> => {
+    const addPXBlueReactNative = async (name: string, directory: string, js: boolean = false): Promise<void> => {
         const folder = `./${directory}/${name}`;
 
         // Update package.json

@@ -124,7 +124,7 @@ export const PXBLUE_IMPORTS = {
     "import CssBaseline from '@material-ui/core/CssBaseline';",
     "//@ts-ignore",
     "import * as PXBThemes from '@pxblue/themes/react';",
-    "require ('typeface-open-sans');"
+    "import 'typeface-open-sans';"
   ],
   ionic: [],
   reactnative: []
