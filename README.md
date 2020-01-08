@@ -25,7 +25,7 @@ Check out the [Gluegun documentation](https://github.com/infinitered/gluegun/tre
 | `pxb version` |  | displays the version of the currently installed CLI |
 | `pxb help` |  | lists all available commands and descriptions |
 | `pxb clone <repo> <branch>` |  | Clones the specified branch from the specified repository to a local folder ("all" to get all branches) |
-| `pxb new project` | `--javascript` | Creates a new skeleton project with PX Blue integration. You will be prompted to select a framework and a project name. React/React Native projects will prompt you for a language (TS or JS) unless `--javascript` is specified on the command line. |
+| `pxb new project` | `--javascript` `--typescript` | Creates a new skeleton project with PX Blue integration. You will be prompted to select a framework and a project name. React/React Native projects will prompt you for a language (TS or JS) unless `--javascript` or `--typescript` is specified on the command line. |
 | `pxb new repository` | `--empty` | Creates a new example repository on github. If `--empty` is specified, the repository will be empty. Otherwise, branches will be created for each supported framework and populated with a skeleton application with PX Blue integration. |
 | `pxb update branches <repo>` |  | Creates any missing framework branches on the specified repository. |
 | `pxb update labels <repo>` |  | Updates the issue labels on the specified repository. |

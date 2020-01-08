@@ -6,7 +6,8 @@ module.exports = {
     description: 'Creates a new project in the specified framework',
     run: async (toolbox: GluegunToolbox) => {
         const { parse, projects, print } = toolbox;
-        let js = toolbox.parameters.options.javascript || false;
+        let js = toolbox.parameters.options.typescript ? false 
+            : toolbox.parameters.options.javascript ? true : undefined;
 
         let [framework, dependencies, name] = await parse([
             { question: 'Project Framework:', required: true, type: 'radio', choices: ['Angular', 'React', 'Ionic', 'React Native'] },
@@ -15,7 +16,7 @@ module.exports = {
         ]);
         framework = framework.toLowerCase().replace(/[- ]/ig, '');
         if (framework === 'react' || framework === 'reactnative') {
-            if (!js) {
+            if (js === undefined) {
                 let [useJS] = await parse([
                     { question: 'Language', required: true, type: 'radio', choices: ['TypeScript', 'JavaScript'] }
                 ]);
@@ -25,6 +26,7 @@ module.exports = {
         else {
             js = false;
         }
+        console.log('using JS: ', js);
 
         let spinner = print.spin('Creating Project');
         const timer = toolbox.system.startTimer();
