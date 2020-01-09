@@ -26,7 +26,6 @@ module.exports = {
         else {
             js = false;
         }
-        console.log('using JS: ', js);
 
         let spinner = print.spin('Creating Project');
         const timer = toolbox.system.startTimer();

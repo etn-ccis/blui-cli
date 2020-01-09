@@ -10,7 +10,7 @@ $ yarn global add @pxblue/cli
 
 To develop with a local copy of the CLI:
 ```shell
-$ git clone https://github.com/pxblue/cli
+$ git clone https://github.com/pxblue/pxblue-cli
 $ cd cli
 $ yarn
 $ yarn link
