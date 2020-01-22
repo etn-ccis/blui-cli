@@ -10,8 +10,8 @@ $ yarn global add @pxblue/cli
 
 To develop with a local copy of the CLI:
 ```shell
-$ git clone https://github.com/pxblue/cli
-$ cd cli
+$ git clone https://github.com/pxblue/pxblue-cli
+$ cd pxblue-cli
 $ yarn
 $ yarn link
 ```
@@ -25,12 +25,13 @@ Check out the [Gluegun documentation](https://github.com/infinitered/gluegun/tre
 | `pxb version` |  | displays the version of the currently installed CLI |
 | `pxb help` |  | lists all available commands and descriptions |
 | `pxb clone <repo> <branch>` |  | Clones the specified branch from the specified repository to a local folder ("all" to get all branches) |
-| `pxb new project` |  | Creates a new skeleton project with PX Blue integration. You will be prompted to select a framework and a project name. This command requires you have the correct CLI installed globally on your machine (@angular/cli, create-react-app, ionic, or expo-cli) |
-| `pxb new repository` | `--empty` | Creates a new example repository on github. If `--empty` is specified, the repository will be empty. Otherwise, branches will be created for each supported framework and populated with a skeleton application with PX Blue integration. This command requires you have the correct CLI installed globally on your machine (@angular/cli, create-react-app, ionic, or expo-cli) |
+| `pxb new project` | `--javascript` `--typescript` | Creates a new skeleton project with PX Blue integration. You will be prompted to select a framework and a project name. React/React Native projects will prompt you for a language (TS or JS) unless `--javascript` or `--typescript` is specified on the command line. |
+| `pxb new repository` | `--empty` | Creates a new example repository on github. If `--empty` is specified, the repository will be empty. Otherwise, branches will be created for each supported framework and populated with a skeleton application with PX Blue integration. |
 | `pxb update branches <repo>` |  | Creates any missing framework branches on the specified repository. |
 | `pxb update labels <repo>` |  | Updates the issue labels on the specified repository. |
 | `pxb update meta <repo> <description>` |  | Updates the metadata on the specified repository based on the files in the example template (readme, circleci, gitignore, editorconfig, etc.). |
 | `pxb update protection <repo> <branch>` | `--disabled` | Sets branch protection for the specified repository and branch. If branch is 'all', all framework branches will be updated. If `--disabled` is set, protections will be turned off instead of on. |
+| `pxb update security <repo>` |  | Enables vulnerability alerts, and disabled automated vulnerability fixes for the specified repository. |
 | `pxb status <repo>` | `--all`<br/> `--detailed` | checks the specified repository for required branches, issue labels, and vulnerability checks. Prints the results of the check. If no repository is specified, you will be prompted for one. Using `--all` will list results for all public repositories. Using `--detailed` will present itemized results in a table rather than a simple pass/fail.|
 
 > **NOTE:** For the github related commands to work, you will be need to authenticate using a Personal Access Token for an account that has the permissions to perform the desired actions. To skip the prompt, you may store this value in a `GITHUB_ACCESS_TOKEN` environment variable.
