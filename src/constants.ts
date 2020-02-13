@@ -1,8 +1,8 @@
 import { Branch } from './types'
-import { AxiosProxyConfig } from 'axios';
+import { AxiosProxyConfig } from 'axios'
 
 // TODO: Find a way to make the proxy work...I believe this is now an issue with Eaton self-signed SSL certificate
-export const PROXY: AxiosProxyConfig | false = false;//process.env.HTTP_PROXY ? {
+export const PROXY: AxiosProxyConfig | false = false // process.env.HTTP_PROXY ? {
 //     host: 'http://proxy.etn.com',//process.env.HTTP_PROXY.split(':')[0],
 //     port: 8080,//process.env.HTTP_PROXY.split(':')[1]
 //     auth:{
@@ -97,7 +97,7 @@ export const PXBLUE_LINT_DEPENDENCIES_TS = [
   { name: '@typescript-eslint/parser', version: 'latest' },
   { name: 'eslint-plugin-react', version: 'latest' },
   { name: 'prettier', version: 'latest' },
-  { name: '@pxblue/prettier-config', version: 'latest' },
+  { name: '@pxblue/prettier-config', version: 'latest' }
 ]
 export const PXBLUE_DEV_DEPENDENCIES_TS = {
   angular: [],
@@ -109,22 +109,34 @@ export const PXBLUE_SCRIPTS_TS = {
   angular: [
     { name: 'lint', command: `eslint \"src/**/**.{tsx,ts}\"` },
     { name: 'lint:fix', command: `eslint \"src/**/**.{tsx,ts}\" --fix` },
-    { name: 'prettier', command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write` }
+    {
+      name: 'prettier',
+      command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write`
+    }
   ],
   ionic: [
     { name: 'lint', command: `eslint \"src/**/**.{tsx,ts}\"` },
     { name: 'lint:fix', command: `eslint \"src/**/**.{tsx,ts}\" --fix` },
-    { name: 'prettier', command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write` }
+    {
+      name: 'prettier',
+      command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write`
+    }
   ],
   react: [
     { name: 'lint', command: `eslint \"src/**/**.{tsx,ts}\"` },
     { name: 'lint:fix', command: `eslint \"src/**/**.{tsx,ts}\" --fix` },
-    { name: 'prettier', command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write` }
+    {
+      name: 'prettier',
+      command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write`
+    }
   ],
   reactnative: [
     { name: 'lint', command: `eslint \"**/**.{tsx,ts}\"` },
     { name: 'lint:fix', command: `eslint \"**/**.{tsx,ts}\" --fix` },
-    { name: 'prettier', command: `prettier \"**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write` }
+    {
+      name: 'prettier',
+      command: `prettier \"**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write`
+    }
   ]
 }
 
@@ -137,7 +149,7 @@ export const LINT_CONFIG = `module.exports =  {
   env: {
       browser: true
   }
-};`;
+};`
 
 export const PXBLUE_IMPORTS = {
   angular: [],
