@@ -48,29 +48,30 @@ export const PXBLUE_DEPENDENCIES = {
   angular: [
     { name: '@angular/cdk', version: '^8.1.2' },
     { name: '@angular/flex-layout', version: '^8.0.0-beta.26' },
-    { name: '@pxblue/themes', version: '^2.0.3' },
-    { name: '@pxblue/colors', version: '^1.0.13' },
+    { name: '@pxblue/themes', version: '^3.0.2' },
+    { name: '@pxblue/colors', version: '^2.0.0' },
     { name: '@angular/material', version: '^8.1.2' },
     { name: 'typeface-open-sans', version: '0.0.75' }
   ],
   react: [
     { name: '@material-ui/core', version: '^4.2.0' },
     { name: '@material-ui/icons', version: '^4.2.1' },
-    { name: '@pxblue/themes', version: '^2.0.3' },
-    { name: '@pxblue/colors', version: '^1.0.13' },
+    { name: '@pxblue/themes', version: '^3.0.2' },
+    { name: '@pxblue/colors', version: '^2.0.0' },
     { name: 'react-app-polyfill', version: '^1.0.2' },
     { name: 'typeface-open-sans', version: '0.0.75' }
   ],
   ionic: [
     { name: '@angular/cdk', version: '^8.1.2' },
     { name: '@angular/flex-layout', version: '^8.0.0-beta.26' },
-    { name: '@pxblue/themes', version: '^2.0.3' },
-    { name: '@pxblue/colors', version: '^1.0.13' },
+    { name: '@pxblue/themes', version: '^3.0.2' },
+    { name: '@pxblue/colors', version: '^2.0.0' },
     { name: '@angular/material', version: '^8.1.2' },
     { name: 'typeface-open-sans', version: '0.0.75' }
   ],
   reactnative: [
-    { name: '@pxblue/colors', version: '^1.0.13' },
+    { name: '@pxblue/themes', version: '^3.0.2' },
+    { name: '@pxblue/colors', version: '^2.0.0' },
     { name: '@pxblue/react-native-components', version: 'latest' },
     { name: 'react-native-vector-icons', version: 'latest' }
   ]
@@ -143,7 +144,6 @@ export const PXBLUE_IMPORTS = {
   react: [
     "import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';",
     "import CssBaseline from '@material-ui/core/CssBaseline';",
-    "//@ts-ignore",
     "import * as PXBThemes from '@pxblue/themes/react';",
     "import 'typeface-open-sans';"
   ],
