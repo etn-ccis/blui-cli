@@ -13,7 +13,7 @@
     "clean-build": "rm -rf ./build",
     "compile": "tsc -p .",
     "copy-templates": "if [ -e ./src/templates ]; then cp -a ./src/templates ./build/; fi",
-    "build": "yarn format && yarn lint && yarn clean-build && yarn compile && yarn copy-templates",
+    "build": "yarn prettier && yarn lint && yarn clean-build && yarn compile && yarn copy-templates",
     "test": "jest",
     "watch": "jest --watch",
     "snapupdate": "jest --updateSnapshot",
@@ -30,7 +30,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "gluegun": "^2.1.0",
+    "gluegun": "^4.2.0",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2"
   },
