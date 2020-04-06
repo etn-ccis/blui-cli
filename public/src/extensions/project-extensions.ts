@@ -1,6 +1,4 @@
 import { GluegunToolbox, filesystem } from 'gluegun';
-import * as ora from 'ora';
-import { GluegunTimer } from 'gluegun/build/types/toolbox/system-types';
 import {
     DEPENDENCIES,
     DEV_DEPENDENCIES,
@@ -10,86 +8,65 @@ import {
     SCRIPTS,
     ROOT_COMPONENT,
     STYLES,
+    ROOT_IMPORTS,
 } from '../constants';
-import { updateScripts, updateBrowsersListFile } from '../utilities';
+import { updateScripts, updateBrowsersListFile, updateBrowsersListJson } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
-    const { system, parse, print } = toolbox;
+    const { system, parse, print, fileModify } = toolbox;
 
-    /*
-        Add PX Blue integrations to skeleton projects
+   /* 
+     *
+     * Add PX Blue integrations to skeleton projects
+     * 
     */
-    const addPXBlueAngular = async (name: string, lint: boolean): Promise<void> => {
+   type AddAngularProps = {
+       name: string;
+       lint: boolean;
+   }
+    const addPXBlueAngular = async (props: AddAngularProps): Promise<void> => {
+        const {name, lint} = props;
         const folder = `./${name}`;
-        const isYarn = filesystem.exists(`./${name}/yarn.lock`);
-        let spinner: ora.Ora;
-        let command: string;
-        let output: string;
-        let timer: GluegunTimer;
-
-        const installCommand = `cd ${folder} && ${isYarn ? 'yarn add' : 'npm install --save'}`;
-        const devInstallCommand = `cd ${folder} && ${isYarn ? 'yarn add --dev' : 'npm install --save-dev'}`;
 
         // Install Dependencies
-        spinner = print.spin('Installing PX Blue dependencies...');
-        const dependencies = DEPENDENCIES.angular;
-        command = `${installCommand} ${dependencies.join(' ')}`;
-
-        timer = system.startTimer();
-        output = await system.run(command);
-        spinner.stop();
-        print.info(output);
-        print.success(`PX Blue dependencies installed successfully in ${timer() / 1000} seconds`);
+        fileModify.installDependencies({
+            folder: folder,
+            dependencies: DEPENDENCIES.angular,
+            dev: false,
+            description: 'PX Blue Angular Dependencies'
+        });
 
         // Install DevDependencies
-        if (DEV_DEPENDENCIES.angular.length) {
-            spinner = print.spin('Installing PX Blue devDependencies...');
-            const devDependencies = DEV_DEPENDENCIES.angular;
-            command = `${devInstallCommand} ${devDependencies.join(' ')}`;
-
-            timer = system.startTimer();
-            output = await system.run(command);
-            spinner.stop();
-            print.info(output);
-            print.success(`PX Blue devDependencies installed successfully in ${timer() / 1000} seconds`);
-        }
+        fileModify.installDependencies({
+            folder: folder,
+            dependencies: DEV_DEPENDENCIES.angular,
+            dev: true,
+            description: 'PX Blue Angular Dev Dependencies'
+        });
 
         // Install Code Standard Packages (optional)
         if (lint) {
-            spinner = print.spin('Installing PX Blue code standard packages...');
-            command = isYarn
-                ? `cd ${folder} && yarn add --dev ${LINT_DEPENDENCIES.angular.join(' ')}`
-                : `cd ${folder} && npm install --save-dev ${LINT_DEPENDENCIES.angular.join(' ')}`;
-
-            timer = system.startTimer();
-            output = await system.run(command);
-            spinner.stop();
-            print.info(output);
-
-            // Add the configurations
-            spinner = print.spin('Configuring PX Blue code standards...');
-
-            filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG.ts, { jsonIndent: 4 });
-            timer = system.startTimer();
-            output = await system.run(command);
-
-            spinner.stop();
-            print.info(output);
-            print.success(`PX Blue code standards applied successfully in ${timer() / 1000} seconds`);
+            fileModify.installDependencies({
+                folder: folder,
+                dependencies: LINT_DEPENDENCIES.angular,
+                dev: false,
+                description: 'PX Blue Code Standard Packages'
+            });
+            fileModify.addLintConfig({
+                folder: folder,
+                config: LINT_CONFIG.ts
+            })
         }
 
+        // Final Steps: browser support, styles, theme integration
+        const spinner = print.spin('Performing some final cleanup...');
+        
         // Update package.json
-        spinner = print.spin('Updating package.json...');
-
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
         packageJSON = updateScripts(packageJSON, SCRIPTS.angular.concat(lint ? LINT_SCRIPTS.angular : []));
         if (lint) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
-
-        spinner.stop();
-        print.success(`Package.json updated`);
-
-        spinner = print.spin('Performing some final cleanup...');
+        
         // Update browsers list
         let browsers = filesystem.read(`${folder}/browserslist`, 'utf8');
         browsers = updateBrowsersListFile(browsers);
@@ -127,11 +104,90 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.write(`${folder}/src/styles.scss`, STYLES);
 
         spinner.stop();
-        print.success(`PX Blue integration completed successfully. Your project is ready to run!`);
+        print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
     };
 
+    type AddReactProps = {
+        name: string;
+        language: 'TypeScript' | 'JavaScript';
+        lint: boolean;
+    }
+    const addPXBlueReact = async (props: AddReactProps): Promise<void> => {
+        const { name, lint, language } = props;
+        const folder = `./${name}`;
+        const ts = language === 'TypeScript';
+
+        // Install Dependencies
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies: DEPENDENCIES.react,
+            dev: false,
+            description: 'PX Blue React Dependencies'
+        });
+
+        // Install DevDependencies
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies: DEV_DEPENDENCIES.react,
+            dev: true,
+            description: 'PX Blue React Dev Dependencies'
+        });
+
+        // Install Code Standard Packages (optional)
+        if (language === 'TypeScript' && lint) {
+            await fileModify.installDependencies({
+                folder: folder,
+                dependencies: LINT_DEPENDENCIES.react,
+                dev: false,
+                description: 'PX Blue Code Standard Packages'
+            });
+            await fileModify.addLintConfig({
+                folder: folder,
+                config: LINT_CONFIG.tsx,
+            })
+
+            let serviceWorker = filesystem.read(`${folder}/src/serviceWorker.ts`);
+            serviceWorker = '/* eslint-disable */\r\n' + serviceWorker;
+            filesystem.write(`${folder}/src/serviceWorker.ts`, serviceWorker);
+        }
+
+        // Final Steps: browser support, styles, theme integration
+        const spinner = print.spin('Performing some final cleanup...');
+
+        // Update package.json
+        let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
+        packageJSON = updateScripts(packageJSON, SCRIPTS.react.concat(lint ? LINT_SCRIPTS.react : []));
+        packageJSON = updateBrowsersListJson(packageJSON);
+        packageJSON.prettier = "@pxblue/prettier-config";
+        filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
+
+        // Update index.css
+        filesystem.remove(`${folder}/src/index.css`);
+        filesystem.write(`${folder}/src/index.css`, STYLES);
+
+        // Update index.js/tsx
+        let index = filesystem.read(`${folder}/src/index.${!ts ? 'js' : 'tsx'}`, 'utf8');
+        let imports = ROOT_IMPORTS.react.join('\r\n');
+        index = (`import 'react-app-polyfill/ie11';\r\nimport 'react-app-polyfill/stable';\r\n` + index)
+            .replace('\'./serviceWorker\';', '\'./serviceWorker\';\r\n' + imports + '\r\n')
+            .replace('<App />', ROOT_COMPONENT.react);
+        filesystem.write(`${folder}/src/index.${!ts ? 'js' : 'tsx'}`, index);
+
+        // Update index.html
+        let html = filesystem.read(`${folder}/public/index.html`, 'utf8');
+        html = html.replace(/<title>.*<\/title>/ig, `<title>${name}</title>`);
+        filesystem.write(`${folder}/public/index.html`, html);
+
+        spinner.stop();
+        print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
+    }
+
+
+
     /* 
-        Create Basic CLI skeleton projects
+     *
+     * Create Basic CLI skeleton projects
+     * 
     */
     const createAngularProject = async (): Promise<void> => {
         const [name, lint] = await parse([
@@ -149,14 +205,21 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created Angular project (${name}) in ${timer() / 1000} seconds`);
 
-        await addPXBlueAngular(name, lint === 'Yes');
+        await addPXBlueAngular({name, lint: lint === 'Yes'});
     };
 
     const createReactProject = async (): Promise<void> => {
+        let lint = false;
         const [name, language] = await parse([
             { question: 'Project Name', required: true },
             { question: 'Language', required: true, type: 'radio', choices: ['TypeScript', 'JavaScript'] },
         ]);
+        if (language === 'TypeScript') {
+            const [lintTemp] = await parse([
+                { question: 'Use PX Blue Lint & Prettier configs?', required: true, type: 'radio', choices: ['Yes', 'No'] },
+            ]);
+            lint = lintTemp === 'Yes';
+        }
 
         const command = `npx create-react-app ${name} ${language === 'TypeScript' ? '--template typescript' : ''}`;
 
@@ -167,6 +230,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         print.info(output);
         print.success(`Created React project (${name}) in ${timer() / 1000} seconds`);
+
+        await addPXBlueReact({name, language, lint});
     };
 
     const createIonicProject = async (): Promise<void> => {

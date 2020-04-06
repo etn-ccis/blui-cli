@@ -7,41 +7,41 @@ export const DEPENDENCIES = {
         '@pxblue/colors',
         'typeface-open-sans',
     ],
-    // react: [
-    //     { name: '@material-ui/core', version: '^4.2.0' },
-    //     { name: '@material-ui/icons', version: '^4.2.1' },
-    //     { name: '@pxblue/themes', version: '^3.0.2' },
-    //     { name: '@pxblue/colors', version: '^2.0.0' },
-    //     { name: 'react-app-polyfill', version: '^1.0.2' },
-    //     { name: 'typeface-open-sans', version: '0.0.75' }
-    // ],
-    // ionic: [
-    //     { name: '@angular/cdk', version: '^8.1.2' },
-    //     { name: '@angular/flex-layout', version: '^8.0.0-beta.26' },
-    //     { name: '@pxblue/themes', version: '^3.0.2' },
-    //     { name: '@pxblue/colors', version: '^2.0.0' },
-    //     { name: '@angular/material', version: '^8.1.2' },
-    //     { name: 'typeface-open-sans', version: '0.0.75' }
-    // ],
-    // reactnative: [
-    //     { name: '@pxblue/themes', version: '^3.0.2' },
-    //     { name: '@pxblue/colors', version: '^2.0.0' },
-    //     { name: '@pxblue/react-native-components', version: 'latest' },
-    //     { name: 'react-native-vector-icons', version: 'latest' }
-    // ]
+    react: [
+        '@material-ui/core',
+        '@material-ui/icons',
+        '@pxblue/react-themes',
+        '@pxblue/colors',
+        'react-app-polyfill',
+        'typeface-open-sans'
+    ],
+    ionic: [
+        '@angular/cdk',
+        '@angular/flex-layout',
+        '@pxblue/angular-themes',
+        '@pxblue/colors',
+        '@angular/material',
+        'typeface-open-sans',
+    ],
+    reactnative: [
+        '@pxblue/react-native-themes',
+        '@pxblue/colors',
+        '@pxblue/react-native-components',
+        'react-native-vector-icons',
+    ]
 };
 export const DEV_DEPENDENCIES = {
     angular: [],
-    // react: [
-    //     { name: 'enzyme', version: '^3.10.0' },
-    //     { name: 'enzyme-adapter-react-16', version: '^1.14.0' }
-    // ],
-    // ionic: [],
-    // reactnative: [
-    //     { name: 'jest', version: '^24.8.0' },
-    //     { name: 'jest-expo', version: '^33.0.2' },
-    //     { name: 'react-test-renderer', version: '^16.8.6' }
-    // ]
+    react: [
+        'enzyme',
+        'enzyme-adapter-react-16',
+    ],
+    ionic: [],
+    reactnative: [
+        'jest',
+        'jest-expo',
+        'react-test-renderer',
+    ]
 };
 const BASE_LINT_DEPENDENCIES = [
     '@pxblue/eslint-config',
@@ -114,22 +114,22 @@ export const LINT_CONFIG = {
     };`,
 };
 
-// export const PXBLUE_IMPORTS = {
-//     angular: [],
-//     react: [
-//         "import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';",
-//         "import CssBaseline from '@material-ui/core/CssBaseline';",
-//         "import * as PXBThemes from '@pxblue/themes/react';",
-//         "import 'typeface-open-sans';"
-//     ],
-//     ionic: [],
-//     reactnative: []
-// }
+export const ROOT_IMPORTS = {
+    angular: [],
+    react: [
+        "import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';",
+        "import CssBaseline from '@material-ui/core/CssBaseline';",
+        "import * as PXBThemes from '@pxblue/react-themes';",
+        "import 'typeface-open-sans';"
+    ],
+    ionic: [],
+    reactnative: []
+}
 
 export const ROOT_COMPONENT = {
     angular: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
     react:
-        '\r\n\t<MuiThemeProvider theme={createMuiTheme(PXBThemes.blue)}>\r\n\t\t<CssBaseline/>\r\n\t\t<App/>\r\n\t</MuiThemeProvider>\r\n',
+        '\r\n\t<ThemeProvider theme={createMuiTheme(PXBThemes.blue)}>\r\n\t\t<CssBaseline/>\r\n\t\t<App/>\r\n\t</ThemeProvider>\r\n',
     ionic: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
     reactnative: '',
 };
