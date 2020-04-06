@@ -4,8 +4,7 @@ module.exports = {
     name: 'angular',
     alias: ['a'],
     description: 'Creates a new angular project',
-    run: async (toolbox: GluegunToolbox) => {
+    run: async (toolbox: GluegunToolbox): Promise<void> => {
         await toolbox.createProject.angular();
-    }
-}
-
+    },
+};

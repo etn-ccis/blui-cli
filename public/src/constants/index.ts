@@ -1,17 +1,3 @@
-import { AxiosProxyConfig } from 'axios'
-
-// TODO: Find a way to make the proxy work...I believe this is now an issue with Eaton self-signed SSL certificate
-export const PROXY: AxiosProxyConfig | false = false // process.env.HTTP_PROXY ? {
-//     host: 'http://proxy.etn.com',//process.env.HTTP_PROXY.split(':')[0],
-//     port: 8080,//process.env.HTTP_PROXY.split(':')[1]
-//     auth:{
-//       username: 'Enumber',
-//       password: 'password'
-//     }
-// } : false;
-
-export const STYLES = 'html, body {\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n}';
-
 export const DEPENDENCIES = {
     angular: [
         '@angular/cdk',
@@ -19,7 +5,7 @@ export const DEPENDENCIES = {
         '@angular/material',
         '@pxblue/angular-themes',
         '@pxblue/colors',
-        'typeface-open-sans'
+        'typeface-open-sans',
     ],
     // react: [
     //     { name: '@material-ui/core', version: '^4.2.0' },
@@ -43,7 +29,7 @@ export const DEPENDENCIES = {
     //     { name: '@pxblue/react-native-components', version: 'latest' },
     //     { name: 'react-native-vector-icons', version: 'latest' }
     // ]
-}
+};
 export const DEV_DEPENDENCIES = {
     angular: [],
     // react: [
@@ -56,7 +42,7 @@ export const DEV_DEPENDENCIES = {
     //     { name: 'jest-expo', version: '^33.0.2' },
     //     { name: 'react-test-renderer', version: '^16.8.6' }
     // ]
-}
+};
 const BASE_LINT_DEPENDENCIES = [
     '@pxblue/eslint-config',
     '@pxblue/prettier-config',
@@ -65,7 +51,7 @@ const BASE_LINT_DEPENDENCIES = [
     '@typescript-eslint/eslint-plugin',
     '@typescript-eslint/parser',
     'prettier',
-]
+];
 export const LINT_DEPENDENCIES = {
     angular: BASE_LINT_DEPENDENCIES,
     react: BASE_LINT_DEPENDENCIES.concat(['eslint-plugin-react']),
@@ -74,38 +60,36 @@ export const LINT_DEPENDENCIES = {
 };
 
 export const SCRIPTS = {
-    angular: [
-        { name: 'start', command: 'ng serve --configuration es5' }
-    ],
+    angular: [{ name: 'start', command: 'ng serve --configuration es5' }],
     react: [],
     ionic: [],
     reactNative: [],
-}
+};
 
 const BASE_LINT_SCRIPTS = {
     ts: [
-        { name: 'lint', command: `eslint \"src/**/**.ts\"` },
-        { name: 'lint:fix', command: `eslint \"src/**/**.ts\" --fix` },
+        { name: 'lint', command: `eslint "src/**/**.ts"` },
+        { name: 'lint:fix', command: `eslint "src/**/**.ts" --fix` },
         {
             name: 'prettier',
-            command: `prettier \"src/**/**.{ts,js,json,css,scss,html}\" --write`
-        }
+            command: `prettier "src/**/**.{ts,js,json,css,scss,html}" --write`,
+        },
     ],
     tsx: [
-        { name: 'lint', command: `eslint \"src/**/**.{ts,tsx}\"` },
-        { name: 'lint:fix', command: `eslint \"src/**/**.{ts,tsx}\" --fix` },
+        { name: 'lint', command: `eslint "src/**/**.{ts,tsx}"` },
+        { name: 'lint:fix', command: `eslint "src/**/**.{ts,tsx}" --fix` },
         {
             name: 'prettier',
-            command: `prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write`
-        }
+            command: `prettier "src/**/**.{ts,tsx,js,jsx,json,css,scss,html}" --write`,
+        },
     ],
-}
+};
 export const LINT_SCRIPTS = {
     angular: BASE_LINT_SCRIPTS.ts,
     ionic: BASE_LINT_SCRIPTS.ts,
     react: BASE_LINT_SCRIPTS.tsx,
     reactnative: BASE_LINT_SCRIPTS.tsx,
-}
+};
 
 export const LINT_CONFIG = {
     ts: `module.exports =  {
@@ -127,8 +111,8 @@ export const LINT_CONFIG = {
         env: {
             browser: true
         }
-    };`
-}
+    };`,
+};
 
 // export const PXBLUE_IMPORTS = {
 //     angular: [],
@@ -143,25 +127,19 @@ export const LINT_CONFIG = {
 // }
 
 export const ROOT_COMPONENT = {
-    angular:
-        '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
+    angular: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
     react:
         '\r\n\t<MuiThemeProvider theme={createMuiTheme(PXBThemes.blue)}>\r\n\t\t<CssBaseline/>\r\n\t\t<App/>\r\n\t</MuiThemeProvider>\r\n',
-    ionic:
-        '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
-    reactnative: ''
-}
+    ionic: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
+    reactnative: '',
+};
 
 export const SUPPORTED_BROWSERS = {
     object: {
         production: ['>0.2%', 'not dead', 'not op_mini all', 'ie 11'],
-        development: [
-            'last 1 chrome version',
-            'last 1 firefox version',
-            'last 1 safari version',
-            'ie 11'
-        ]
+        development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version', 'ie 11'],
     },
-    string: `> 0.5%\r\nlast 2 versions\r\nFirefox ESR\r\nnot dead\r\nIE 11`
-}
+    string: `> 0.5%\r\nlast 2 versions\r\nFirefox ESR\r\nnot dead\r\nIE 11`,
+};
 
+export const STYLES = 'html, body {\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n}';
