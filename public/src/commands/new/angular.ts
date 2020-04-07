@@ -2,7 +2,7 @@ import { GluegunToolbox } from 'gluegun';
 
 module.exports = {
     name: 'angular',
-    alias: ['a'],
+    // alias: ['a'],
     description: 'Creates a new angular project',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
         const { name, lint } = await toolbox.createProject.angular();

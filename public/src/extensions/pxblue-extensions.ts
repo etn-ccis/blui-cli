@@ -26,7 +26,7 @@ type AddReactProps = {
 };
 
 module.exports = (toolbox: GluegunToolbox): void => {
-    const { print, fileModify } = toolbox;
+    const { print, system, fileModify } = toolbox;
 
     const addPXBlueAngular = async (props: AddAngularProps): Promise<void> => {
         const { name, lint } = props;
@@ -279,10 +279,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 config: LINT_CONFIG.tsx,
             });
+            filesystem.write(`${folder}/.prettierignore`, `ios/\r\nandroid\r\n`);
         }
 
         // Final Steps: browser support, styles, theme integration
         const spinner = print.spin('Performing some final cleanup...');
+
+        // Install pods
+        const command = `cd ${folder}/ios && pod install`;
+        const output = await system.run(command);
+        print.info(output);
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');

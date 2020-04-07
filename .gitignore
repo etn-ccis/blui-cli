@@ -1,8 +1,8 @@
 # Compiled output
-/dist
-/tmp
-/out-tsc
-/build
+**/**/dist
+**/**/tmp
+**/**/out-tsc
+**/**/build
 .nyc_output
 
 # Dependencies

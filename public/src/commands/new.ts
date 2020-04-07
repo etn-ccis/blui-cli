@@ -2,8 +2,8 @@ import { GluegunToolbox } from 'gluegun';
 
 module.exports = {
     name: 'new',
-    alias: ['n'],
-    description: 'Creates a new project',
+    // alias: ['n'],
+    description: 'Creates a new project (in chosen framework)',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
         const { parse, print, createProject } = toolbox;
 
