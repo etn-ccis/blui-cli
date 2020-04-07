@@ -20,7 +20,8 @@ export const updateScripts = (packageFile: PackageJSON, scripts: Script[] = []):
     return packageFile;
 };
 
-export const updateBrowsersListFile = (browsersFile: string): string => browsersFile.replace(/^[^# \t\n\r].+$/gim, '').replace(/^$[\r\n]+/gim, '') + SUPPORTED_BROWSERS.string;
+export const updateBrowsersListFile = (browsersFile: string): string =>
+    browsersFile.replace(/^[^# \t\n\r].+$/gim, '').replace(/^$[\r\n]+/gim, '') + SUPPORTED_BROWSERS.string;
 export const updateBrowsersListJson = (browsersJSON: any): any => {
     browsersJSON.browserslist.production = SUPPORTED_BROWSERS.object.production;
     browsersJSON.browserslist.development = SUPPORTED_BROWSERS.object.development;

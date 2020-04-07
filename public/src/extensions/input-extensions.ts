@@ -1,3 +1,7 @@
+/*
+ * This file includes utilities for receiving input from the command line
+ */
+
 import { GluegunToolbox } from 'gluegun';
 
 module.exports = (toolbox: GluegunToolbox): void => {

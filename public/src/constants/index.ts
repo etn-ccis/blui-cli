@@ -13,35 +13,28 @@ export const DEPENDENCIES = {
         '@pxblue/react-themes',
         '@pxblue/colors',
         'react-app-polyfill',
-        'typeface-open-sans'
+        'typeface-open-sans',
     ],
     ionic: [
         '@angular/cdk',
         '@angular/flex-layout',
+        '@angular/material',
         '@pxblue/angular-themes',
         '@pxblue/colors',
-        '@angular/material',
         'typeface-open-sans',
     ],
-    reactnative: [
+    reactNative: [
         '@pxblue/react-native-themes',
         '@pxblue/colors',
         '@pxblue/react-native-components',
         'react-native-vector-icons',
-    ]
+    ],
 };
 export const DEV_DEPENDENCIES = {
     angular: [],
-    react: [
-        'enzyme',
-        'enzyme-adapter-react-16',
-    ],
+    react: ['enzyme', 'enzyme-adapter-react-16'],
     ionic: [],
-    reactnative: [
-        'jest',
-        'jest-expo',
-        'react-test-renderer',
-    ]
+    reactNative: ['jest', 'jest-expo', 'react-test-renderer'],
 };
 const BASE_LINT_DEPENDENCIES = [
     '@pxblue/eslint-config',
@@ -83,12 +76,20 @@ const BASE_LINT_SCRIPTS = {
             command: `prettier "src/**/**.{ts,tsx,js,jsx,json,css,scss,html}" --write`,
         },
     ],
+    root: [
+        { name: 'lint', command: `eslint "**/**.{ts,tsx}"` },
+        { name: 'lint:fix', command: `eslint "**/**.{ts,tsx}" --fix` },
+        {
+            name: 'prettier',
+            command: `prettier "**/**.{ts,tsx,js,jsx,json,css,scss,html}" --write`,
+        },
+    ],
 };
 export const LINT_SCRIPTS = {
     angular: BASE_LINT_SCRIPTS.ts,
     ionic: BASE_LINT_SCRIPTS.ts,
     react: BASE_LINT_SCRIPTS.tsx,
-    reactnative: BASE_LINT_SCRIPTS.tsx,
+    reactNative: BASE_LINT_SCRIPTS.root,
 };
 
 export const LINT_CONFIG = {
@@ -120,18 +121,18 @@ export const ROOT_IMPORTS = {
         "import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';",
         "import CssBaseline from '@material-ui/core/CssBaseline';",
         "import * as PXBThemes from '@pxblue/react-themes';",
-        "import 'typeface-open-sans';"
+        "import 'typeface-open-sans';",
     ],
     ionic: [],
-    reactnative: []
-}
+    reactNative: [],
+};
 
 export const ROOT_COMPONENT = {
     angular: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
     react:
         '\r\n\t<ThemeProvider theme={createMuiTheme(PXBThemes.blue)}>\r\n\t\t<CssBaseline/>\r\n\t\t<App/>\r\n\t</ThemeProvider>\r\n',
     ionic: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
-    reactnative: '',
+    reactNative: '',
 };
 
 export const SUPPORTED_BROWSERS = {

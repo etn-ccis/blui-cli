@@ -1,3 +1,6 @@
+/*
+ * This file includes utilities for fancy printing to the console.
+ */
 import { GluegunToolbox } from 'gluegun';
 import { Color } from 'colors';
 

@@ -5,6 +5,7 @@ module.exports = {
     alias: ['rn'],
     description: 'Creates a new react native project',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
-        await toolbox.createProject.reactNative();
+        const { name, language, lint } = await toolbox.createProject.reactNative();
+        toolbox.addPXBlue.reactNative({ name, language, lint });
     },
 };

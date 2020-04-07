@@ -1,3 +1,7 @@
+/*
+ * This file includes utilities for modifying files, such as installing new dependencies
+ * and creating config files.
+ */
 import { GluegunToolbox, filesystem } from 'gluegun';
 
 type InstallProps = {
@@ -5,11 +9,11 @@ type InstallProps = {
     dependencies: string[];
     dev?: boolean;
     description: string;
-}
+};
 type LintConfigProps = {
     folder: string;
     config: string;
-}
+};
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, print } = toolbox;
@@ -19,7 +23,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
         if (dependencies.length < 1) return;
 
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`);
-        const installCommand = dev ? `cd ${folder} && ${isYarn ? 'yarn add --dev' : 'npm install --save-dev'}` : `cd ${folder} && ${isYarn ? 'yarn add' : 'npm install --save'}`;
+        const installCommand = dev
+            ? `cd ${folder} && ${isYarn ? 'yarn add --dev' : 'npm install --save-dev'}`
+            : `cd ${folder} && ${isYarn ? 'yarn add' : 'npm install --save'}`;
 
         // Install Dependencies
         const spinner = print.spin(`Installing ${description}...`);
@@ -30,9 +36,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
         spinner.stop();
         print.info(output);
         print.success(`${description} installed successfully in ${timer() / 1000} seconds`);
-    }
+    };
 
-    const addLintConfig = async (props: LintConfigProps): Promise<void> => {
+    const addLintConfig = (props: LintConfigProps): void => {
         const { folder, config } = props;
         const spinner = print.spin('Configuring PX Blue code standards...');
 
@@ -41,7 +47,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         print.success(`PX Blue code standards applied successfully in ${timer() / 1000} seconds`);
-    }
+    };
 
     toolbox.fileModify = {
         installDependencies: installDependencies,

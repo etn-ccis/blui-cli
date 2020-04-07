@@ -35,7 +35,7 @@ module.exports = (toolbox: GluegunToolbox) => {
         packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.angular);
         packageJSON.prettier = "@pxblue/prettier-config";
 
-        filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 2 });
+        filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update browsers list
         let browsers = filesystem.read(`${folder}/browserslist`, 'utf8');
@@ -62,7 +62,7 @@ module.exports = (toolbox: GluegunToolbox) => {
         angularJSON.projects[name].architect.serve.configurations['es5'] = { browserTarget: `${name}:build:es5` };
         filesystem.write(`${folder}/tsconfig.es5.json`, `{\r\n\t"extends": "./tsconfig.json",\r\n\t"compilerOptions": {\r\n\t\t"target": "es5"\r\n\t}\r\n}`);
 
-        filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 2 });
+        filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 4 });
 
         // Update styles.scss
         filesystem.remove(`${folder}/src/styles.scss`);
@@ -128,7 +128,7 @@ module.exports = (toolbox: GluegunToolbox) => {
         packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.ionic);
         packageJSON.prettier = "@pxblue/prettier-config";
         
-        filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 2 });
+        filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update index.html
         let html = filesystem.read(`${folder}/src/index.html`, 'utf8');
@@ -145,7 +145,7 @@ module.exports = (toolbox: GluegunToolbox) => {
             { "input": "./node_modules/typeface-open-sans" }
         ];
         angularJSON.projects.app.architect.build.options.styles = styles;
-        filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 2 });
+        filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 4 });
     }
 
     const addPXBlueReactNative = async (name: string, directory: string, js: boolean = false): Promise<void> => {
@@ -165,7 +165,7 @@ module.exports = (toolbox: GluegunToolbox) => {
             packageJSON.prettier = "@pxblue/prettier-config";
         }
 
-        filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 2 });
+        filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
     }
 
     // Attach github tools to the toolbox

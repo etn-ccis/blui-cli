@@ -5,6 +5,7 @@ module.exports = {
     alias: ['r'],
     description: 'Creates a new react project',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
-        await toolbox.createProject.react();
+        const { name, language, lint } = await toolbox.createProject.react();
+        await toolbox.addPXBlue.react({ name, language, lint });
     },
 };
