@@ -2,7 +2,6 @@
   "name": "@pxblue/cli",
   "version": "1.0.0",
   "description": "A command-line interface for quickly scaffolding Power Xpert Blue applications",
-  "private": true,
   "bin": {
     "pxb": "bin/pxb"
   },
@@ -28,7 +27,7 @@
     "docs",
     "bin"
   ],
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "gluegun": "^4.2.0",
     "ts-node": "^7.0.1",
