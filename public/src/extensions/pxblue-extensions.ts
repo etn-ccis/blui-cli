@@ -116,7 +116,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
-        print.info(`'${isYarn ? 'yarn' : 'npm'} start --open' to run the project`);
+        print.info('To run your project:');
+        print.success(`cd ${folder}`);
+        print.success(`${isYarn ? 'yarn' : 'npm'} start --open`);
     };
 
     const addPXBlueReact = async (props: AddReactProps): Promise<void> => {
@@ -188,13 +190,14 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
-        print.info(`'${isYarn ? 'yarn' : 'npm'} start' to run the project`);
+        print.info('To run your project:');
+        print.success(`cd ${folder}`);
+        print.success(`${isYarn ? 'yarn' : 'npm'} start`);
     };
 
     const addPXBlueIonic = async (props: AddAngularProps): Promise<void> => {
         const { name, lint } = props;
         const folder = `./${name}`;
-        const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
         // Install Dependencies
         await fileModify.installDependencies({
@@ -255,7 +258,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
-        print.info(`'${isYarn ? 'yarn' : 'npm'} start' to run the project`);
+        print.info('To run your project:');
+        print.success(`cd ${folder}`);
+        print.success(`ionic serve`);
     };
 
     const addPXBlueReactNative = async (props: AddReactNativeProps): Promise<void> => {
@@ -353,10 +358,14 @@ module.exports = (toolbox: GluegunToolbox): void => {
             print.warning(
                 'Before running your project on iOS, you may (depending on your version of xCode) need to open xCode and remove the react-native-vector-icons fonts from the "Copy Bundle Resources" step in Build Phases (refer to https://github.com/oblador/react-native-vector-icons/issues/1074).'
             );
-            print.info(`'${isYarn ? 'yarn' : 'npm run'} <ios | android>' to run the project in a simulator.`);
+            print.info('To run your project in a simulator:');
+            print.success(`cd ${folder}`);
+            print.success(`${isYarn ? 'yarn' : 'npm run'} <ios | android>`);
         } else {
             print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
-            print.info(`'${isYarn ? 'yarn' : 'npm'} start' to run the project`);
+            print.info('To run your project:');
+            print.success(`cd ${folder}`);
+            print.info(`${isYarn ? 'yarn' : 'npm'} start`);
         }
     };
 
