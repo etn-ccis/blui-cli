@@ -1,10 +1,19 @@
 # PX Blue CLI
 This Command Line Interface is a utility for creating new PX Blue applications with automatic integration of themes, components, etc.
 
-## Installation
-To install the CLI:
+## Usage
+The PX Blue CLI can be utilized via npx without having to install any global packages:
+```
+npx -p @pxblue/cli pxb <command>
+```
+
+If you would prefer to have a global install of the CLI you may do so via:
 ```shell
 $ yarn global add @pxblue/cli
+```
+or
+```shell
+$ npm install -g @pxblue/cli
 ```
 
 ## Available Commands
