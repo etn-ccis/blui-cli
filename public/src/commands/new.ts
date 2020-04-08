@@ -5,7 +5,7 @@ module.exports = {
     // alias: ['n'],
     description: 'Creates a new project (in chosen framework)',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
-        const { parse, print, createProject } = toolbox;
+        const { parse, print, createProject, addPXBlue } = toolbox;
 
         const [framework] = await parse([
             {
@@ -18,16 +18,16 @@ module.exports = {
 
         switch (framework) {
             case 'Angular':
-                createProject.angular();
+                await addPXBlue.angular(await createProject.angular());
                 break;
             case 'React':
-                createProject.react();
+                await addPXBlue.react(await createProject.react());
                 break;
             case 'Ionic':
-                createProject.ionic();
+                await addPXBlue.ionic(await createProject.ionic());
                 break;
             case 'React Native':
-                createProject.reactNative();
+                await addPXBlue.reactNative(await createProject.reactNative());
                 break;
             default:
                 print.error('You must choose one of the supported frameworks.');

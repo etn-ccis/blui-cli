@@ -13,6 +13,12 @@ type NewReactResult = {
     language: 'TypeScript' | 'JavaScript';
     lint: boolean;
 };
+type NewReactNativeResult = {
+    name: string;
+    language: 'TypeScript' | 'JavaScript';
+    lint: boolean;
+    cli: 'Expo' | 'RNC';
+};
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, parse, print } = toolbox;
@@ -86,7 +92,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         return { name, lint: lint === 'Yes' };
     };
 
-    const createReactNativeProject = async (): Promise<NewReactResult> => {
+    const createReactNativeProject = async (): Promise<NewReactNativeResult> => {
         let lint = false;
         const [name, language, cli] = await parse([
             { question: 'Project Name', required: true },
@@ -129,7 +135,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created skeleton React Native project in ${timer() / 1000} seconds`);
 
-        return { name, language, lint };
+        return { name, language, lint, cli: cli === 'Expo' ? 'Expo' : 'RNC' };
     };
 
     toolbox.createProject = {

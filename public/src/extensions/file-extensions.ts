@@ -43,10 +43,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const spinner = print.spin('Configuring PX Blue code standards...');
 
         filesystem.write(`${folder}/.eslintrc.js`, config, { jsonIndent: 4 });
-        const timer = system.startTimer();
-
         spinner.stop();
-        print.success(`PX Blue code standards applied successfully in ${timer() / 1000} seconds`);
     };
 
     toolbox.fileModify = {

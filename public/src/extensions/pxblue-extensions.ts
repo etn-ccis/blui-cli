@@ -24,6 +24,12 @@ type AddReactProps = {
     language: 'TypeScript' | 'JavaScript';
     lint: boolean;
 };
+type AddReactNativeProps = {
+    name: string;
+    language: 'TypeScript' | 'JavaScript';
+    lint: boolean;
+    cli: 'Expo' | 'RNC';
+};
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { print, system, fileModify } = toolbox;
@@ -31,6 +37,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
     const addPXBlueAngular = async (props: AddAngularProps): Promise<void> => {
         const { name, lint } = props;
         const folder = `./${name}`;
+        const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
         // Install Dependencies
         await fileModify.installDependencies({
@@ -109,12 +116,14 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
+        print.info(`'${isYarn ? 'yarn' : 'npm'} start --open' to run the project`);
     };
 
     const addPXBlueReact = async (props: AddReactProps): Promise<void> => {
         const { name, lint, language } = props;
         const folder = `./${name}`;
         const ts = language === 'TypeScript';
+        const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
         // Install Dependencies
         await fileModify.installDependencies({
@@ -179,11 +188,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
+        print.info(`'${isYarn ? 'yarn' : 'npm'} start' to run the project`);
     };
 
     const addPXBlueIonic = async (props: AddAngularProps): Promise<void> => {
         const { name, lint } = props;
         const folder = `./${name}`;
+        const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
         // Install Dependencies
         await fileModify.installDependencies({
@@ -244,17 +255,26 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
+        print.info(`'${isYarn ? 'yarn' : 'npm'} start' to run the project`);
     };
 
-    const addPXBlueReactNative = async (props: AddReactProps): Promise<void> => {
-        const { name, lint, language } = props;
+    const addPXBlueReactNative = async (props: AddReactNativeProps): Promise<void> => {
+        const { name, lint, language, cli } = props;
         const folder = `./${name}`;
         const ts = language === 'TypeScript';
+        const expo = cli === 'Expo';
+        const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
+
+        print.info(`expo: ${expo}`);
+        print.info(`yarn: ${isYarn}`);
+
+        let command: string;
+        let output: string;
 
         // Install Dependencies
         await fileModify.installDependencies({
             folder: folder,
-            dependencies: DEPENDENCIES.reactNative,
+            dependencies: DEPENDENCIES.reactNative.concat(expo ? ['@use-expo/font'] : []),
             dev: false,
             description: 'PX Blue React Native Dependencies',
         });
@@ -285,20 +305,59 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Final Steps: browser support, styles, theme integration
         const spinner = print.spin('Performing some final cleanup...');
 
-        // Install pods
-        const command = `cd ${folder}/ios && pod install`;
-        const output = await system.run(command);
-        print.info(output);
-
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
         packageJSON = updateScripts(packageJSON, SCRIPTS.reactNative.concat(lint ? LINT_SCRIPTS.reactNative : []));
         if (lint) packageJSON.prettier = '@pxblue/prettier-config';
         packageJSON.scripts.test = 'jest';
+        if (!expo) packageJSON.scripts.rnlink = 'react-native link';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
+        // Clone the helpers repo
+        command = `git clone https://github.com/pxblue/cli-helpers`;
+        await system.run(command);
+
+        // Copy the fonts
+        command = `mkdir -p ${folder}/assets && cp -r ./cli-helpers/fonts ${folder}/assets/fonts`;
+        await system.run(command);
+
+        // Link native modules
+        if (!expo) {
+            command = `cp ./cli-helpers/react-native/rnc/react-native.config.js ${folder}/react-native.config.js`;
+            await system.run(command);
+
+            command = `cd ${folder} && ${isYarn ? 'yarn' : 'npm run'} rnlink`;
+            await system.run(command);
+
+            // Install pods
+            command = `cd ${folder}/ios && pod install`;
+            output = await system.run(command);
+            print.info(output);
+        }
+
+        // Copy the App template with ThemeProvider
+        command = `cp ./cli-helpers/react-native/${cli.toLowerCase()}/App.${ts ? 'tsx' : 'js'} ${folder}/App.${
+            ts ? 'tsx' : 'js'
+        }`;
+        await system.run(command);
+
+        // Remove the temporary folder
+        command = `rm -rf ./cli-helpers`;
+        await system.run(command);
+
         spinner.stop();
-        print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
+        if (!expo) {
+            print.success(
+                `PX Blue integration completed successfully. Your project (${name}) has been created successfully!`
+            );
+            print.warning(
+                'Before running your project on iOS, you may (depending on your version of xCode) need to open xCode and remove the react-native-vector-icons fonts from the "Copy Bundle Resources" step in Build Phases (refer to https://github.com/oblador/react-native-vector-icons/issues/1074).'
+            );
+            print.info(`'${isYarn ? 'yarn' : 'npm run'} <ios | android>' to run the project in a simulator.`);
+        } else {
+            print.success(`PX Blue integration completed successfully. Your project (${name}) is ready to run!`);
+            print.info(`'${isYarn ? 'yarn' : 'npm'} start' to run the project`);
+        }
     };
 
     toolbox.addPXBlue = {
