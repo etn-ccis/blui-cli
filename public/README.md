@@ -1,6 +1,18 @@
 # PX Blue CLI
 This Command Line Interface is a utility for creating new PX Blue applications with automatic integration of themes, components, etc.
 
+## Prerequisites
+In order to use this utility you must have the following installed:
+- [NodeJS](https://nodejs.org/en/download/) 12+
+- npm or yarn
+- Git
+- [Git Bash](https://gitforwindows.org/) (recommended for Windows)
+
+Additional requirements for creating React Native projects:
+- [Cocoapods](https://cocoapods.org/) 1.8+ (for ios)
+- [Expo CLI](https://docs.expo.io/versions/latest/workflow/expo-cli/) - only if you want to scaffold your project with Expo
+
+
 ## Usage
 The PX Blue CLI can be utilized via npx without having to install any global packages:
 ```

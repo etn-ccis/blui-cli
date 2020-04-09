@@ -323,7 +323,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         await system.run(command);
 
         // Copy the fonts
-        command = `mkdir -p ${folder}/assets && cp -r ./cli-helpers/fonts ${folder}/assets/fonts`;
+        command = `mkdir ${folder}/assets && cp -r ./cli-helpers/fonts ${folder}/assets/fonts`;
         await system.run(command);
 
         // Link native modules
@@ -334,16 +334,19 @@ module.exports = (toolbox: GluegunToolbox): void => {
             command = `cd ${folder} && ${isYarn ? 'yarn' : 'npm run'} rnlink`;
             await system.run(command);
 
-            // Install pods
-            command = `cd ${folder}/ios && pod install`;
-            output = await system.run(command);
-            print.info(output);
+            // Install pods (if cocoapods is installed)
+            output = await system.run(`pod --version`)
+            if ((new RegExp(/^(\d+\.)(\d+\.)(\d+)$/)).test(output)) {
+                command = `cd ${folder}/ios && pod install`;
+                output = await system.run(command);
+                print.info(output);
+            }
         }
 
         // Copy the App template with ThemeProvider
         command = `cp ./cli-helpers/react-native/${cli.toLowerCase()}/App.${ts ? 'tsx' : 'js'} ${folder}/App.${
             ts ? 'tsx' : 'js'
-        }`;
+            }`;
         await system.run(command);
 
         // Remove the temporary folder
