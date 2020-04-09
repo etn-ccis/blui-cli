@@ -270,11 +270,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const expo = cli === 'Expo';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
-        print.info(`expo: ${expo}`);
-        print.info(`yarn: ${isYarn}`);
-
         let command: string;
-        let output: string;
 
         // Install Dependencies
         await fileModify.installDependencies({
@@ -319,38 +315,31 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Clone the helpers repo
-        command = `git clone https://github.com/pxblue/cli-helpers`;
+        const helper = `cli-helpers-${Date.now()}`;
+        command = `git clone https://github.com/pxblue/cli-helpers ${helper}`;
         await system.run(command);
 
         // Copy the fonts
-        command = `mkdir ${folder}/assets && cp -r ./cli-helpers/fonts ${folder}/assets/fonts`;
+        command = `mkdir ${folder}/assets && cp -r ./${helper}/fonts ${folder}/assets/fonts`;
         await system.run(command);
 
         // Link native modules
         if (!expo) {
-            command = `cp ./cli-helpers/react-native/rnc/react-native.config.js ${folder}/react-native.config.js`;
+            command = `cp ./${helper}/react-native/rnc/react-native.config.js ${folder}/react-native.config.js`;
             await system.run(command);
 
             command = `cd ${folder} && ${isYarn ? 'yarn' : 'npm run'} rnlink`;
             await system.run(command);
-
-            // Install pods (if cocoapods is installed)
-            output = await system.run(`pod --version`)
-            if ((new RegExp(/^(\d+\.)(\d+\.)(\d+)$/)).test(output)) {
-                command = `cd ${folder}/ios && pod install`;
-                output = await system.run(command);
-                print.info(output);
-            }
         }
 
         // Copy the App template with ThemeProvider
-        command = `cp ./cli-helpers/react-native/${cli.toLowerCase()}/App.${ts ? 'tsx' : 'js'} ${folder}/App.${
+        command = `cp ./${helper}/react-native/${cli.toLowerCase()}/App.${ts ? 'tsx' : 'js'} ${folder}/App.${
             ts ? 'tsx' : 'js'
-            }`;
+        }`;
         await system.run(command);
 
         // Remove the temporary folder
-        command = `rm -rf ./cli-helpers`;
+        command = `rm -rf ./${helper}`;
         await system.run(command);
 
         spinner.stop();
@@ -362,6 +351,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 'Before running your project on iOS, you may (depending on your version of xCode) need to open xCode and remove the react-native-vector-icons fonts from the "Copy Bundle Resources" step in Build Phases (refer to https://github.com/oblador/react-native-vector-icons/issues/1074).'
             );
             print.info('To run your project in a simulator:');
+            print.success(`cd ${folder}/ios && pod install && cd ../..`);
             print.success(`cd ${folder}`);
             print.success(`${isYarn ? 'yarn' : 'npm run'} <ios | android>`);
         } else {
