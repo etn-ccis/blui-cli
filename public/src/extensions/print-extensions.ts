@@ -27,7 +27,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         length: number,
         padCount: number,
         padColor: Color = colors.blue.bold,
-        textColor: Color = colors.white.bold
+        textColor: Color = colors.white.bold,
     ): void => {
         info(
             padColor(padEnd(strings.pad('', padCount, padChar), Math.floor((length - text.length) / 2))) +
@@ -35,10 +35,25 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 padColor(padStart(strings.pad('', padCount, padChar), Math.ceil((length - text.length) / 2)))
         );
     };
+    const printInfoLeft = (
+        text: string,
+        padChar: string,
+        length: number,
+        padCount: number,
+        padColor: Color = colors.blue.bold,
+        textColor: Color = colors.white.bold,
+    ): void => {
+        info(
+            padColor(padEnd(strings.pad('', padCount, padChar), padCount)) + '    ' +
+                textColor(text) +
+                padColor(padStart(strings.pad('', padCount, padChar), (length - text.length - padCount - 4)))
+        );
+    };
 
     toolbox.fancyPrint = {
         divider: printDivider,
         bookends: printBookends,
         info: printInfo,
+        infoLeft: printInfoLeft,
     };
 };
