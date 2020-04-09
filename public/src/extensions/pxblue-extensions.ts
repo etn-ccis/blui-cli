@@ -34,7 +34,7 @@ type AddReactNativeProps = {
 module.exports = (toolbox: GluegunToolbox): void => {
     const { print, fancyPrint, system, fileModify } = toolbox;
 
-    const printSuccess = (project: string ): void => {
+    const printSuccess = (project: string): void => {
         print.info('');
         fancyPrint.divider('•', 60);
         fancyPrint.info('', '•', 60, 10);
@@ -44,8 +44,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
         fancyPrint.info('has been created successfully!', '•', 60, 10);
         fancyPrint.info('', '•', 60, 10);
         fancyPrint.divider('•', 60);
-    }
-    const printInstructions = (instructions: string[] ): void => {
+    };
+    const printInstructions = (instructions: string[]): void => {
         fancyPrint.divider('•', 60);
         fancyPrint.info('', '•', 60, 10);
         fancyPrint.infoLeft(`To run your project:`, '•', 60, 10);
@@ -54,7 +54,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         fancyPrint.info('', '•', 60, 10);
         fancyPrint.divider('•', 60);
         print.info('');
-    }
+    };
 
     const addPXBlueAngular = async (props: AddAngularProps): Promise<void> => {
         const { name, lint } = props;
@@ -139,10 +139,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         spinner.stop();
 
         printSuccess(name);
-        printInstructions([
-            `cd ${folder}`,
-            `${isYarn ? 'yarn' : 'npm'} start --open`
-        ])
+        printInstructions([`cd ${folder}`, `${isYarn ? 'yarn' : 'npm'} start --open`]);
     };
 
     const addPXBlueReact = async (props: AddReactProps): Promise<void> => {
@@ -214,10 +211,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         printSuccess(name);
-        printInstructions([
-            `cd ${folder}`,
-            `${isYarn ? 'yarn' : 'npm'} start`
-        ])
+        printInstructions([`cd ${folder}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
 
     const addPXBlueIonic = async (props: AddAngularProps): Promise<void> => {
@@ -283,10 +277,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         printSuccess(name);
-        printInstructions([
-            `cd ${folder}`,
-            `ionic serve`
-        ])
+        printInstructions([`cd ${folder}`, `ionic serve`]);
     };
 
     const addPXBlueReactNative = async (props: AddReactNativeProps): Promise<void> => {
@@ -370,18 +361,15 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         printSuccess(name);
-        printInstructions(!expo ? [
-            `cd ${folder}/ios`,
-            `pod install`,
-            `cd ..`,
-            `${isYarn ? 'yarn' : 'npm run'} <ios | android>`
-        ]:[
-            `cd ${folder}`,
-            `${isYarn ? 'yarn' : 'npm'} start`
-        ])
-        if(!expo) print.warning(
-            'Before running your project on iOS, you may need to open xCode and remove the react-native-vector-icons fonts from the "Copy Bundle Resources" step in Build Phases (refer to https://github.com/oblador/react-native-vector-icons/issues/1074).'
+        printInstructions(
+            !expo
+                ? [`cd ${folder}/ios`, `pod install`, `cd ..`, `${isYarn ? 'yarn' : 'npm run'} <ios | android>`]
+                : [`cd ${folder}`, `${isYarn ? 'yarn' : 'npm'} start`]
         );
+        if (!expo)
+            print.warning(
+                'Before running your project on iOS, you may need to open xCode and remove the react-native-vector-icons fonts from the "Copy Bundle Resources" step in Build Phases (refer to https://github.com/oblador/react-native-vector-icons/issues/1074).'
+            );
         print.info('');
     };
 
