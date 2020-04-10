@@ -337,7 +337,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
         await system.run(command);
 
         // Copy the fonts
-        command = `mkdir ${folder}/assets && cp -r ./${helper}/fonts ${folder}/assets/fonts`;
+        if(filesystem.exists(`./${folder}/assets`) !== 'dir'){
+            await system.run(`mkdir ${folder}/assets`);
+        }
+        command = `cp -r ./${helper}/fonts ${folder}/assets/fonts`;
         await system.run(command);
 
         // Link native modules
@@ -363,7 +366,17 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printSuccess(name);
         printInstructions(
             !expo
-                ? [`cd ${name}/ios`, `pod install`, `cd ..`, `${isYarn ? 'yarn' : 'npm run'} <ios | android>`]
+                ? [
+                      `iOS:`,
+                      `• cd ${name}/ios`,
+                      `• pod install`,
+                      `• cd ..`,
+                      `• ${isYarn ? 'yarn' : 'npm run'} ios`,
+                      ``,
+                      `Android:`,
+                      `• Have an Android emulator running`,
+                      `• ${isYarn ? 'yarn' : 'npm run'} android`,
+                  ]
                 : [`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]
         );
         if (!expo)
