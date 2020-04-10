@@ -337,30 +337,21 @@ module.exports = (toolbox: GluegunToolbox): void => {
         await system.run(command);
 
         // Copy the fonts
-        if(filesystem.exists(`./${folder}/assets`) !== 'dir'){
-            await system.run(`mkdir ${folder}/assets`);
-        }
-        command = `cp -r ./${helper}/fonts ${folder}/assets/fonts`;
-        await system.run(command);
+        filesystem.dir(`./${folder}/assets`);
+        filesystem.copy(`./${helper}/fonts`, `${folder}/assets/fonts`, {overwrite: true});
 
         // Link native modules
         if (!expo) {
-            command = `cp ./${helper}/react-native/rnc/react-native.config.js ${folder}/react-native.config.js`;
-            await system.run(command);
-
+            filesystem.copy(`./${helper}/react-native/rnc/react-native.config.js`, `${folder}/react-native.config.js`, {overwrite: true})
             command = `cd ${folder} && ${isYarn ? 'yarn' : 'npm run'} rnlink`;
             await system.run(command);
         }
 
-        // Copy the App template with ThemeProvider
-        command = `cp ./${helper}/react-native/${cli.toLowerCase()}/App.${ts ? 'tsx' : 'js'} ${folder}/App.${
-            ts ? 'tsx' : 'js'
-        }`;
-        await system.run(command);
+        // Copy the App template with ThemeProvider (TODO: replace template with instruction insertion)
+        filesystem.copy(`./${helper}/react-native/${cli.toLowerCase()}/App.${ts ? 'tsx' : 'js'}`, `${folder}/App.${ts ? 'tsx' : 'js'}`, {overwrite: true});
 
         // Remove the temporary folder
-        command = `rm -rf ./${helper}`;
-        await system.run(command);
+        filesystem.remove(`./${helper}`);
 
         spinner.stop();
         printSuccess(name);

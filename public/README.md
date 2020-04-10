@@ -6,7 +6,6 @@ In order to use this utility you must have the following installed:
 - [NodeJS](https://nodejs.org/en/download/) 12+
 - npm or yarn
 - Git
-- [Git Bash](https://gitforwindows.org/) (recommended for Windows)
 
 Additional requirements for creating React Native projects:
 - [Cocoapods](https://cocoapods.org/) 1.8+ (for ios)

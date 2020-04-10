@@ -1,6 +1,6 @@
 {
   "name": "@pxblue/cli",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "A command-line interface for quickly scaffolding Power Xpert Blue applications",
   "bin": {
     "pxb": "bin/pxb"
