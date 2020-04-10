@@ -338,17 +338,23 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Copy the fonts
         filesystem.dir(`./${folder}/assets`);
-        filesystem.copy(`./${helper}/fonts`, `${folder}/assets/fonts`, {overwrite: true});
+        filesystem.copy(`./${helper}/fonts`, `${folder}/assets/fonts`, { overwrite: true });
 
         // Link native modules
         if (!expo) {
-            filesystem.copy(`./${helper}/react-native/rnc/react-native.config.js`, `${folder}/react-native.config.js`, {overwrite: true})
+            filesystem.copy(`./${helper}/react-native/rnc/react-native.config.js`, `${folder}/react-native.config.js`, {
+                overwrite: true,
+            });
             command = `cd ${folder} && ${isYarn ? 'yarn' : 'npm run'} rnlink`;
             await system.run(command);
         }
 
         // Copy the App template with ThemeProvider (TODO: replace template with instruction insertion)
-        filesystem.copy(`./${helper}/react-native/${cli.toLowerCase()}/App.${ts ? 'tsx' : 'js'}`, `${folder}/App.${ts ? 'tsx' : 'js'}`, {overwrite: true});
+        filesystem.copy(
+            `./${helper}/react-native/${cli.toLowerCase()}/App.${ts ? 'tsx' : 'js'}`,
+            `${folder}/App.${ts ? 'tsx' : 'js'}`,
+            { overwrite: true }
+        );
 
         // Remove the temporary folder
         filesystem.remove(`./${helper}`);
