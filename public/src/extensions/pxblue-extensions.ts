@@ -139,7 +139,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         spinner.stop();
 
         printSuccess(name);
-        printInstructions([`cd ${folder}`, `${isYarn ? 'yarn' : 'npm'} start --open`]);
+        printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start --open`]);
     };
 
     const addPXBlueReact = async (props: AddReactProps): Promise<void> => {
@@ -211,7 +211,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         printSuccess(name);
-        printInstructions([`cd ${folder}`, `${isYarn ? 'yarn' : 'npm'} start`]);
+        printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
 
     const addPXBlueIonic = async (props: AddAngularProps): Promise<void> => {
@@ -277,7 +277,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         spinner.stop();
         printSuccess(name);
-        printInstructions([`cd ${folder}`, `ionic serve`]);
+        printInstructions([`cd ${name}`, `ionic serve`]);
     };
 
     const addPXBlueReactNative = async (props: AddReactNativeProps): Promise<void> => {
@@ -363,8 +363,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printSuccess(name);
         printInstructions(
             !expo
-                ? [`cd ${folder}/ios`, `pod install`, `cd ..`, `${isYarn ? 'yarn' : 'npm run'} <ios | android>`]
-                : [`cd ${folder}`, `${isYarn ? 'yarn' : 'npm'} start`]
+                ? [`cd ${name}/ios`, `pod install`, `cd ..`, `${isYarn ? 'yarn' : 'npm run'} <ios | android>`]
+                : [`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]
         );
         if (!expo)
             print.warning(

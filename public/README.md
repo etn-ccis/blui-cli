@@ -28,9 +28,22 @@ or
 $ npm install -g @pxblue/cli
 ```
 
-## Available Commands
+### Available Commands
 |command                | description                                                                                                                                                              |
 |-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `pxb help`            | lists all available commands and descriptions                                                                                                                            |
 | `pxb version`         | displays the version of the currently installed CLI                                                                                                                      |
 | `pxb new <framework>` | Creates a new skeleton project with PX Blue integration. You'll be prompted to give your project a name and select various options depending on your selected framework. |
+
+## Detailed Usage
+To start a new project with PX Blue integration follow the steps below. We recommend using `npx` (instead of installing it globally) to run the CLI as it will ensure you are always using the most up-to-date version.
+
+1. `npx -p @pxblue/cli pxb new`
+2. Choose your desired framework from the list
+    - Alternatively, you can pre-select a framework by running `npx -p @pxblue/cli pxb new <framework>`
+3. You will be prompted to enter a name for your project. Make sure the name you select meets the requirements of the CLI for your chosen framework.
+4. If you are creating a React or React Native project, you will be prompted to choose JavaScript or Typescript for your project language.
+5. For React Native projects, you'll be asked which CLI to use to scaffold your project. You can choose between the React Native Community CLI (recommended) or Expo (better for smaller demo or proof-of-concept projects).
+6. You will be asked if you want to use the PX Blue Linting configuration and code formatting packages (recommended).
+7. The CLI will install all of the necessary dependencies for your project and integrate the PX Blue components, themes, and fonts. When complete, the CLI should present you instructions for running your project.
+> **Note for React Native projects:** If you are using the React Native Community CLI for your react native project, there are additional steps you must run for your project to run on iOS. Follow the on-screen instructions for running `pod install` to link the react-native-vector-icons package. If you are using xCode 11+, you will also need to update the Build Phases in xCode to avoid duplicated resources errors (refer to [this issue](https://github.com/oblador/react-native-vector-icons/issues/1074)).
