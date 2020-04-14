@@ -1,8 +1,8 @@
 # Compiled output
-/dist
-/tmp
-/out-tsc
-/build
+**/**/dist
+**/**/tmp
+**/**/out-tsc
+**/**/build
 .nyc_output
 
 # Dependencies
@@ -23,6 +23,7 @@
 **/**/.env.development.local
 **/**/.env.test.local
 **/**/.env.production.local
+**/**/.vscode/
 
 # IDE - VSCode
 .vscode/*
