@@ -11,14 +11,14 @@ module.exports = {
         // get the repository input
         const [name, description] = await parse([
             { question: 'Repository Name:', required: true },
-            { question: 'This project demonstrates how to: ', required: false }
+            { question: 'This project demonstrates how to: ', required: false },
         ]);
 
         // create the repository
         if (name && description) {
             const timer = toolbox.system.startTimer();
             await github.createRepository(name, description);
-            toolbox.print.success(`Repository created in ${timer()/1000} seconds`);
+            toolbox.print.success(`Repository created in ${timer() / 1000} seconds`);
         }
-    }
-}
+    },
+};

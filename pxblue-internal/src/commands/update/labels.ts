@@ -11,8 +11,8 @@ module.exports = {
 
         const timer = toolbox.system.startTimer();
         await github.repairRepositoryLabels(repository);
-        toolbox.print.success(`Updated labels in ${timer()/1000} seconds`);
-        
+        toolbox.print.success(`Updated labels in ${timer() / 1000} seconds`);
+
         status.printSingle(repository, true);
-    }
-}
+    },
+};

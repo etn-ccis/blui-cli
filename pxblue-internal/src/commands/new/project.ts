@@ -6,24 +6,41 @@ module.exports = {
     description: 'Creates a new project in the specified framework',
     run: async (toolbox: GluegunToolbox) => {
         const { parse, projects, print } = toolbox;
-        let js = toolbox.parameters.options.typescript ? false 
-            : toolbox.parameters.options.javascript ? true : undefined;
+        let js = toolbox.parameters.options.typescript
+            ? false
+            : toolbox.parameters.options.javascript
+            ? true
+            : undefined;
 
         let [framework, dependencies, name] = await parse([
-            { question: 'Project Framework:', required: true, type: 'radio', choices: ['Angular', 'React', 'Ionic', 'React Native'] },
-            { question: 'Install dependencies', required: true, type: 'radio', choices: ['Yes', 'No'] },
-            { question: 'Project Name', required: false }
+            {
+                question: 'Project Framework:',
+                required: true,
+                type: 'radio',
+                choices: ['Angular', 'React', 'Ionic', 'React Native'],
+            },
+            {
+                question: 'Install dependencies',
+                required: true,
+                type: 'radio',
+                choices: ['Yes', 'No'],
+            },
+            { question: 'Project Name', required: false },
         ]);
-        framework = framework.toLowerCase().replace(/[- ]/ig, '');
+        framework = framework.toLowerCase().replace(/[- ]/gi, '');
         if (framework === 'react' || framework === 'reactnative') {
             if (js === undefined) {
                 let [useJS] = await parse([
-                    { question: 'Language', required: true, type: 'radio', choices: ['TypeScript', 'JavaScript'] }
+                    {
+                        question: 'Language',
+                        required: true,
+                        type: 'radio',
+                        choices: ['TypeScript', 'JavaScript'],
+                    },
                 ]);
                 js = useJS === 'JavaScript';
             }
-        }
-        else {
+        } else {
             js = false;
         }
 
@@ -31,8 +48,7 @@ module.exports = {
         const timer = toolbox.system.startTimer();
         await projects.create(framework, name, './', true, dependencies === 'No', js);
         spinner.stop();
-        
-        toolbox.print.success(`Created project in ${timer() / 1000} seconds`);
-    }
-}
 
+        toolbox.print.success(`Created project in ${timer() / 1000} seconds`);
+    },
+};

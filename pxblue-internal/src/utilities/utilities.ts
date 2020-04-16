@@ -1,7 +1,13 @@
 import { Framework, Dependency, PackageJSON, Script } from '../types';
 import { SUPPORTED_BROWSERS } from '../constants';
 
-export const newProjectCommand = (framework: Framework, name: string, directory: string = './', ci: boolean = true, js: boolean = false) => {
+export const newProjectCommand = (
+    framework: Framework,
+    name: string,
+    directory: string = './',
+    ci: boolean = true,
+    js: boolean = false
+) => {
     let command;
     switch (framework.toLowerCase()) {
         case 'angular':
@@ -16,15 +22,21 @@ export const newProjectCommand = (framework: Framework, name: string, directory:
             if (ci) command += ' --no-deps --no-git';
             break;
         case 'reactnative':
-            command = `npx -p expo-cli expo init --name=${name} --template=${!js ? 'expo-template-blank-typescript' : 'blank'} "${directory}/${name}"`;
+            command = `npx -p expo-cli expo init --name=${name} --template=${
+                !js ? 'expo-template-blank-typescript' : 'blank'
+            } "${directory}/${name}"`;
             break;
         default:
             return '';
     }
     return command;
-}
+};
 
-export const updatePackageDependencies = (packageFile: PackageJSON, dependencies: Array<Dependency> = [], devDependencies: Array<Dependency> = []) => {
+export const updatePackageDependencies = (
+    packageFile: PackageJSON,
+    dependencies: Array<Dependency> = [],
+    devDependencies: Array<Dependency> = []
+) => {
     let newDependencies = packageFile.dependencies || {};
     for (let i = 0; i < dependencies.length; i++) {
         newDependencies[dependencies[i].name] = dependencies[i].version;
@@ -38,7 +50,7 @@ export const updatePackageDependencies = (packageFile: PackageJSON, dependencies
     packageFile.devDependencies = newDevDependencies;
 
     return packageFile;
-}
+};
 
 export const updateScripts = (packageFile: PackageJSON, scripts: Array<Script> = []) => {
     let newScripts = packageFile.scripts || {};
@@ -47,13 +59,13 @@ export const updateScripts = (packageFile: PackageJSON, scripts: Array<Script> =
     }
     packageFile.scripts = newScripts;
     return packageFile;
-}
+};
 
 export const updateBrowsersListFile = (browsersFile: string) => {
     return browsersFile.replace(/^[^# \t\n\r].+$/gim, '').replace(/^$[\r\n]+/gim, '') + SUPPORTED_BROWSERS.asString;
-}
+};
 export const updateBrowsersListJson = (browsersJSON) => {
     browsersJSON.browserslist.production = SUPPORTED_BROWSERS.asObject.production;
     browsersJSON.browserslist.development = SUPPORTED_BROWSERS.asObject.development;
     return browsersJSON;
-}
+};
