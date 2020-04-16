@@ -121,13 +121,13 @@ module.exports = (toolbox: GluegunToolbox) => {
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
         packageJSON.author = "PX Blue <pxblue@eaton.com>";
         packageJSON = updatePackageDependencies(packageJSON, PXBLUE_DEPENDENCIES.ionic, PXBLUE_DEV_DEPENDENCIES.ionic);
-        
+
         // Add Linting and Prettier
         filesystem.write(`${folder}/.eslintrc.js`, LINT_CONFIG, { jsonIndent: 4 });
         packageJSON = updatePackageDependencies(packageJSON, [], PXBLUE_LINT_DEPENDENCIES_TS.concat(PXBLUE_DEV_DEPENDENCIES_TS.ionic));
         packageJSON = updateScripts(packageJSON, PXBLUE_SCRIPTS_TS.ionic);
         packageJSON.prettier = "@pxblue/prettier-config";
-        
+
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update index.html
