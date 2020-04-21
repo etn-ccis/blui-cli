@@ -1,16 +1,16 @@
 export type Language = 'ts' | 'js';
 export type Cli = 'expo' | 'rnc';
 
-export type AddAngularProps = {
+export type AngularProps = {
     name: string;
     lint: boolean;
 };
-export type AddReactProps = {
+export type ReactProps = {
     name: string;
     language: Language;
     lint: boolean;
 };
-export type AddReactNativeProps = {
+export type ReactNativeProps = {
     name: string;
     language: Language;
     lint: boolean;

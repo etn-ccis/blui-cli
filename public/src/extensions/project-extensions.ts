@@ -3,21 +3,14 @@
  * the associated CLIs via npx.
  */
 import { GluegunToolbox } from 'gluegun';
-import {
-    AddAngularProps,
-    AddReactProps,
-    AddReactNativeProps,
-    assignJsTs,
-    stringToLowerCaseNoSpace,
-    Language,
-    Cli,
-} from '../utilities';
 import { QUESTIONS } from '../constants';
+import { assignJsTs, stringToLowerCaseNoSpace, Language, Cli } from '../utilities';
+import { AngularProps, ReactProps, ReactNativeProps } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, parse, print } = toolbox;
 
-    const createAngularProject = async (): Promise<AddAngularProps> => {
+    const createAngularProject = async (): Promise<AngularProps> => {
         let name: string,
             nameOption = toolbox.parameters.options.name;
         if (nameOption === undefined || nameOption == true) {
@@ -37,7 +30,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const command = `npx -p @angular/cli ng new ${name} --directory "${name}" --style=scss`;
 
-        const spinner = print.spin('Creating new project (this may take a few minutes)...');
+        const spinner = print.spin('Creating a new Angular project (this may take a few minutes)...');
         const timer = system.startTimer();
         const output = await system.run(command);
         spinner.stop();
@@ -48,7 +41,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
         return { name, lint };
     };
 
-    const createReactProject = async (): Promise<AddReactProps> => {
+    const createReactProject = async (): Promise<ReactProps> => {
+        print.info(toolbox.parameters.options);
         let name: string,
             nameOption = toolbox.parameters.options.name;
         if (nameOption === undefined || nameOption === true) {
@@ -81,7 +75,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const command = `npx create-react-app ${name} ${language === 'ts' ? '--template typescript' : ''}`;
 
-        const spinner = print.spin('Creating new project (this may take a few minutes)...');
+        const spinner = print.spin('Creating a new React project (this may take a few minutes)...');
         const timer = system.startTimer();
         const output = await system.run(command);
         spinner.stop();
@@ -92,7 +86,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         return { name, language, lint };
     };
 
-    const createIonicProject = async (): Promise<AddAngularProps> => {
+    const createIonicProject = async (): Promise<AngularProps> => {
         let name: string,
             nameOption = toolbox.parameters.options.name;
         if (nameOption === undefined || nameOption === true) {
@@ -112,7 +106,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const command = `npx ionic start ${name} blank`;
 
-        const spinner = print.spin('Creating new project (this may take a few minutes)...');
+        const spinner = print.spin('Creating a new Ionic project (this may take a few minutes)...');
         const timer = system.startTimer();
         const output = await system.run(command);
         spinner.stop();
@@ -123,7 +117,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         return { name, lint };
     };
 
-    const createReactNativeProject = async (): Promise<AddReactNativeProps> => {
+    const createReactNativeProject = async (): Promise<ReactNativeProps> => {
         let name: string,
             nameOption = toolbox.parameters.options.name;
         if (nameOption === undefined || nameOption === true) {
@@ -178,7 +172,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             }`;
         }
 
-        const spinner = print.spin('Creating new project (this may take a few minutes)...');
+        const spinner = print.spin('Creating a new React Native project (this may take a few minutes)...');
         const timer = system.startTimer();
         const output = await system.run(command);
         spinner.stop();
