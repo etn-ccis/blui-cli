@@ -3,46 +3,34 @@
  * the associated CLIs via npx.
  */
 import { GluegunToolbox } from 'gluegun';
-
-type NewAngularResult = {
-    name: string;
-    lint: boolean;
-};
-type NewReactResult = {
-    name: string;
-    language: 'TypeScript' | 'JavaScript';
-    lint: boolean;
-};
-type NewReactNativeResult = {
-    name: string;
-    language: 'TypeScript' | 'JavaScript';
-    lint: boolean;
-    cli: 'Expo' | 'RNC';
-};
+import {
+    AddAngularProps,
+    AddReactProps,
+    AddReactNativeProps,
+    assignJsTs,
+    stringToLowerCaseNoSpace,
+    Language,
+    Cli,
+} from '../utilities';
+import { QUESTIONS } from '../constants';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, parse, print } = toolbox;
 
-    const createAngularProject = async (): Promise<NewAngularResult> => {
-        let name,
+    const createAngularProject = async (): Promise<AddAngularProps> => {
+        let name: string,
             nameOption = toolbox.parameters.options.name;
-        if (nameOption === undefined) {
-            [name] = await parse([{ question: 'Project Name', required: true }]);
+        if (nameOption === undefined || nameOption == true) {
+            [name] = await parse([QUESTIONS.name]);
         } else {
             name = nameOption;
         }
 
-        let lint,
+        let lint: boolean,
             lintOption = toolbox.parameters.options.lint;
         if (lintOption === undefined) {
-            [lint] = await parse([
-                {
-                    question: 'Use PX Blue Lint & Prettier configs?',
-                    required: true,
-                    type: 'radio',
-                    choices: ['Yes', 'No'],
-                },
-            ]);
+            const [lintTemp] = await parse([QUESTIONS.lint]);
+            lint = lintTemp === 'Yes';
         } else {
             lint = !!lintOption;
         }
@@ -57,47 +45,41 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created skeleton Angular project in ${timer() / 1000} seconds`);
 
-        return { name, lint: lint === 'Yes' };
+        return { name, lint };
     };
 
-    const createReactProject = async (): Promise<NewReactResult> => {
-        let name,
+    const createReactProject = async (): Promise<AddReactProps> => {
+        let name: string,
             nameOption = toolbox.parameters.options.name;
-        if (nameOption === undefined) {
-            [name] = await parse([{ question: 'Project Name', required: true }]);
+        if (nameOption === undefined || nameOption === true) {
+            [name] = await parse([QUESTIONS.name]);
         } else {
             name = nameOption;
         }
 
-        let language,
+        let language: Language,
+            languageTemp: string,
             languageOption = toolbox.parameters.options.language;
-        if (languageOption === undefined) {
-            [language] = await parse([
-                { question: 'Language', required: true, type: 'radio', choices: ['TypeScript', 'JavaScript'] },
-            ]);
+        if (languageOption === undefined || languageOption === true) {
+            [languageTemp] = await parse([QUESTIONS.language]);
         } else {
-            language = languageOption;
+            languageTemp = languageOption;
         }
 
-        let lint = false;
-        if (language === 'TypeScript') {
+        language = assignJsTs(languageTemp);
+
+        let lint: boolean = false;
+        if (language === 'ts') {
             let lintOption = toolbox.parameters.options.lint;
             if (lintOption === undefined) {
-                const [lintTemp] = await parse([
-                    {
-                        question: 'Use PX Blue Lint & Prettier configs?',
-                        required: true,
-                        type: 'radio',
-                        choices: ['Yes', 'No'],
-                    },
-                ]);
+                const [lintTemp] = await parse([QUESTIONS.lint]);
                 lint = lintTemp === 'Yes';
             } else {
                 lint = !!lintOption;
             }
         }
 
-        const command = `npx create-react-app ${name} ${language === 'TypeScript' ? '--template typescript' : ''}`;
+        const command = `npx create-react-app ${name} ${language === 'ts' ? '--template typescript' : ''}`;
 
         const spinner = print.spin('Creating new project (this may take a few minutes)...');
         const timer = system.startTimer();
@@ -110,26 +92,19 @@ module.exports = (toolbox: GluegunToolbox): void => {
         return { name, language, lint };
     };
 
-    const createIonicProject = async (): Promise<NewAngularResult> => {
-        let name,
+    const createIonicProject = async (): Promise<AddAngularProps> => {
+        let name: string,
             nameOption = toolbox.parameters.options.name;
-        if (nameOption === undefined) {
-            [name] = await parse([{ question: 'Project Name', required: true }]);
+        if (nameOption === undefined || nameOption === true) {
+            [name] = await parse([QUESTIONS.name]);
         } else {
             name = nameOption;
         }
 
-        let lint = false,
+        let lint: boolean = false,
             lintOption = toolbox.parameters.options.lint;
         if (lintOption === undefined) {
-            const [lintTemp] = await parse([
-                {
-                    question: 'Use PX Blue Lint & Prettier configs?',
-                    required: true,
-                    type: 'radio',
-                    choices: ['Yes', 'No'],
-                },
-            ]);
+            const [lintTemp] = await parse([QUESTIONS.lint]);
             lint = lintTemp === 'Yes';
         } else {
             lint = !!lintOption;
@@ -148,66 +123,58 @@ module.exports = (toolbox: GluegunToolbox): void => {
         return { name, lint };
     };
 
-    const createReactNativeProject = async (): Promise<NewReactNativeResult> => {
-        let name,
+    const createReactNativeProject = async (): Promise<AddReactNativeProps> => {
+        let name: string,
             nameOption = toolbox.parameters.options.name;
-        if (nameOption === undefined) {
-            [name] = await parse([{ question: 'Project Name', required: true }]);
+        if (nameOption === undefined || nameOption === true) {
+            [name] = await parse([QUESTIONS.name]);
         } else {
             name = nameOption;
         }
 
-        let language,
+        let language: Language,
+            languageTemp: string,
             languageOption = toolbox.parameters.options.language;
-        if (languageOption === undefined) {
-            [language] = await parse([
-                { question: 'Language', required: true, type: 'radio', choices: ['TypeScript', 'JavaScript'] },
-            ]);
+        if (languageOption === undefined || languageOption === true) {
+            [languageTemp] = await parse([QUESTIONS.language]);
         } else {
-            language = languageOption;
+            languageTemp = languageOption;
         }
+        language = assignJsTs(languageTemp);
 
-        let lint = false;
-        if (language === 'TypeScript') {
+        let lint: boolean = false;
+        if (language === 'ts') {
             let lintOption = toolbox.parameters.options.lint;
             if (lintOption === undefined) {
-                const [lintTemp] = await parse([
-                    {
-                        question: 'Use PX Blue Lint & Prettier configs?',
-                        required: true,
-                        type: 'radio',
-                        choices: ['Yes', 'No'],
-                    },
-                ]);
+                const [lintTemp] = await parse([QUESTIONS.lint]);
                 lint = lintTemp === 'Yes';
             } else {
                 lint = !!lintOption;
             }
         }
 
-        let cli,
+        let cli: Cli,
+            cliTemp: string,
             cliOption = toolbox.parameters.options.cli;
-        if (cliOption === undefined) {
-            [cli] = await parse([
-                {
-                    question: 'CLI',
-                    required: true,
-                    type: 'radio',
-                    choices: ['React Native Community (recommended)', 'Expo'],
-                },
-            ]);
+        if (cliOption === undefined || cliOption === true) {
+            [cliTemp] = await parse([QUESTIONS.cli]);
         } else {
-            cli = cliOption;
+            cliTemp = stringToLowerCaseNoSpace(cliOption);
+        }
+        if (cliTemp === 'Expo') {
+            cli = 'expo';
+        } else {
+            cli = 'rnc';
         }
 
         let command: string;
-        if (cli === 'Expo') {
+        if (cli === 'expo') {
             command = `npx -p expo-cli expo init --name=${name} --template=${
-                language === 'TypeScript' ? 'expo-template-blank-typescript' : 'blank'
+                language === 'ts' ? 'expo-template-blank-typescript' : 'blank'
             } "${name}"`;
         } else {
             command = `npx react-native init ${name} ${
-                language === 'TypeScript' ? '--template react-native-template-typescript' : ''
+                language === 'ts' ? '--template react-native-template-typescript' : ''
             }`;
         }
 
@@ -219,7 +186,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created skeleton React Native project in ${timer() / 1000} seconds`);
 
-        return { name, language, lint, cli: cli === 'Expo' ? 'Expo' : 'RNC' };
+        return { name, language, lint, cli };
     };
 
     toolbox.createProject = {

@@ -1,4 +1,5 @@
 import { GluegunToolbox } from 'gluegun';
+import { stringToLowerCaseNoSpace } from '../utilities';
 
 module.exports = {
     name: 'new',
@@ -25,8 +26,7 @@ module.exports = {
             framework = frameworkOptions;
         }
 
-        // convert the string to lower case, and remove all the spaces and dashes.
-        framework = framework.toLowerCase().replace(/[- ]/gi, '');
+        framework = stringToLowerCaseNoSpace(framework);
 
         switch (framework) {
             case 'angular':

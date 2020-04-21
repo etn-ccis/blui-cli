@@ -144,3 +144,21 @@ export const SUPPORTED_BROWSERS = {
 };
 
 export const STYLES = 'html, body {\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n}';
+
+// Command Prompts
+export const QUESTIONS = {
+    name: { question: 'Project Name', required: true },
+    lint: {
+        question: 'Use PX Blue Lint & Prettier configs?',
+        required: true,
+        type: 'radio',
+        choices: ['Yes', 'No'],
+    },
+    language: { question: 'Language', required: true, type: 'radio', choices: ['TypeScript', 'JavaScript'] },
+    cli: {
+        question: 'CLI',
+        required: true,
+        type: 'radio',
+        choices: ['React Native Community (recommended)', 'Expo'],
+    },
+};
