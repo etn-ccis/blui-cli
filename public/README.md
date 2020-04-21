@@ -47,12 +47,12 @@ $ npm install -g @pxblue/cli
 
 The following table list out some options for the `pxb new` command. All these options can be configured 
 
-| Option                    | Description                                                  |
-| ------------------------- | ------------------------------------------------------------ |
-| `--framework <framework>` | The framework in which the project will be generated. Can be `angular`, `react`, `ionic` or `react-native` |
-| `--name <name>`           | Project name                                                 |
-| `--cli <cli-name>`        | (React Native project only) which CLI to generate the project in. Can be `rnc` (React-Native Community) or `expo` (Expo.io) |
-| `--lint`                  | If we should install pxblue lint and prettier configs        |
+| Option                                         | Description                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------ |
+| `--framework=angular|react|ionic|react-native` | The framework in which the project will be generated.        |
+| `--name=<name>`                                | Project name                                                 |
+| `--cli=rnc|expo`                               | (React Native project only) which CLI to generate the project in. We support `rnc` (React-Native Community) or `expo` (Expo.io) |
+| `--lint`                                       | If we should install pxblue lint and prettier configs        |
 
 ## Detailed Usage
 
