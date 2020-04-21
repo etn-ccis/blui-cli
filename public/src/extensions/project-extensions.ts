@@ -61,9 +61,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
         }
 
         language = assignJsTs(languageTemp);
+        const isTs = language === 'ts';
 
         let lint: boolean = false;
-        if (language === 'ts') {
+        if (isTs) {
             let lintOption = toolbox.parameters.options.lint;
             if (lintOption === undefined) {
                 const [lintTemp] = await parse([QUESTIONS.lint]);
@@ -73,7 +74,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             }
         }
 
-        const command = `npx create-react-app ${name} ${language === 'ts' ? '--template typescript' : ''}`;
+        const command = `npx create-react-app ${name} ${isTs ? '--template typescript' : ''}`;
 
         const spinner = print.spin('Creating a new React project (this may take a few minutes)...');
         const timer = system.startTimer();
@@ -135,9 +136,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
             languageTemp = languageOption;
         }
         language = assignJsTs(languageTemp);
+        const isTs = language === 'ts';
 
         let lint: boolean = false;
-        if (language === 'ts') {
+        if (isTs) {
             let lintOption = toolbox.parameters.options.lint;
             if (lintOption === undefined) {
                 const [lintTemp] = await parse([QUESTIONS.lint]);
@@ -164,12 +166,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let command: string;
         if (cli === 'expo') {
             command = `npx -p expo-cli expo init --name=${name} --template=${
-                language === 'ts' ? 'expo-template-blank-typescript' : 'blank'
+                isTs ? 'expo-template-blank-typescript' : 'blank'
             } "${name}"`;
         } else {
-            command = `npx react-native init ${name} ${
-                language === 'ts' ? '--template react-native-template-typescript' : ''
-            }`;
+            command = `npx react-native init ${name} ${isTs ? '--template react-native-template-typescript' : ''}`;
         }
 
         const spinner = print.spin('Creating a new React Native project (this may take a few minutes)...');
