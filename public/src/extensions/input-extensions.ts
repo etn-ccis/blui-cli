@@ -24,7 +24,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 if (query[i].type === 'confirm') {
                     answers[i] = true;
                 }
-                // if they are supposed to answer a multiple choice question,
+                // if they are supposed to answer a multiple choice / text question,
                 // and they provided something else other than just a flag,
                 // we take their answer
                 else if ((query[i].type === 'radio' || query[i].type === 'input') && params[query[i].name] !== true) {

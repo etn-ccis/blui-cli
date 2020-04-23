@@ -29,9 +29,17 @@ export type Script = {
 };
 
 export type Question = {
+    // will also be used as the flag name for the options
     name: string;
+    // question to ask the user if no legit answer provided via flagged options
     question: string;
+    // type of questions, controls if it is a :
+    // Yes/No question ('confirm'); or
+    // multiple choice question ('radio', etc); or
+    // text input ('input')
     type?: string;
+    // choices given to the user if it is a multiple choice question
     choices?: string[];
+    // default value if it is a Yes/No question
     initial?: boolean;
 };

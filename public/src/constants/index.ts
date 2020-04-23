@@ -166,4 +166,11 @@ export const QUESTIONS = {
         type: 'radio',
         choices: ['React Native Community (recommended)', 'Expo'],
     },
+    framework: {
+        name: 'framework',
+        question: 'Project Framework:',
+        required: true,
+        type: 'radio',
+        choices: ['Angular', 'React', 'Ionic', 'React Native'],
+    },
 };
