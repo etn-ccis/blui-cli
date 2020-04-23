@@ -27,3 +27,11 @@ export type Script = {
     name: string;
     command: string;
 };
+
+export type Question = {
+    name: string;
+    question: string;
+    type?: string;
+    choices?: string[];
+    initial?: boolean;
+};
