@@ -28,7 +28,7 @@ module.exports = {
                 break;
             default:
                 print.error('You must specify one of the supported frameworks.');
-                print.info('PX Blue only support Angular, React, Ionic and React-Native.');
+                print.info('PX Blue only supports Angular, React, Ionic and React-Native.');
                 return;
         }
     },

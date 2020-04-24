@@ -147,27 +147,27 @@ export const STYLES = 'html, body {\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tpadd
 
 // Command Prompts
 export const QUESTIONS = {
-    name: { name: 'name', question: 'Project Name', type: 'input' },
+    name: { optionName: 'name', question: 'Project Name', type: 'input' },
     lint: {
-        name: 'lint',
+        optionName: 'lint',
         question: 'Use PX Blue Lint & Prettier configs?',
         type: 'confirm',
         initial: true,
     },
     language: {
-        name: 'language',
+        optionName: 'language',
         question: 'Language',
         type: 'radio',
         choices: ['TypeScript', 'JavaScript'],
     },
     cli: {
-        name: 'cli',
+        optionName: 'cli',
         question: 'Which CLI should we use?',
         type: 'radio',
         choices: ['React Native Community (recommended)', 'Expo'],
     },
     framework: {
-        name: 'framework',
+        optionName: 'framework',
         question: 'Project Framework:',
         required: true,
         type: 'radio',

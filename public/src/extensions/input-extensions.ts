@@ -18,7 +18,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         for (let i = 0; i < query.length; i++) {
             // if the params already have answer, it will be the final answer
             // otherwise, we prepare for the answer to ask the user
-            if (params[query[i].name] !== undefined) {
+            if (params[query[i].optionName] !== undefined) {
                 // if this is a yes or no question
                 // as long as the flag is there, we take that as a true
                 if (query[i].type === 'confirm') {
@@ -27,8 +27,11 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 // if they are supposed to answer a multiple choice / text question,
                 // and they provided something else other than just a flag,
                 // we take their answer
-                else if ((query[i].type === 'radio' || query[i].type === 'input') && params[query[i].name] !== true) {
-                    answers[i] = params[query[i].name];
+                else if (
+                    (query[i].type === 'radio' || query[i].type === 'input') &&
+                    params[query[i].optionName] !== true
+                ) {
+                    answers[i] = params[query[i].optionName];
                 }
             }
             // if there are still queries left unanswered, ask them

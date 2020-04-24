@@ -30,7 +30,7 @@ export type Script = {
 
 export type Question = {
     // will also be used as the flag name for the options
-    name: string;
+    optionName: string;
     // question to ask the user if no legit answer provided via flagged options
     question: string;
     // type of questions, controls if it is a :
