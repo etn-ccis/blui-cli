@@ -6,7 +6,7 @@ import { GluegunToolbox } from 'gluegun';
 import { Question } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
-    toolbox.parse = async (query: Question[]): Promise<(string | boolean)[]> => {
+    toolbox.parse = async (query: Question[]): Promise<Array<string | boolean>> => {
         // return if we have no questions to ask
         if (query.length < 1) return [];
 

@@ -4,15 +4,13 @@
  */
 import { GluegunToolbox } from 'gluegun';
 import { QUESTIONS } from '../constants';
-import { assignJsTs, stringToLowerCaseNoSpace, Language, Cli } from '../utilities';
-import { AngularProps, ReactProps, ReactNativeProps } from '../utilities';
+import { assignJsTs, stringToLowerCaseNoSpace, Cli, AngularProps, ReactProps, ReactNativeProps } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, parse, print } = toolbox;
 
     const createAngularProject = async (): Promise<AngularProps> => {
-        let name: string, lint: boolean;
-        [name, lint] = await parse([QUESTIONS.name, QUESTIONS.lint]);
+        const [name, lint]: [string, boolean] = await parse([QUESTIONS.name, QUESTIONS.lint]);
 
         const command = `npx -p @angular/cli ng new ${name} --directory "${name}" --style=scss`;
 
@@ -28,15 +26,12 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const createReactProject = async (): Promise<ReactProps> => {
-        let name: string,
-            language: Language,
-            languageTemp: string,
-            lint: boolean = true;
+        let lint = true;
 
-        [name] = await parse([QUESTIONS.name]);
+        const [name]: [string] = await parse([QUESTIONS.name]);
 
-        [languageTemp] = await parse([QUESTIONS.language]);
-        language = assignJsTs(languageTemp);
+        const [languageTemp]: [string] = await parse([QUESTIONS.language]);
+        const language = assignJsTs(languageTemp);
         const isTs = language === 'ts';
 
         if (isTs) {
@@ -57,8 +52,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const createIonicProject = async (): Promise<AngularProps> => {
-        let name: string, lint: boolean;
-        [name, lint] = await parse([QUESTIONS.name, QUESTIONS.lint]);
+        const [name, lint]: [string, boolean] = await parse([QUESTIONS.name, QUESTIONS.lint]);
 
         const command = `npx ionic start ${name} blank`;
 
@@ -74,26 +68,21 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const createReactNativeProject = async (): Promise<ReactNativeProps> => {
-        let name: string,
-            language: Language,
-            languageTemp: string,
-            lint: boolean = true,
-            cli: Cli,
-            cliTemp: string;
+        let lint = true;
 
-        [name] = await parse([QUESTIONS.name]);
+        const [name]: [string] = await parse([QUESTIONS.name]);
 
-        [languageTemp] = await parse([QUESTIONS.language]);
-        language = assignJsTs(languageTemp);
+        const [languageTemp]: [string] = await parse([QUESTIONS.language]);
+        const language = assignJsTs(languageTemp);
         const isTs = language === 'ts';
 
         if (isTs) {
             [lint] = await parse([QUESTIONS.lint]);
         }
 
-        [cliTemp] = await parse([QUESTIONS.cli]);
+        let [cliTemp]: [string] = await parse([QUESTIONS.cli]);
         cliTemp = stringToLowerCaseNoSpace(cliTemp);
-        cli = cliTemp === 'expo' ? 'expo' : 'rnc';
+        const cli: Cli = cliTemp === 'expo' ? 'expo' : 'rnc';
 
         let command: string;
         if (cli === 'expo') {

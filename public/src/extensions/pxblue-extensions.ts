@@ -13,8 +13,14 @@ import {
     STYLES,
     ROOT_IMPORTS,
 } from '../constants';
-import { updateScripts, updateBrowsersListFile, updateBrowsersListJson } from '../utilities';
-import { AngularProps, ReactProps, ReactNativeProps } from '../utilities';
+import {
+    updateScripts,
+    updateBrowsersListFile,
+    updateBrowsersListJson,
+    AngularProps,
+    ReactProps,
+    ReactNativeProps,
+} from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { print, fancyPrint, system, fileModify } = toolbox;
