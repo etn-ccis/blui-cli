@@ -1,5 +1,4 @@
-
-import { GluegunToolbox } from 'gluegun'
+import { GluegunToolbox } from 'gluegun';
 
 // add your CLI-specific functionality here, which will then be accessible
 // to your commands
@@ -8,26 +7,34 @@ module.exports = (toolbox: GluegunToolbox) => {
     const { colors, table } = print;
     const { success, error } = colors;
 
-    const requiredBranches = [
-        'angular', 'react', 'reactnative', 'ionic'
-    ];
+    const requiredBranches = ['angular', 'react', 'reactnative', 'ionic'];
     // const defaultBranch = 'angular';
 
     const requiredLabels = [
-        'android', 'angular', 'bug', 'chrome',
-        'edge', 'enhancement', 'external dependency', 'firefox',
-        'ie11', 'ionic', 'react-native', 'react',
-        'safari', 'wontfix'
+        'android',
+        'angular',
+        'bug',
+        'chrome',
+        'edge',
+        'enhancement',
+        'external dependency',
+        'firefox',
+        'ie11',
+        'ionic',
+        'react-native',
+        'react',
+        'safari',
+        'wontfix',
     ];
     interface Status {
-        valid: boolean,
+        valid: boolean;
         details?: {
-            exists: Array<string>,
-            labels: Array<string>,
-            proBranches: Array<string>,
-            featureBranches: Array<string>,
-            vulnerabilities: boolean
-        }
+            exists: Array<string>;
+            labels: Array<string>;
+            proBranches: Array<string>;
+            featureBranches: Array<string>;
+            vulnerabilities: boolean;
+        };
     }
 
     function arraysEqual(a, b) {
@@ -59,17 +66,11 @@ module.exports = (toolbox: GluegunToolbox) => {
 
     async function printStatus(repository: string, detailed: boolean = false): Promise<void> {
         const status = await checkStatus(repository);
-        const {
-            exists,
-            proBranches,
-            featureBranches,
-            labels,
-            vulnerabilities
-        } = status.details;
+        const { exists, proBranches, featureBranches, labels, vulnerabilities } = status.details;
 
         if (!exists) {
             print.info(`${repository}: ${print.colors.error('NOT FOUND')}`);
-            return
+            return;
         }
 
         // Output the status table
@@ -77,15 +78,36 @@ module.exports = (toolbox: GluegunToolbox) => {
             table(
                 [
                     [`${repository}`, 'Count', 'Values', 'Expected', 'Status'],
-                    ['Protected\nBranches', countString(proBranches), printList(proBranches), printList(requiredBranches), toString(checkBranches(proBranches))],
+                    [
+                        'Protected\nBranches',
+                        countString(proBranches),
+                        printList(proBranches),
+                        printList(requiredBranches),
+                        toString(checkBranches(proBranches)),
+                    ],
                     ['Other\nBranches', countString(featureBranches), printList(featureBranches), '--', '--'],
-                    ['Labels', countString(labels), printList(labels), printList(requiredLabels), toString(checkLabels(labels))],
-                    ['Vulnerability\nAlerts', '', vulnerabilities ? 'ENABLED' : 'DISABLED', 'ENABLED', toString(vulnerabilities)]
+                    [
+                        'Labels',
+                        countString(labels),
+                        printList(labels),
+                        printList(requiredLabels),
+                        toString(checkLabels(labels)),
+                    ],
+                    [
+                        'Vulnerability\nAlerts',
+                        '',
+                        vulnerabilities ? 'ENABLED' : 'DISABLED',
+                        'ENABLED',
+                        toString(vulnerabilities),
+                    ],
                 ],
                 { format: 'lean' }
-            )
+            );
+        } else {
+            print.info(
+                `${repository}: ${toString(checkLabels(labels) && checkBranches(proBranches) && vulnerabilities)}`
+            );
         }
-        else print.info(`${repository}: ${toString(checkLabels(labels) && checkBranches(proBranches) && vulnerabilities)}`);
     }
 
     async function printAll(): Promise<void> {
@@ -94,9 +116,8 @@ module.exports = (toolbox: GluegunToolbox) => {
         if (response && response.status === 200) {
             response.data.forEach((repository) => {
                 repositories.push(repository.name);
-            })
-        }
-        else {
+            });
+        } else {
             print.error('Unable to load repositories');
             process.exit(1);
         }
@@ -119,8 +140,8 @@ module.exports = (toolbox: GluegunToolbox) => {
                 labels: null,
                 proBranches: null,
                 featureBranches: null,
-                vulnerabilities: null
-            }
+                vulnerabilities: null,
+            },
         };
 
         // check if the repository exists
@@ -129,8 +150,7 @@ module.exports = (toolbox: GluegunToolbox) => {
             status.valid = false;
             status.details.exists = false;
             return status;
-        }
-        else status.details.exists = true;
+        } else status.details.exists = true;
 
         // get the labels
         let labels = [];
@@ -139,8 +159,7 @@ module.exports = (toolbox: GluegunToolbox) => {
             response.data.forEach((label) => {
                 labels.push(label.name);
             });
-        }
-        else {
+        } else {
             labels = null;
             status.valid = false;
         }
@@ -152,9 +171,8 @@ module.exports = (toolbox: GluegunToolbox) => {
         if (response && response.status === 200) {
             response.data.forEach((branch) => {
                 proBranches.push(branch.name);
-            })
-        }
-        else {
+            });
+        } else {
             proBranches = null;
             status.valid = false;
         }
@@ -166,9 +184,8 @@ module.exports = (toolbox: GluegunToolbox) => {
         if (response && response.status === 200) {
             response.data.forEach((branch) => {
                 featureBranches.push(branch.name);
-            })
-        }
-        else featureBranches = null;
+            });
+        } else featureBranches = null;
         status.details.featureBranches = featureBranches;
 
         // get the vulnerability alerts status
@@ -185,8 +202,8 @@ module.exports = (toolbox: GluegunToolbox) => {
         printAll,
         printSingle,
         checkStatus,
-        checkBranches
-    }
+        checkBranches,
+    };
     // enable this if you want to read configuration in from
     // the current folder's package.json (in a "pxb" property),
     // pxb.config.json, etc.
@@ -194,4 +211,4 @@ module.exports = (toolbox: GluegunToolbox) => {
     //   ...toolbox.config,
     //   ...toolbox.config.loadConfig(process.cwd(), "pxb")
     // }
-}
+};

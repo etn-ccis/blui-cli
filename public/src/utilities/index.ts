@@ -1,15 +1,6 @@
 import { SUPPORTED_BROWSERS } from '../constants';
-
-export type PackageJSON = {
-    dependencies: object;
-    devDependencies?: object;
-    browserslist?: object;
-    scripts?: object;
-};
-export type Script = {
-    name: string;
-    command: string;
-};
+import { PackageJSON, Script, Language } from './types';
+export * from './types';
 
 export const updateScripts = (packageFile: PackageJSON, scripts: Script[] = []): PackageJSON => {
     const newScripts = packageFile.scripts || {};
@@ -26,4 +17,19 @@ export const updateBrowsersListJson = (browsersJSON: any): any => {
     browsersJSON.browserslist.production = SUPPORTED_BROWSERS.object.production;
     browsersJSON.browserslist.development = SUPPORTED_BROWSERS.object.development;
     return browsersJSON;
+};
+
+// convert the string to lower case, and remove all the spaces and dashes.
+export const stringToLowerCaseNoSpace = (str: string): string => str.toLowerCase().replace(/[- ]/gi, '');
+
+export const assignJsTs = (str: string): Language => {
+    switch (stringToLowerCaseNoSpace(str)) {
+        case 'ts':
+        case 'typescript':
+            return 'ts';
+        case 'js':
+        case 'javascript':
+        default:
+            return 'js';
+    }
 };

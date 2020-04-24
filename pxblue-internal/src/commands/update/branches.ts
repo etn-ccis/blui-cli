@@ -8,9 +8,9 @@ module.exports = {
         const { parse, github, status } = toolbox;
 
         // get the repository input
-        const [repository, description ] = await parse([
+        const [repository, description] = await parse([
             { question: 'Repository Name:', required: true },
-            { question: 'Description', required: false }
+            { question: 'Description', required: false },
         ]);
 
         const timer = toolbox.system.startTimer();
@@ -18,5 +18,5 @@ module.exports = {
         toolbox.print.success(`Updated branches in ${timer() / 1000} seconds`);
 
         status.printSingle(repository, true);
-    }
-}
+    },
+};

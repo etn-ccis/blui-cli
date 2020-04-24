@@ -12,20 +12,19 @@ module.exports = {
         // get the repository input
         const [name, branch] = await parse([
             { question: 'Repository Name:', required: true },
-            { question: 'Branch Name (or "all")', required: true }
+            { question: 'Branch Name (or "all")', required: true },
         ]);
 
         const timer = toolbox.system.startTimer();
         if (branch.trim() !== 'all') branches.push(branch);
-        else EXAMPLE_BRANCHES.forEach(br => branches.push(br.name));
+        else EXAMPLE_BRANCHES.forEach((br) => branches.push(br.name));
 
-        branches.forEach(branch => {
+        branches.forEach((branch) => {
             if (toolbox.parameters.options.disabled) {
                 github.removeBranchRestrictions(name, branch);
-            }
-            else github.addBranchRestrictions(name, branch);
-        })
+            } else github.addBranchRestrictions(name, branch);
+        });
 
         toolbox.print.success(`Protection rules updated in ${timer() / 1000} seconds`);
-    }
-}
+    },
+};

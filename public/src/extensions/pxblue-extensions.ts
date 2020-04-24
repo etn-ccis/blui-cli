@@ -14,22 +14,7 @@ import {
     ROOT_IMPORTS,
 } from '../constants';
 import { updateScripts, updateBrowsersListFile, updateBrowsersListJson } from '../utilities';
-
-type AddAngularProps = {
-    name: string;
-    lint: boolean;
-};
-type AddReactProps = {
-    name: string;
-    language: 'TypeScript' | 'JavaScript';
-    lint: boolean;
-};
-type AddReactNativeProps = {
-    name: string;
-    language: 'TypeScript' | 'JavaScript';
-    lint: boolean;
-    cli: 'Expo' | 'RNC';
-};
+import { AngularProps, ReactProps, ReactNativeProps } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { print, fancyPrint, system, fileModify } = toolbox;
@@ -56,7 +41,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info('');
     };
 
-    const addPXBlueAngular = async (props: AddAngularProps): Promise<void> => {
+    const addPXBlueAngular = async (props: AngularProps): Promise<void> => {
         const { name, lint } = props;
         const folder = `./${name}`;
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
@@ -142,10 +127,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start --open`]);
     };
 
-    const addPXBlueReact = async (props: AddReactProps): Promise<void> => {
+    const addPXBlueReact = async (props: ReactProps): Promise<void> => {
         const { name, lint, language } = props;
         const folder = `./${name}`;
-        const ts = language === 'TypeScript';
+        const ts = language === 'ts';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
         // Install Dependencies
@@ -214,7 +199,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
 
-    const addPXBlueIonic = async (props: AddAngularProps): Promise<void> => {
+    const addPXBlueIonic = async (props: AngularProps): Promise<void> => {
         const { name, lint } = props;
         const folder = `./${name}`;
 
@@ -280,11 +265,11 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printInstructions([`cd ${name}`, `ionic serve`]);
     };
 
-    const addPXBlueReactNative = async (props: AddReactNativeProps): Promise<void> => {
+    const addPXBlueReactNative = async (props: ReactNativeProps): Promise<void> => {
         const { name, lint, language, cli } = props;
         const folder = `./${name}`;
-        const ts = language === 'TypeScript';
-        const expo = cli === 'Expo';
+        const ts = language === 'ts';
+        const expo = cli === 'expo';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
         let command: string;
@@ -351,7 +336,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Copy the App template with ThemeProvider (TODO: replace template with instruction insertion)
         filesystem.copy(
-            `./${helper}/react-native/${cli.toLowerCase()}/App.${ts ? 'tsx' : 'js'}`,
+            `./${helper}/react-native/${cli}/App.${ts ? 'tsx' : 'js'}`,
             `${folder}/App.${ts ? 'tsx' : 'js'}`,
             { overwrite: true }
         );
