@@ -47,13 +47,13 @@ $ npm install -g @pxblue/cli
 
 The following table list out some options for the `pxb new` command. All these options can be configured
 
-| Option                                           | Description                                                                                                                                                                                                                    |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `--framework=<angular|react|ionic|react-native>` | The framework in which the project will be generated.                                                                                                                                                                          |
-| `--name=<name>`                                  | Project name                                                                                                                                                                                                                   |
-| `--cli=<rnc|expo>`                               | Native projects only) which CLI to use to generate the project. We support `rnc` ([React-Native Community CLI](https://github.com/react-native-community/cli)) or `expo` ([Expo CLI](https://docs.expo.io/workflow/expo-cli/)) |
-| `--lint`                                         | (TypeScript projects only) Install and configure PX Blue lint and prettier packages                                                                                                                                            |
-| `--language=<typescript|javascript>`             | The language in which the project will be generated                                                                                                                                                                            |
+| Option                                                  | Description                                                                                                                                                                                                                    |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ```--framework=<angular\|react\|ionic\|react-native>``` | The framework in which the project will be generated.                                                                                                                                                                          |
+| ```--name=<name>```                                     | Project name                                                                                                                                                                                                                   |
+| ```--cli=<rnc\|expo>```                                 | (React Native projects only) which CLI to use to generate the project. We support `rnc` ([React-Native Community CLI](https://github.com/react-native-community/cli)) or `expo` ([Expo CLI](https://docs.expo.io/workflow/expo-cli/)) |
+| `--lint`                                                | (TypeScript projects only) Install and configure PX Blue lint and prettier packages                                                                                                                                            |
+| ```--language=<typescript\|javascript>```               | The language in which the project will be generated                                                                                                                                                                            |
 
 ## Detailed Usage
 
