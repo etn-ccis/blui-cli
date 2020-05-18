@@ -1,0 +1,51 @@
+{
+    "name": "pxb-cli",
+    "version": "1.0.0",
+    "description": "PX Blue CLI",
+    "private": false,
+    "bin": {
+        "pxb": "bin/pxb"
+    },
+    "scripts": {
+        "format": "prettier --write \"**/*.{js,ts,tsx,json,md}\"",
+        "lint": "tslint -p .",
+        "clean-build": "rm -rf ./build",
+        "compile": "tsc -p .",
+        "copy-templates": "if [ -e ./src/templates ]; then cp -a ./src/templates ./build/; fi",
+        "build": "yarn format && yarn lint && yarn clean-build && yarn compile && yarn copy-templates",
+        "test": "jest",
+        "watch": "jest --watch",
+        "snapupdate": "jest --updateSnapshot",
+        "coverage": "jest --coverage"
+    },
+    "files": [
+        "build",
+        "package.json",
+        "LICENSE",
+        "README.md",
+        "bin"
+    ],
+    "license": "BSD-3-Clause",
+    "dependencies": {
+        "gluegun": "^4.0.0",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.2.2"
+    },
+    "devDependencies": {
+        "@types/axios": "^0.14.0",
+        "@types/jest": "^23.3.10",
+        "@types/node": "^10.12.12",
+        "@pxblue/prettier-config": "^1.0.2",
+        "jest": "^23.6.0",
+        "prettier": "^1.12.1",
+        "ts-jest": "^23.10.5",
+        "tslint": "^5.12.0",
+        "tslint-config-prettier": "^1.17.0",
+        "tslint-config-standard": "^8.0.1"
+    },
+    "jest": {
+        "preset": "ts-jest",
+        "testEnvironment": "node"
+    },
+    "prettier": "@pxblue/prettier-config"
+}
