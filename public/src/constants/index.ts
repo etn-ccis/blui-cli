@@ -35,6 +35,7 @@ export const DEPENDENCIES = {
         '@pxblue/react-native-themes',
         '@pxblue/colors',
         '@pxblue/react-native-components',
+        'react-native-paper',
         '@pxblue/icons-svg',
         'react-native-vector-icons',
     ],
