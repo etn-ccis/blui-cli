@@ -38,9 +38,10 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
+            - node_modules
             - build
             - bin
-            
+
   build_angular:
       working_directory: ~/pxblue-cli
       docker:
