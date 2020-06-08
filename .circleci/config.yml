@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_cli:
     working_directory: ~/pxblue-cli
     docker:
       - image: circleci/node:12.6
@@ -34,10 +34,65 @@ jobs:
           name: Build
           command: |
             yarn build
-      - run:
-          name: Create Projects
-          command: |
-            bin/pxb new angular --name=angulartest --lint
-            bin/pxb new react --name=reacttest --lint --language=typescript
-            bin/pxb new react-native --name=reactnativetest --cli=rnc --lint --language=typescript
-            bin/pxb new ionic --name=ionictest --lint
+      # Save the dist folder for use in future jobs.
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
+            - bin
+  build_angular:
+      working_directory: ~/pxblue-cli
+      docker:
+          - image: circleci/node:12.6
+      steps:
+          - run:
+              name: Build Angular Project
+              command: |
+                bin/pxb new angular --name=angulartest --lint
+
+
+      # - run:
+      #     name: Create Projects
+      #     command: |
+            
+      #       bin/pxb new react --name=reacttest --lint --language=typescript
+      #       bin/pxb new react-native --name=reactnativetest --cli=rnc --lint --language=typescript
+      #       bin/pxb new ionic --name=ionictest --lint
+
+workflows:
+  version: 2
+  pxblue_cli:
+    jobs:
+      - build_cli
+      - build_angular:
+          requires:
+            - build_cli
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+      # - build_react:
+      #     requires:
+      #       - build_cli
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      #           - dev
+      # - build_react_native:
+      #     requires:
+      #       - build_cli
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      #           - dev
+      # - build_ionic:
+      #     requires:
+      #       - build_cli
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      #           - dev
