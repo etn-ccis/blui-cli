@@ -76,5 +76,3 @@ To start a new project with PX Blue integration follow the steps below. We recom
 7. The CLI will install all of the necessary dependencies for your project and integrate the PX Blue components, themes, and fonts. When complete, the CLI should present you instructions for running your project.
 
     > **Note for React Native projects:** If you are using the React Native Community CLI for your react native project, there are additional steps you must run for your project to run on iOS. Follow the on-screen instructions for running `pod install` to link the react-native-vector-icons package. If you are using xCode 11+, you will also need to update the Build Phases in xCode to avoid duplicated resources errors (refer to [this issue](https://github.com/oblador/react-native-vector-icons/issues/1074)).
-
-### Special Requirements for Ionic and React Native
