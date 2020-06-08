@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_cli:
     working_directory: ~/pxblue-cli
     docker:
       - image: circleci/node:12.6
@@ -34,3 +34,101 @@ jobs:
           name: Build
           command: |
             yarn build
+      # Save the dist folder for use in future jobs.
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+            - build
+            - bin
+
+  build_angular:
+      working_directory: ~/pxblue-cli
+      docker:
+          - image: circleci/node:12.6
+      steps:
+        - checkout
+        - attach_workspace:
+            at: .
+        - run:
+            name: Build Angular Project
+            command: |
+              bin/pxb new angular --name=angulartest --lint
+
+  build_react:
+    working_directory: ~/pxblue-cli
+    docker:
+        - image: circleci/node:12.6
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Build React Project
+          command: |
+            bin/pxb new react --name=reacttest --lint --language=typescript
+
+
+  build_react_native:
+    working_directory: ~/pxblue-cli
+    docker:
+        - image: circleci/node:12.6
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Build React Native Project
+          command: |
+            bin/pxb new react-native --name=reactnativetest --cli=rnc --lint --language=typescript
+            
+  build_ionic:
+    working_directory: ~/pxblue-cli
+    docker:
+        - image: circleci/node:12.6
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Build Ionic Project
+          command: |
+            bin/pxb new ionic --name=ionictest --lint
+
+workflows:
+  version: 2
+  pxblue_cli:
+    jobs:
+      - build_cli
+      - build_angular:
+          requires:
+            - build_cli
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+      - build_react:
+          requires:
+            - build_cli
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+      - build_react_native:
+          requires:
+            - build_cli
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+      - build_ionic:
+          requires:
+            - build_cli
+          filters:
+            branches:
+              only:
+                - master
+                - dev
