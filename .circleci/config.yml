@@ -67,11 +67,11 @@ workflows:
       - build_angular:
           requires:
             - build_cli
-          filters:
-            branches:
-              only:
-                - master
-                - dev
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
+          #       - dev
       # - build_react:
       #     requires:
       #       - build_cli
