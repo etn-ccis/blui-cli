@@ -1,5 +1,14 @@
 {
     "name": "@pxblue/cli",
+    "author": {
+        "name": "PX Blue",
+        "email": "pxblue@eaton.com"
+    },
+    "homepage": "https://github.com/pxblue/pxblue-cli",
+    "repository": {
+        "url": "https://github.com/pxblue/pxblue-cli",
+        "type": "git"
+    },
     "version": "1.0.1",
     "description": "A command-line interface for quickly scaffolding Power Xpert Blue applications",
     "bin": {
