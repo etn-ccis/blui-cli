@@ -34,3 +34,10 @@ jobs:
           name: Build
           command: |
             yarn build
+      - run:
+          name: Create Projects
+          command: |
+            bin/pxb new angular --name=angulartest --lint
+            bin/pxb new react --name=reacttest --lint --language=typescript
+            bin/pxb new react-native --name=reactnativetest --cli=rnc --lint --language=typescript
+            bin/pxb new ionic --name=ionictest --lint
