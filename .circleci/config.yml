@@ -45,10 +45,13 @@ jobs:
       docker:
           - image: circleci/node:12.6
       steps:
-          - run:
-              name: Build Angular Project
-              command: |
-                bin/pxb new angular --name=angulartest --lint
+        - checkout
+        - attach_workspace:
+          at: .
+        - run:
+            name: Build Angular Project
+            command: |
+              bin/pxb new angular --name=angulartest --lint
 
 
       # - run:
