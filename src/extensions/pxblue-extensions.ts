@@ -99,7 +99,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Update index.html
         let html = filesystem.read(`${folder}/src/index.html`, 'utf8');
         html = html
-            .replace(/<title>.+<\/title>/gi, `<title>${name}</title>`)
+            .replace(/<title>.+<\/title>/gi, `<title>${name}</title>\r\n\t<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />`)
             .replace(/<app-root>.*<\/app-root>/gi, ROOT_COMPONENT.angular);
         filesystem.write(`${folder}/src/index.html`, html);
 
@@ -251,7 +251,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Update index.html
         let html = filesystem.read(`${folder}/src/index.html`, 'utf8');
         html = html
-            .replace(/<title>.+<\/title>/gi, `<title>${name}</title>`)
+            .replace(/<title>.+<\/title>/gi, `<title>${name}</title>\r\n\t<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />`)
             .replace(/<app-root>.*<\/app-root>/gi, ROOT_COMPONENT.ionic);
         filesystem.write(`${folder}/src/index.html`, html);
 
