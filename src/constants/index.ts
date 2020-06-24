@@ -1,8 +1,8 @@
 export const DEPENDENCIES = {
     angular: [
-        '@angular/cdk',
+        '@angular/cdk@^9.0.0',
         '@angular/flex-layout@^9.0.0-beta.31',
-        '@angular/material',
+        '@angular/material@^9.0.0',
         '@pxblue/angular-themes@^5.0.0',
         '@pxblue/angular-components@^2.0.0',
         '@pxblue/icons@^1.0.0',
