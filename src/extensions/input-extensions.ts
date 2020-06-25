@@ -20,9 +20,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // otherwise, we prepare for the answer to ask the user
             if (params[query[i].optionName] !== undefined) {
                 // if this is a yes or no question
-                // as long as the flag is there, we take that as a true
+                // as long as the flag is there, we take that as a true UNLESS it specifically says 'false'
                 if (query[i].type === 'confirm') {
-                    answers[i] = true;
+                    answers[i] = params[query[i].optionName] === 'false' ? false : true;
                 }
                 // if they are supposed to answer a multiple choice / text question,
                 // and they provided something else other than just a flag,
