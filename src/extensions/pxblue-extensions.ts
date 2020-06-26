@@ -12,6 +12,9 @@ import {
     ROOT_COMPONENT,
     STYLES,
     ROOT_IMPORTS,
+    PRETTIER_DEPENDENCIES,
+    PRETTIER_SCRIPTS,
+    PRETTIER_CONFIG,
 } from '../constants';
 import {
     updateScripts,
@@ -48,7 +51,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addPXBlueAngular = async (props: AngularProps): Promise<void> => {
-        const { name, lint } = props;
+        const { name, lint, prettier } = props;
         const folder = `./${name}`;
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
@@ -68,17 +71,27 @@ module.exports = (toolbox: GluegunToolbox): void => {
             description: 'PX Blue Angular Dev Dependencies',
         });
 
-        // Install Code Standard Packages (optional)
+        // Install ESLint Packages (optional)
         if (lint) {
             await fileModify.installDependencies({
                 folder: folder,
                 dependencies: LINT_DEPENDENCIES.angular,
                 dev: true,
-                description: 'PX Blue Code Standard Packages',
+                description: 'PX Blue ESLint Packages',
             });
             fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.ts,
+            });
+        }
+
+        // Install Code Formatting Packages (optional)
+        if (prettier) {
+            await fileModify.installDependencies({
+                folder: folder,
+                dependencies: PRETTIER_DEPENDENCIES.angular,
+                dev: true,
+                description: 'PX Blue Prettier Packages',
             });
         }
 
@@ -88,7 +101,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
         packageJSON = updateScripts(packageJSON, SCRIPTS.angular.concat(lint ? LINT_SCRIPTS.angular : []));
-        if (lint) packageJSON.prettier = '@pxblue/prettier-config';
+        packageJSON = updateScripts(packageJSON, SCRIPTS.angular.concat(prettier ? PRETTIER_SCRIPTS.angular : []));
+        if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update browsers list
@@ -137,7 +151,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addPXBlueReact = async (props: ReactProps): Promise<void> => {
-        const { name, lint, language } = props;
+        const { name, lint, prettier, language } = props;
         const folder = `./${name}`;
         const ts = language === 'ts';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
@@ -158,13 +172,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
             description: 'PX Blue React Dev Dependencies',
         });
 
-        // Install Code Standard Packages (optional)
+        // Install ESLint Packages (optional)
         if (ts && lint) {
             await fileModify.installDependencies({
                 folder: folder,
                 dependencies: LINT_DEPENDENCIES.react,
                 dev: true,
-                description: 'PX Blue Code Standard Packages',
+                description: 'PX Blue ESLint Packages',
             });
             fileModify.addLintConfig({
                 folder: folder,
@@ -176,14 +190,25 @@ module.exports = (toolbox: GluegunToolbox): void => {
             filesystem.write(`${folder}/src/serviceWorker.ts`, serviceWorker);
         }
 
+        // Install Code Formatting Packages (optional)
+        if (prettier) {
+            await fileModify.installDependencies({
+                folder: folder,
+                dependencies: PRETTIER_DEPENDENCIES.react,
+                dev: true,
+                description: 'PX Blue Prettier Packages',
+            });
+        }
+
         // Final Steps: browser support, styles, theme integration
         const spinner = print.spin('Performing some final cleanup...');
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
-        packageJSON = updateScripts(packageJSON, SCRIPTS.react.concat(lint ? LINT_SCRIPTS.react : []));
+        packageJSON = updateScripts(packageJSON, SCRIPTS.react.concat(lint && ts ? LINT_SCRIPTS.react : []));
+        packageJSON = updateScripts(packageJSON, SCRIPTS.react.concat(prettier ? PRETTIER_SCRIPTS.react : []));
         packageJSON = updateBrowsersListJson(packageJSON);
-        if (lint) packageJSON.prettier = '@pxblue/prettier-config';
+        if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update index.css
@@ -209,7 +234,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addPXBlueIonic = async (props: AngularProps): Promise<void> => {
-        const { name, lint } = props;
+        const { name, lint, prettier } = props;
         const folder = `./${name}`;
 
         // Install Dependencies
@@ -228,17 +253,27 @@ module.exports = (toolbox: GluegunToolbox): void => {
             description: 'PX Blue Ionic Dev Dependencies',
         });
 
-        // Install Code Standard Packages (optional)
+        // Install ESLint Packages (optional)
         if (lint) {
             await fileModify.installDependencies({
                 folder: folder,
                 dependencies: LINT_DEPENDENCIES.ionic,
                 dev: true,
-                description: 'PX Blue Code Standard Packages',
+                description: 'PX Blue ESLint Packages',
             });
             fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.ts,
+            });
+        }
+
+        // Install Code Formatting Packages (optional)
+        if (prettier) {
+            await fileModify.installDependencies({
+                folder: folder,
+                dependencies: PRETTIER_DEPENDENCIES.ionic,
+                dev: true,
+                description: 'PX Blue Prettier Packages',
             });
         }
 
@@ -248,7 +283,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
         packageJSON = updateScripts(packageJSON, SCRIPTS.ionic.concat(lint ? LINT_SCRIPTS.ionic : []));
-        if (lint) packageJSON.prettier = '@pxblue/prettier-config';
+        packageJSON = updateScripts(packageJSON, SCRIPTS.ionic.concat(prettier ? PRETTIER_SCRIPTS.ionic : []));
+        if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update index.html
@@ -278,7 +314,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addPXBlueReactNative = async (props: ReactNativeProps): Promise<void> => {
-        const { name, lint, language, cli } = props;
+        const { name, lint, prettier, language, cli } = props;
         const folder = `./${name}`;
         const ts = language === 'ts';
         const expo = cli === 'expo';
@@ -297,22 +333,32 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Install DevDependencies
         await fileModify.installDependencies({
             folder: folder,
-            dependencies: DEV_DEPENDENCIES.reactNative,
+            dependencies: DEV_DEPENDENCIES.reactNative.concat(expo ? ['jest-expo'] : []),
             dev: true,
             description: 'PX Blue React Native Dev Dependencies',
         });
 
-        // Install Code Standard Packages (optional)
+        // Install ESLint Packages (optional)
         if (ts && lint) {
             await fileModify.installDependencies({
                 folder: folder,
                 dependencies: LINT_DEPENDENCIES.reactNative,
                 dev: true,
-                description: 'PX Blue Code Standard Packages',
+                description: 'PX Blue ESLint Packages',
             });
             fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.tsx,
+            });
+        }
+
+        // Install Code Formatting Packages (optional)
+        if (prettier) {
+            await fileModify.installDependencies({
+                folder: folder,
+                dependencies: PRETTIER_DEPENDENCIES.reactNative,
+                dev: true,
+                description: 'PX Blue Prettier Packages',
             });
             filesystem.write(`${folder}/.prettierignore`, `ios/\r\nandroid\r\n`);
         }
@@ -322,11 +368,17 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
-        packageJSON = updateScripts(packageJSON, SCRIPTS.reactNative.concat(lint ? LINT_SCRIPTS.reactNative : []));
-        if (lint) packageJSON.prettier = '@pxblue/prettier-config';
+        packageJSON = updateScripts(packageJSON, SCRIPTS.reactNative.concat(lint && ts ? LINT_SCRIPTS.reactNative : []));
+        packageJSON = updateScripts(packageJSON, SCRIPTS.reactNative.concat(prettier ? PRETTIER_SCRIPTS.reactNative : []));
+        if (prettier && ts) packageJSON.prettier = '@pxblue/prettier-config';
         packageJSON.scripts.test = 'jest';
         if (!expo) packageJSON.scripts.rnlink = 'react-native link';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
+
+        // Update prettier.rc for JS projects
+        if(!ts && prettier){
+            filesystem.write(`${folder}/.prettierrc.js`, PRETTIER_CONFIG.rc);
+        }
 
         // Clone the helpers repo
         const helper = `cli-helpers-${Date.now()}`;

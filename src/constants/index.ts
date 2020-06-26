@@ -3,8 +3,8 @@ export const DEPENDENCIES = {
         '@angular/cdk@^9.0.0',
         '@angular/flex-layout@^9.0.0-beta.31',
         '@angular/material@^9.0.0',
-        '@pxblue/angular-themes@^5.0.0',
-        '@pxblue/angular-components@^2.0.0',
+        '@pxblue/angular-themes@beta',//'@pxblue/angular-themes@^5.0.0',
+        '@pxblue/angular-components@beta',//'@pxblue/angular-components@^2.0.0',
         '@pxblue/icons@^1.0.0',
         '@pxblue/icons-svg@^1.0.0',
         '@pxblue/colors@^3.0.0',
@@ -24,17 +24,17 @@ export const DEPENDENCIES = {
         '@angular/cdk@^9.0.0',
         '@angular/flex-layout@^9.0.0-beta.31',
         '@angular/material@^9.0.0',
-        '@pxblue/angular-themes@^5.0.0',
-        '@pxblue/angular-components@^2.0.0',
+        '@pxblue/angular-themes@beta',//'@pxblue/angular-themes@^5.0.0',
+        '@pxblue/angular-components@beta',//'@pxblue/angular-components@^2.0.0',
         '@pxblue/icons@^1.0.0',
         '@pxblue/icons-svg@^1.0.0',
         '@pxblue/colors@^3.0.0',
         'typeface-open-sans',
     ],
     reactNative: [
-        '@pxblue/react-native-themes@^5.0.0',
+        '@pxblue/react-native-themes@beta',//'@pxblue/react-native-themes@^5.0.0',
         '@pxblue/colors@^3.0.0',
-        '@pxblue/react-native-components@^3.0.0',
+        '@pxblue/react-native-components@beta',//'@pxblue/react-native-components@^3.0.0',
         'react-native-paper@^3.0.0',
         '@pxblue/icons-svg@^1.0.0',
         'react-native-vector-icons@^6.6.0',
@@ -44,22 +44,28 @@ export const DEV_DEPENDENCIES = {
     angular: [],
     react: ['enzyme@^3.11.0', 'enzyme-adapter-react-16@^1.15.0'],
     ionic: [],
-    reactNative: ['jest', 'jest-expo', 'react-test-renderer'],
+    reactNative: ['jest', 'react-test-renderer'],
 };
 const BASE_LINT_DEPENDENCIES = [
     '@pxblue/eslint-config@^2.0.0',
-    '@pxblue/prettier-config@^1.0.0',
     'eslint@^6.0.0',
     'eslint-config-prettier@^6.0.0',
     '@typescript-eslint/eslint-plugin@^3.0.0',
     '@typescript-eslint/parser@^3.0.0',
-    'prettier@^2.0.0',
 ];
+const BASE_PRETTIER_DEPENDENCIES = ['prettier@^2.0.0','@pxblue/prettier-config@^1.0.0'];
+
 export const LINT_DEPENDENCIES = {
     angular: BASE_LINT_DEPENDENCIES,
     react: BASE_LINT_DEPENDENCIES.concat(['eslint-plugin-react@^7.0.0']),
     ionic: BASE_LINT_DEPENDENCIES,
     reactNative: BASE_LINT_DEPENDENCIES.concat(['eslint-plugin-react@^7.0.0']),
+};
+export const PRETTIER_DEPENDENCIES = {
+    angular: BASE_PRETTIER_DEPENDENCIES,
+    react: BASE_PRETTIER_DEPENDENCIES,
+    ionic: BASE_PRETTIER_DEPENDENCIES,
+    reactNative: BASE_PRETTIER_DEPENDENCIES.slice(1),
 };
 
 export const SCRIPTS = {
@@ -73,26 +79,14 @@ const BASE_LINT_SCRIPTS = {
     ts: [
         { name: 'lint', command: `eslint "src/**/**.ts"` },
         { name: 'lint:fix', command: `eslint "src/**/**.ts" --fix` },
-        {
-            name: 'prettier',
-            command: `prettier "src/**/**.{ts,js,json,css,scss,html}" --write`,
-        },
     ],
     tsx: [
         { name: 'lint', command: `eslint "src/**/**.{ts,tsx}"` },
         { name: 'lint:fix', command: `eslint "src/**/**.{ts,tsx}" --fix` },
-        {
-            name: 'prettier',
-            command: `prettier "src/**/**.{ts,tsx,js,jsx,json,css,scss,html}" --write`,
-        },
     ],
     root: [
         { name: 'lint', command: `eslint "**/**.{ts,tsx}"` },
         { name: 'lint:fix', command: `eslint "**/**.{ts,tsx}" --fix` },
-        {
-            name: 'prettier',
-            command: `prettier "**/**.{ts,tsx,js,jsx,json,css,scss,html}" --write`,
-        },
     ],
 };
 export const LINT_SCRIPTS = {
@@ -100,6 +94,45 @@ export const LINT_SCRIPTS = {
     ionic: BASE_LINT_SCRIPTS.ts,
     react: BASE_LINT_SCRIPTS.tsx,
     reactNative: BASE_LINT_SCRIPTS.root,
+};
+
+const BASE_PRETTIER_SCRIPTS = {
+    ts: [
+        {
+            name: 'prettier',
+            command: `prettier "src/**/**.{ts,js,json,css,scss,html}" --write`,
+        },
+        {
+            name: 'prettier:check',
+            command: `prettier "src/**/**.{ts,js,json,css,scss,html}" --check`,
+        },
+    ],
+    tsx: [
+        {
+            name: 'prettier',
+            command: `prettier "src/**/**.{ts,tsx,js,jsx,json,css,scss,html}" --write`,
+        },
+        {
+            name: 'prettier:check',
+            command: `prettier "src/**/**.{ts,tsx,js,jsx,json,css,scss,html}" --check`,
+        },
+    ],
+    root: [
+        {
+            name: 'prettier',
+            command: `prettier "**/**.{ts,tsx,js,jsx,json,css,scss,html}" --write`,
+        },
+        {
+            name: 'prettier:check',
+            command: `prettier "**/**.{ts,tsx,js,jsx,json,css,scss,html}" --check`,
+        },
+    ],
+};
+export const PRETTIER_SCRIPTS = {
+    angular: BASE_PRETTIER_SCRIPTS.ts,
+    ionic: BASE_PRETTIER_SCRIPTS.ts,
+    react: BASE_PRETTIER_SCRIPTS.tsx,
+    reactNative: BASE_PRETTIER_SCRIPTS.root,
 };
 
 export const LINT_CONFIG = {
@@ -124,6 +157,10 @@ export const LINT_CONFIG = {
         }
     };`,
 };
+
+export const PRETTIER_CONFIG = {
+    rc: 'module.exports = {\r\n\t...require("@pxblue/prettier-config")\r\n};',
+}
 
 export const ROOT_IMPORTS = {
     angular: [],
@@ -160,7 +197,13 @@ export const QUESTIONS = {
     name: { optionName: 'name', question: 'Project Name', type: 'input' },
     lint: {
         optionName: 'lint',
-        question: 'Use PX Blue Lint & Prettier configs?',
+        question: 'Use PX Blue ESLint config?',
+        type: 'confirm',
+        initial: true,
+    },
+    prettier: {
+        optionName: 'prettier',
+        question: 'Use PX Blue Prettier config?',
         type: 'confirm',
         initial: true,
     },
