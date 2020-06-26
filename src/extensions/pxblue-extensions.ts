@@ -368,15 +368,21 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
-        packageJSON = updateScripts(packageJSON, SCRIPTS.reactNative.concat(lint && ts ? LINT_SCRIPTS.reactNative : []));
-        packageJSON = updateScripts(packageJSON, SCRIPTS.reactNative.concat(prettier ? PRETTIER_SCRIPTS.reactNative : []));
+        packageJSON = updateScripts(
+            packageJSON,
+            SCRIPTS.reactNative.concat(lint && ts ? LINT_SCRIPTS.reactNative : [])
+        );
+        packageJSON = updateScripts(
+            packageJSON,
+            SCRIPTS.reactNative.concat(prettier ? PRETTIER_SCRIPTS.reactNative : [])
+        );
         if (prettier && ts) packageJSON.prettier = '@pxblue/prettier-config';
         packageJSON.scripts.test = 'jest';
         if (!expo) packageJSON.scripts.rnlink = 'react-native link';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update prettier.rc for JS projects
-        if(!ts && prettier){
+        if (!ts && prettier) {
             filesystem.write(`${folder}/.prettierrc.js`, PRETTIER_CONFIG.rc);
         }
 

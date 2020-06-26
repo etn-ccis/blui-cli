@@ -3,8 +3,8 @@ export const DEPENDENCIES = {
         '@angular/cdk@^9.0.0',
         '@angular/flex-layout@^9.0.0-beta.31',
         '@angular/material@^9.0.0',
-        '@pxblue/angular-themes@beta',//'@pxblue/angular-themes@^5.0.0',
-        '@pxblue/angular-components@beta',//'@pxblue/angular-components@^2.0.0',
+        '@pxblue/angular-themes@beta', //'@pxblue/angular-themes@^5.0.0',
+        '@pxblue/angular-components@beta', //'@pxblue/angular-components@^2.0.0',
         '@pxblue/icons@^1.0.0',
         '@pxblue/icons-svg@^1.0.0',
         '@pxblue/colors@^3.0.0',
@@ -24,17 +24,17 @@ export const DEPENDENCIES = {
         '@angular/cdk@^9.0.0',
         '@angular/flex-layout@^9.0.0-beta.31',
         '@angular/material@^9.0.0',
-        '@pxblue/angular-themes@beta',//'@pxblue/angular-themes@^5.0.0',
-        '@pxblue/angular-components@beta',//'@pxblue/angular-components@^2.0.0',
+        '@pxblue/angular-themes@beta', //'@pxblue/angular-themes@^5.0.0',
+        '@pxblue/angular-components@beta', //'@pxblue/angular-components@^2.0.0',
         '@pxblue/icons@^1.0.0',
         '@pxblue/icons-svg@^1.0.0',
         '@pxblue/colors@^3.0.0',
         'typeface-open-sans',
     ],
     reactNative: [
-        '@pxblue/react-native-themes@beta',//'@pxblue/react-native-themes@^5.0.0',
+        '@pxblue/react-native-themes@beta', //'@pxblue/react-native-themes@^5.0.0',
         '@pxblue/colors@^3.0.0',
-        '@pxblue/react-native-components@beta',//'@pxblue/react-native-components@^3.0.0',
+        '@pxblue/react-native-components@beta', //'@pxblue/react-native-components@^3.0.0',
         'react-native-paper@^3.0.0',
         '@pxblue/icons-svg@^1.0.0',
         'react-native-vector-icons@^6.6.0',
@@ -53,7 +53,7 @@ const BASE_LINT_DEPENDENCIES = [
     '@typescript-eslint/eslint-plugin@^3.0.0',
     '@typescript-eslint/parser@^3.0.0',
 ];
-const BASE_PRETTIER_DEPENDENCIES = ['prettier@^2.0.0','@pxblue/prettier-config@^1.0.0'];
+const BASE_PRETTIER_DEPENDENCIES = ['prettier@^2.0.0', '@pxblue/prettier-config@^1.0.0'];
 
 export const LINT_DEPENDENCIES = {
     angular: BASE_LINT_DEPENDENCIES,
@@ -160,7 +160,7 @@ export const LINT_CONFIG = {
 
 export const PRETTIER_CONFIG = {
     rc: 'module.exports = {\r\n\t...require("@pxblue/prettier-config")\r\n};',
-}
+};
 
 export const ROOT_IMPORTS = {
     angular: [],
