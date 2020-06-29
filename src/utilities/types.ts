@@ -4,16 +4,19 @@ export type Cli = 'expo' | 'rnc';
 export type AngularProps = {
     name: string;
     lint: boolean;
+    prettier: boolean;
 };
 export type ReactProps = {
     name: string;
     language: Language;
     lint: boolean;
+    prettier: boolean;
 };
 export type ReactNativeProps = {
     name: string;
     language: Language;
     lint: boolean;
+    prettier: boolean;
     cli: Cli;
 };
 
