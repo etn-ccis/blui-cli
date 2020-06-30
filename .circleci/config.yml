@@ -53,7 +53,7 @@ jobs:
         - run:
             name: Build Angular Project
             command: |
-              bin/pxb new angular --name=angulartest --lint
+              bin/pxb new angular --name=angulartest --lint --prettier
 
   build_react:
     working_directory: ~/pxblue-cli
@@ -66,7 +66,7 @@ jobs:
       - run:
           name: Build React Project
           command: |
-            bin/pxb new react --name=reacttest --lint --language=typescript
+            bin/pxb new react --name=reacttest --lint --prettier --language=typescript
 
 
   build_react_native:
@@ -80,7 +80,7 @@ jobs:
       - run:
           name: Build React Native Project
           command: |
-            bin/pxb new react-native --name=reactnativetest --cli=rnc --lint --language=typescript
+            bin/pxb new react-native --name=reactnativetest --cli=rnc --lint --prettier --language=typescript
             
   build_ionic:
     working_directory: ~/pxblue-cli
@@ -93,7 +93,7 @@ jobs:
       - run:
           name: Build Ionic Project
           command: |
-            bin/pxb new ionic --name=ionictest --lint
+            bin/pxb new ionic --name=ionictest --lint --prettier
 
 workflows:
   version: 2
