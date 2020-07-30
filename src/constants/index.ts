@@ -184,10 +184,10 @@ export const ROOT_COMPONENT = {
 
 export const SUPPORTED_BROWSERS = {
     object: {
-        production: ['>0.2%', 'not dead', 'not op_mini all', 'ie 11'],
-        development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version', 'ie 11'],
+        production: ['>0.2%', 'not dead', 'not op_mini all', 'IE 11', 'not IE 9-10'],
+        development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version', 'ie 11', 'not ie'],
     },
-    string: `> 0.5%\r\nlast 2 versions\r\nFirefox ESR\r\nnot dead\r\nIE 11`,
+    string: `> 0.5%\r\nlast 2 versions\r\nFirefox ESR\r\nnot dead\r\nIE 11\r\nnot IE 9-10`,
 };
 
 export const STYLES = 'html, body {\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n}';

@@ -135,7 +135,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         angularJSON.projects[name].architect.serve.configurations['es5'] = { browserTarget: `${name}:build:es5` };
         filesystem.write(
             `${folder}/tsconfig.es5.json`,
-            `{\r\n\t"extends": "./tsconfig.json",\r\n\t"compilerOptions": {\r\n\t\t"target": "es5"\r\n\t}\r\n}`
+            `{\r\n\t"extends": "./tsconfig.app.json",\r\n\t"compilerOptions": {\r\n\t\t"target": "es5"\r\n\t}\r\n}`
         );
 
         filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 4 });
