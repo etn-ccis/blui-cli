@@ -117,7 +117,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 /<title>.+<\/title>/gi,
                 `<title>${name}</title>\r\n\t<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />`
             )
-            .replace(/<app-root>.*<\/app-root>/gi, ROOT_COMPONENT.angular);
+            .replace(/<body>/gi, ROOT_COMPONENT.angular);
         filesystem.write(`${folder}/src/index.html`, html);
 
         // Update angular.json
@@ -135,7 +135,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         angularJSON.projects[name].architect.serve.configurations['es5'] = { browserTarget: `${name}:build:es5` };
         filesystem.write(
             `${folder}/tsconfig.es5.json`,
-            `{\r\n\t"extends": "./tsconfig.json",\r\n\t"compilerOptions": {\r\n\t\t"target": "es5"\r\n\t}\r\n}`
+            `{\r\n\t"extends": "./tsconfig.app.json",\r\n\t"compilerOptions": {\r\n\t\t"target": "es5"\r\n\t}\r\n}`
         );
 
         filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 4 });
