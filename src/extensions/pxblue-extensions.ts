@@ -378,7 +378,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         );
         if (prettier && ts) packageJSON.prettier = '@pxblue/prettier-config';
         packageJSON.scripts.test = 'jest';
-        if (!expo) packageJSON.scripts.rnlink = 'react-native link';
+        if (!expo) packageJSON.scripts.rnlink = 'react-native link --verbose';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update prettier.rc for JS projects
@@ -401,7 +401,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 overwrite: true,
             });
             command = `cd ${folder} && ${isYarn ? 'yarn' : 'npm run'} rnlink`;
-            await system.run(command);
+            const output = await system.run(command);
+            print.info(output);
         }
 
         // Copy the App template with ThemeProvider (TODO: replace template with instruction insertion)
