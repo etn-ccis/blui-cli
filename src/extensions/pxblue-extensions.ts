@@ -378,7 +378,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         );
         if (prettier && ts) packageJSON.prettier = '@pxblue/prettier-config';
         packageJSON.scripts.test = 'jest';
-        if (!expo) packageJSON.scripts.rnlink = 'react-native link --verbose';
+        if (!expo) packageJSON.scripts.rnlink = 'react-native link';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update prettier.rc for JS projects

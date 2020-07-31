@@ -99,9 +99,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 isTs ? 'expo-template-blank-typescript' : 'blank'
             } "${name}"`;
         } else {
-            command = `npx react-native init ${name} ${
-                isTs ? '--template react-native-template-typescript' : ''
-            } --verbose`;
+            command = `npx react-native init ${name} ${isTs ? '--template react-native-template-typescript' : ''}`;
         }
 
         const spinner = print.spin('Creating a new React Native project (this may take a few minutes)...');
