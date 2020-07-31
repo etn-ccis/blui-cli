@@ -37,7 +37,7 @@ export const DEPENDENCIES = {
         '@pxblue/react-native-components@^3.0.0',
         'react-native-paper@^3.0.0',
         '@pxblue/icons-svg@^1.0.0',
-        'react-native-vector-icons@^6.6.0',
+        'react-native-vector-icons@^7.0.0',
     ],
 };
 export const DEV_DEPENDENCIES = {
