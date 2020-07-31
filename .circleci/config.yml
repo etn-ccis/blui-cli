@@ -100,31 +100,7 @@ workflows:
   pxblue_cli:
     jobs:
       - build_cli
-      - build_angular:
-          requires:
-            - build_cli
-          filters:
-            branches:
-              only:
-                - master
-                - dev
-      - build_react:
-          requires:
-            - build_cli
-          filters:
-            branches:
-              only:
-                - master
-                - dev
       - build_react_native:
-          requires:
-            - build_cli
-          filters:
-            branches:
-              only:
-                - master
-                - dev
-      - build_ionic:
           requires:
             - build_cli
           filters:
