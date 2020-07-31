@@ -175,7 +175,7 @@ export const ROOT_IMPORTS = {
 };
 
 export const ROOT_COMPONENT = {
-    angular: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
+    angular: '<body class="pxb-blue mat-typography mat-app-background">',
     react:
         '\r\n\t<ThemeProvider theme={createMuiTheme(PXBThemes.blue)}>\r\n\t\t<CssBaseline/>\r\n\t\t<App/>\r\n\t</ThemeProvider>\r\n',
     ionic: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
