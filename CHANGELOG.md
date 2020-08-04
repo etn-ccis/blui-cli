@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.3
+## v1.0.4
 ### Changed
 - Angular project theme classes moved to `<body>` instead of `<app-root>` to support theming of overlay containers.
 
