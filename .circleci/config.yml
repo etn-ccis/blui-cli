@@ -3,7 +3,7 @@ jobs:
   build_cli:
     working_directory: ~/pxblue-cli
     docker:
-      - image: circleci/node:12.6
+      - image: circleci/node:12.9.1-browsers
     steps:
       - checkout
       - restore_cache:
