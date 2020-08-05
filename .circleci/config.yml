@@ -79,8 +79,9 @@ jobs:
           at: .
       - run:
           name: Build React Native Project
+          # TODO: Using Expo for the test now because react-native link has stopped working on CircleCI
           command: |
-            bin/pxb new react-native --name=reactnativetest --cli=rnc --lint --prettier --language=typescript
+            bin/pxb new react-native --name=reactnativetest --cli=expo --lint --prettier --language=typescript
             
   build_ionic:
     working_directory: ~/pxblue-cli
