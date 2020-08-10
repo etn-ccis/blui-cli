@@ -37,7 +37,7 @@ export const DEPENDENCIES = {
         '@pxblue/react-native-components@^3.0.0',
         'react-native-paper@^3.0.0',
         '@pxblue/icons-svg@^1.0.0',
-        'react-native-vector-icons@^6.6.0',
+        'react-native-vector-icons@^7.0.0',
     ],
 };
 export const DEV_DEPENDENCIES = {
@@ -175,7 +175,7 @@ export const ROOT_IMPORTS = {
 };
 
 export const ROOT_COMPONENT = {
-    angular: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
+    angular: '<body class="pxb-blue mat-typography mat-app-background">',
     react:
         '\r\n\t<ThemeProvider theme={createMuiTheme(PXBThemes.blue)}>\r\n\t\t<CssBaseline/>\r\n\t\t<App/>\r\n\t</ThemeProvider>\r\n',
     ionic: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
@@ -184,10 +184,16 @@ export const ROOT_COMPONENT = {
 
 export const SUPPORTED_BROWSERS = {
     object: {
-        production: ['>0.2%', 'not dead', 'not op_mini all', 'ie 11'],
-        development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version', 'ie 11'],
+        production: ['>0.2%', 'not dead', 'not op_mini all', 'IE 11', 'not IE 9-10'],
+        development: [
+            'last 1 chrome version',
+            'last 1 firefox version',
+            'last 1 safari version',
+            'ie 11',
+            'not ie 9-10',
+        ],
     },
-    string: `> 0.5%\r\nlast 2 versions\r\nFirefox ESR\r\nnot dead\r\nIE 11`,
+    string: `> 0.5%\r\nlast 2 versions\r\nFirefox ESR\r\nnot dead\r\nIE 11\r\nnot IE 9-10`,
 };
 
 export const STYLES = 'html, body {\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n}';

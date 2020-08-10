@@ -117,7 +117,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 /<title>.+<\/title>/gi,
                 `<title>${name}</title>\r\n\t<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />`
             )
-            .replace(/<app-root>.*<\/app-root>/gi, ROOT_COMPONENT.angular);
+            .replace(/<body>/gi, ROOT_COMPONENT.angular);
         filesystem.write(`${folder}/src/index.html`, html);
 
         // Update angular.json
@@ -135,7 +135,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         angularJSON.projects[name].architect.serve.configurations['es5'] = { browserTarget: `${name}:build:es5` };
         filesystem.write(
             `${folder}/tsconfig.es5.json`,
-            `{\r\n\t"extends": "./tsconfig.json",\r\n\t"compilerOptions": {\r\n\t\t"target": "es5"\r\n\t}\r\n}`
+            `{\r\n\t"extends": "./tsconfig.app.json",\r\n\t"compilerOptions": {\r\n\t\t"target": "es5"\r\n\t}\r\n}`
         );
 
         filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 4 });
@@ -378,7 +378,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         );
         if (prettier && ts) packageJSON.prettier = '@pxblue/prettier-config';
         packageJSON.scripts.test = 'jest';
-        if (!expo) packageJSON.scripts.rnlink = 'react-native link';
+        if (!expo) packageJSON.scripts.rnlink = 'npx react-native link';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update prettier.rc for JS projects
@@ -401,7 +401,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 overwrite: true,
             });
             command = `cd ${folder} && ${isYarn ? 'yarn' : 'npm run'} rnlink`;
-            await system.run(command);
+            const output = await system.run(command);
+            print.info(output);
         }
 
         // Copy the App template with ThemeProvider (TODO: replace template with instruction insertion)

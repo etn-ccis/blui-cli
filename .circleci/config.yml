@@ -3,7 +3,7 @@ jobs:
   build_cli:
     working_directory: ~/pxblue-cli
     docker:
-      - image: circleci/node:12.6
+      - image: circleci/node:12.16.3-browsers
     steps:
       - checkout
       - restore_cache:
@@ -45,7 +45,7 @@ jobs:
   build_angular:
       working_directory: ~/pxblue-cli
       docker:
-          - image: circleci/node:12.6
+          - image: circleci/node:12.16.3-browsers
       steps:
         - checkout
         - attach_workspace:
@@ -58,7 +58,7 @@ jobs:
   build_react:
     working_directory: ~/pxblue-cli
     docker:
-        - image: circleci/node:12.6
+        - image: circleci/node:12.16.3-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -72,20 +72,21 @@ jobs:
   build_react_native:
     working_directory: ~/pxblue-cli
     docker:
-        - image: circleci/node:12.6
+        - image: circleci/node:12.16.3-browsers
     steps:
       - checkout
       - attach_workspace:
           at: .
       - run:
           name: Build React Native Project
+          # TODO: Using Expo for the test now because react-native link has stopped working on CircleCI
           command: |
-            bin/pxb new react-native --name=reactnativetest --cli=rnc --lint --prettier --language=typescript
+            bin/pxb new react-native --name=reactnativetest --cli=expo --lint --prettier --language=typescript
             
   build_ionic:
     working_directory: ~/pxblue-cli
     docker:
-        - image: circleci/node:12.6
+        - image: circleci/node:12.16.3-browsers
     steps:
       - checkout
       - attach_workspace:
