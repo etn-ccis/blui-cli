@@ -43,6 +43,12 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const spinner = print.spin('Configuring PX Blue code standards...');
 
         filesystem.write(`${folder}/.eslintrc.js`, config, { jsonIndent: 4 });
+
+        // This is an Angular-only problem.
+        // We don't want an extra tslint.json when pxblue lint config is present.
+        if (filesystem.exists(`./${folder}/tslint.json`)) {
+            filesystem.remove(`./${folder}/tslint.json`);
+        }
         spinner.stop();
     };
 
