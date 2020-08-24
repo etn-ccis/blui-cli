@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.5
+## v1.0.5 (To Be Released)
 
 -   Removed `tslint.json` when using PX Blue's lint config.
 

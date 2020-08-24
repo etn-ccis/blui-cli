@@ -38,7 +38,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.success(`${description} installed successfully in ${timer() / 1000} seconds`);
     };
 
-    const addLintConfig = (props: LintConfigProps): void => {
+    const addLintConfig = async (props: LintConfigProps): Promise<void> => {
         const { folder, config } = props;
         const spinner = print.spin('Configuring PX Blue code standards...');
 
@@ -48,7 +48,15 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // We don't want an extra tslint.json when pxblue lint config is present.
         if (filesystem.exists(`./${folder}/tslint.json`)) {
             filesystem.remove(`./${folder}/tslint.json`);
+            let output = '';
+            if (filesystem.exists(`./${folder}/yarn.lock`)) {
+                output = await system.run(`cd ${folder} && yarn remove tslint`);
+            } else {
+                output = await system.run(`cd ${folder} && npm uninstall tslint`);
+            }
+            print.info(output);
         }
+
         spinner.stop();
     };
 

@@ -79,7 +79,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dev: true,
                 description: 'PX Blue ESLint Packages',
             });
-            fileModify.addLintConfig({
+            await fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.ts,
             });
@@ -180,7 +180,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dev: true,
                 description: 'PX Blue ESLint Packages',
             });
-            fileModify.addLintConfig({
+            await fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.tsx,
             });
@@ -261,7 +261,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dev: true,
                 description: 'PX Blue ESLint Packages',
             });
-            fileModify.addLintConfig({
+            await fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.ts,
             });
@@ -346,7 +346,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dev: true,
                 description: 'PX Blue ESLint Packages',
             });
-            fileModify.addLintConfig({
+            await fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.tsx,
             });
