@@ -53,7 +53,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
     const addPXBlueAngular = async (props: AngularProps): Promise<void> => {
         const { name, lint, prettier } = props;
         const folder = `./${name}`;
-        const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
+
+        const pathInFolder = (filename: string): string => filesystem.path(folder, filename);
+
+        const isYarn = filesystem.exists(pathInFolder('yarn.lock')) === 'file';
 
         // Install Dependencies
         await fileModify.installDependencies({
@@ -79,10 +82,32 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dev: true,
                 description: 'PX Blue ESLint Packages',
             });
-            await fileModify.addLintConfig({
+            fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.ts,
             });
+
+            // Remove all tslint configurations
+            if (filesystem.exists(pathInFolder('tslint.json'))) {
+                // remove tslint.json
+                filesystem.remove(pathInFolder('tslint.json'));
+
+                // uninstall tslint
+                let output = '';
+                if (isYarn) {
+                    output = await system.run(`cd ${folder} && yarn remove tslint`);
+                } else {
+                    output = await system.run(`cd ${folder} && npm uninstall tslint`);
+                }
+                print.info(output);
+
+                // remove lint attribute in angular.json
+                if (filesystem.exists(pathInFolder('angular.json'))) {
+                    const angularJSON = filesystem.read(pathInFolder('angular.json'), 'json');
+                    delete angularJSON.projects[name].architect.lint;
+                    filesystem.write(pathInFolder('angular.json'), JSON.stringify(angularJSON, null, 4));
+                }
+            }
         }
 
         // Install Code Formatting Packages (optional)
@@ -180,7 +205,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dev: true,
                 description: 'PX Blue ESLint Packages',
             });
-            await fileModify.addLintConfig({
+            fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.tsx,
             });
@@ -261,7 +286,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dev: true,
                 description: 'PX Blue ESLint Packages',
             });
-            await fileModify.addLintConfig({
+            fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.ts,
             });
@@ -346,7 +371,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dev: true,
                 description: 'PX Blue ESLint Packages',
             });
-            await fileModify.addLintConfig({
+            fileModify.addLintConfig({
                 folder: folder,
                 config: LINT_CONFIG.tsx,
             });
