@@ -40,9 +40,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
     const addLintConfig = (props: LintConfigProps): void => {
         const { folder, config } = props;
-        const spinner = print.spin('Configuring PX Blue code standards...');
 
-        filesystem.write(`${folder}/.eslintrc.js`, config, { jsonIndent: 4 });
+        const spinner = print.spin('Configuring PX Blue code standards...');
+        filesystem.write(filesystem.path(folder, '.eslintrc.js'), config, { jsonIndent: 4 });
         spinner.stop();
     };
 
