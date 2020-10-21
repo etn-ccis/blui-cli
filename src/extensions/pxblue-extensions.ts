@@ -131,9 +131,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update browsers list
-        let browsers = filesystem.read(`${folder}/browserslist`, 'utf8');
+        let browsers = filesystem.read(`${folder}/.browserslistrc`, 'utf8');
         browsers = updateBrowsersListFile(browsers);
-        filesystem.write(`${folder}/browserslist`, browsers);
+        filesystem.write(`${folder}/.browserslistrc`, browsers);
 
         // Update index.html
         let html = filesystem.read(`${folder}/src/index.html`, 'utf8');
