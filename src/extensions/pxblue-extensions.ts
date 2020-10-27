@@ -244,7 +244,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let index = filesystem.read(`${folder}/src/index.${!ts ? 'js' : 'tsx'}`, 'utf8');
         const imports = ROOT_IMPORTS.react.join('\r\n');
         index = `import 'react-app-polyfill/ie11';\r\nimport 'react-app-polyfill/stable';\r\n${index}`
-            .replace("'./serviceWorker';", `'./serviceWorker';\r\n${imports}\r\n`)
+            .replace('ReactDOM.render(', `${imports}\r\n\r\nReactDOM.render(`)
             .replace('<App />', ROOT_COMPONENT.react);
         filesystem.write(`${folder}/src/index.${!ts ? 'js' : 'tsx'}`, index);
 
