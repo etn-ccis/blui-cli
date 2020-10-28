@@ -48,7 +48,7 @@ export const DEV_DEPENDENCIES = {
 };
 const BASE_LINT_DEPENDENCIES = [
     '@pxblue/eslint-config@^2.0.2',
-    'eslint@^7.0.0',
+    'eslint@^7.11.0',
     'eslint-config-prettier@^6.13.0',
     '@typescript-eslint/eslint-plugin@^4.5.0',
     '@typescript-eslint/parser@^4.5.0',
