@@ -15,6 +15,7 @@ import {
     PRETTIER_DEPENDENCIES,
     PRETTIER_SCRIPTS,
     PRETTIER_CONFIG,
+    APP_COMPONENT,
 } from '../constants';
 import {
     updateScripts,
@@ -210,9 +211,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 config: LINT_CONFIG.tsx,
             });
 
-            let serviceWorker = filesystem.read(`${folder}/src/serviceWorker.ts`);
-            serviceWorker = `/* eslint-disable */\r\n${serviceWorker}`;
-            filesystem.write(`${folder}/src/serviceWorker.ts`, serviceWorker);
+            let webVitals = filesystem.read(`${folder}/src/reportWebVitals.ts`);
+            webVitals = `/* eslint-disable */\r\n${webVitals}`;
+            filesystem.write(`${folder}/src/reportWebVitals.ts`, webVitals);
         }
 
         // Install Code Formatting Packages (optional)
@@ -247,6 +248,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
             .replace('ReactDOM.render(', `${imports}\r\n\r\nReactDOM.render(`)
             .replace('<App />', ROOT_COMPONENT.react);
         filesystem.write(`${folder}/src/index.${!ts ? 'js' : 'tsx'}`, index);
+
+        if (ts && lint) {
+            // update the App.tsx to pass linting
+            let app = filesystem.read(`${folder}/src/App.${!ts ? 'js' : 'tsx'}`, 'utf8');
+            app = APP_COMPONENT.react;
+            filesystem.write(`${folder}/src/App.${!ts ? 'js' : 'tsx'}`, app);
+        }
 
         // Update index.html
         let html = filesystem.read(`${folder}/public/index.html`, 'utf8');
@@ -445,16 +453,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printInstructions(
             !expo
                 ? [
-                      `iOS:`,
-                      `• cd ${name}/ios`,
-                      `• pod install`,
-                      `• cd ..`,
-                      `• ${isYarn ? 'yarn' : 'npm run'} ios`,
-                      ``,
-                      `Android:`,
-                      `• Have an Android emulator running`,
-                      `• ${isYarn ? 'yarn' : 'npm run'} android`,
-                  ]
+                    `iOS:`,
+                    `• cd ${name}/ios`,
+                    `• pod install`,
+                    `• cd ..`,
+                    `• ${isYarn ? 'yarn' : 'npm run'} ios`,
+                    ``,
+                    `Android:`,
+                    `• Have an Android emulator running`,
+                    `• ${isYarn ? 'yarn' : 'npm run'} android`,
+                ]
                 : [`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]
         );
         if (!expo)

@@ -48,7 +48,7 @@ export const DEV_DEPENDENCIES = {
 };
 const BASE_LINT_DEPENDENCIES = [
     '@pxblue/eslint-config@^2.0.2',
-    'eslint@^6.6.0',
+    'eslint@^7.0.0',
     'eslint-config-prettier@^6.13.0',
     '@typescript-eslint/eslint-plugin@^4.5.0',
     '@typescript-eslint/parser@^4.5.0',
@@ -179,6 +179,38 @@ export const ROOT_COMPONENT = {
     react:
         '\r\n\t<ThemeProvider theme={createMuiTheme(PXBThemes.blue)}>\r\n\t\t<CssBaseline/>\r\n\t\t<App/>\r\n\t</ThemeProvider>\r\n',
     ionic: '<app-root class="pxb-blue mat-typography mat-app-background"></app-root>',
+    reactNative: '',
+};
+
+export const APP_COMPONENT = {
+    angular: '',
+    react:
+        `import React from 'react';
+        import logo from './logo.svg';
+        import './App.css';
+        
+        
+        const App:React.FC = () => (
+          <div className="App">
+              <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <p>
+                  Edit <code>src/App.tsx</code> and save to reload.
+                </p>
+                <a
+                  className="App-link"
+                  href="https://reactjs.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn React
+                </a>
+              </header>
+            </div>
+        )
+        
+        export default App;`,
+    ionic: '',
     reactNative: '',
 };
 
