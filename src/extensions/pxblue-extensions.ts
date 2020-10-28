@@ -453,16 +453,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printInstructions(
             !expo
                 ? [
-                    `iOS:`,
-                    `• cd ${name}/ios`,
-                    `• pod install`,
-                    `• cd ..`,
-                    `• ${isYarn ? 'yarn' : 'npm run'} ios`,
-                    ``,
-                    `Android:`,
-                    `• Have an Android emulator running`,
-                    `• ${isYarn ? 'yarn' : 'npm run'} android`,
-                ]
+                      `iOS:`,
+                      `• cd ${name}/ios`,
+                      `• pod install`,
+                      `• cd ..`,
+                      `• ${isYarn ? 'yarn' : 'npm run'} ios`,
+                      ``,
+                      `Android:`,
+                      `• Have an Android emulator running`,
+                      `• ${isYarn ? 'yarn' : 'npm run'} android`,
+                  ]
                 : [`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]
         );
         if (!expo)

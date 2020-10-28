@@ -184,8 +184,7 @@ export const ROOT_COMPONENT = {
 
 export const APP_COMPONENT = {
     angular: '',
-    react:
-        `import React from 'react';
+    react: `import React from 'react';
         import logo from './logo.svg';
         import './App.css';
         
