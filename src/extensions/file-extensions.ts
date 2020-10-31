@@ -29,7 +29,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Install Dependencies
         const spinner = print.spin(`Installing ${description}...`);
-        const command = `${installCommand} ${dependencies.join(' ')}`;
+        const command = `${installCommand} "${dependencies.join('" "')}"`;
 
         const timer = system.startTimer();
         const output = await system.run(command);
