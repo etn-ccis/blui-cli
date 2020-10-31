@@ -1,6 +1,6 @@
 # Changelog
 
-# v1.0.6 (not published)
+# v1.0.6
 
 ### Changed
 -   Update angular projects to use angular 10
