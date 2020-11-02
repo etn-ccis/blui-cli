@@ -11,6 +11,7 @@ export type ReactProps = {
     language: Language;
     lint: boolean;
     prettier: boolean;
+    template: string[];
 };
 export type ReactNativeProps = {
     name: string;

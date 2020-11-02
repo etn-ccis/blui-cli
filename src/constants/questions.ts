@@ -35,4 +35,11 @@ export const QUESTIONS = {
         type: 'radio',
         choices: ['Angular', 'React', 'Ionic', 'React Native'],
     },
+    template: {
+        optionName: 'template',
+        question:
+            'Use templates to kickstart your project? (Press space key to select multiple, press enter key to confirm)',
+        type: 'multiselect',
+        choices: ['Authentication Workflows (login, account creation, etc)', 'Event Logs', 'Settings'],
+    },
 };

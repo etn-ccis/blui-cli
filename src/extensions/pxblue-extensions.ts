@@ -177,7 +177,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addPXBlueReact = async (props: ReactProps): Promise<void> => {
-        const { name, lint, prettier, language } = props;
+        const { name, lint, prettier, language, template } = props;
         const folder = `./${name}`;
         const ts = language === 'ts';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
@@ -240,6 +240,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Update index.css
         filesystem.remove(`${folder}/src/index.css`);
         filesystem.write(`${folder}/src/index.css`, STYLES);
+
+        // Use templates
+        print.info(template.toString());
 
         // Update index.js/tsx
         let index = filesystem.read(`${folder}/src/index.${!ts ? 'js' : 'tsx'}`, 'utf8');

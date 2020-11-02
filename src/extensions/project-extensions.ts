@@ -32,15 +32,14 @@ module.exports = (toolbox: GluegunToolbox): void => {
     const createReactProject = async (): Promise<ReactProps> => {
         let lint = true;
 
-        const [name]: [string] = await parse([QUESTIONS.name]);
-        const [languageTemp]: [string] = await parse([QUESTIONS.language]);
+        const [name, languageTemp]: [string, string] = await parse([QUESTIONS.name, QUESTIONS.language]);
         const language = assignJsTs(languageTemp);
         const isTs = language === 'ts';
 
         if (isTs) {
             [lint] = await parse([QUESTIONS.lint]);
         }
-        const [prettier] = await parse([QUESTIONS.prettier]);
+        const [prettier, template]: [boolean, string[]] = await parse([QUESTIONS.prettier, QUESTIONS.template]);
 
         const command = `npx create-react-app ${name} ${isTs ? '--template typescript' : ''}`;
 
@@ -52,7 +51,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created skeleton React project in ${timer() / 1000} seconds`);
 
-        return { name, language, lint, prettier };
+        return { name, language, lint, prettier, template };
     };
 
     const createIonicProject = async (): Promise<AngularProps> => {
