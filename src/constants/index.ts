@@ -229,38 +229,4 @@ export const SUPPORTED_BROWSERS = {
 
 export const STYLES = 'html, body {\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n}';
 
-// Command Prompts
-export const QUESTIONS = {
-    name: { optionName: 'name', question: 'Project Name', type: 'input' },
-    lint: {
-        optionName: 'lint',
-        question: 'Use PX Blue ESLint config?',
-        type: 'confirm',
-        initial: true,
-    },
-    prettier: {
-        optionName: 'prettier',
-        question: 'Use PX Blue Prettier config?',
-        type: 'confirm',
-        initial: true,
-    },
-    language: {
-        optionName: 'language',
-        question: 'Language',
-        type: 'radio',
-        choices: ['TypeScript', 'JavaScript'],
-    },
-    cli: {
-        optionName: 'cli',
-        question: 'Which CLI should we use?',
-        type: 'radio',
-        choices: ['React Native Community (recommended)', 'Expo'],
-    },
-    framework: {
-        optionName: 'framework',
-        question: 'Project Framework:',
-        required: true,
-        type: 'radio',
-        choices: ['Angular', 'React', 'Ionic', 'React Native'],
-    },
-};
+export * from './questions';

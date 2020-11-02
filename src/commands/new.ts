@@ -2,6 +2,11 @@ import { GluegunToolbox } from 'gluegun';
 import { stringToLowerCaseNoSpace } from '../utilities';
 import { QUESTIONS } from '../constants';
 
+/**
+ * The following commands get executed when the user uses `pxb new`
+ * For the commands get run when the user uses `pxb new <framework>`, see
+ * the corresponding files in ./new/
+ */
 module.exports = {
     name: 'new',
     // alias: ['n'],
