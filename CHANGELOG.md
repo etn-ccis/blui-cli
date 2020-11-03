@@ -1,6 +1,15 @@
 # Changelog
 
-## v1.0.5
+# v1.0.6
+
+### Changed
+-   Update angular projects to use angular 10
+-   Update all PX Blue dependencies to latest versions
+
+### Fixed
+-   Fix missing import statements in new React projects
+
+# v1.0.5
 
 ### Changed
 -   Remove `tslint.json` when using PX Blue's ESLint config.

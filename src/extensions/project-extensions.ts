@@ -16,7 +16,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             QUESTIONS.prettier,
         ]);
 
-        const command = `npx -p @angular/cli@v9-lts ng new ${name} --directory "${name}" --style=scss`;
+        const command = `npx -p @angular/cli@^10.1.7 ng new ${name} --directory "${name}" --style=scss`;
 
         const spinner = print.spin('Creating a new Angular project (this may take a few minutes)...');
         const timer = system.startTimer();
