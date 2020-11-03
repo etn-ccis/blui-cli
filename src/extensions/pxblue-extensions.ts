@@ -16,6 +16,7 @@ import {
     PRETTIER_SCRIPTS,
     PRETTIER_CONFIG,
     APP_COMPONENT,
+    QUESTIONS,
 } from '../constants';
 import {
     updateScripts,
@@ -25,6 +26,7 @@ import {
     ReactProps,
     ReactNativeProps,
 } from '../utilities';
+import { REACT_TEMPLATES } from '../templates';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { print, fancyPrint, system, fileModify } = toolbox;
@@ -241,9 +243,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.remove(`${folder}/src/index.css`);
         filesystem.write(`${folder}/src/index.css`, STYLES);
 
-        // Use templates
-        print.info(template.toString());
-
         // Update index.js/tsx
         let index = filesystem.read(`${folder}/src/index.${!ts ? 'js' : 'tsx'}`, 'utf8');
         const imports = ROOT_IMPORTS.react.join('\r\n');
@@ -257,6 +256,48 @@ module.exports = (toolbox: GluegunToolbox): void => {
             let app = filesystem.read(`${folder}/src/App.${!ts ? 'js' : 'tsx'}`, 'utf8');
             app = APP_COMPONENT.react;
             filesystem.write(`${folder}/src/App.${!ts ? 'js' : 'tsx'}`, app);
+
+            // If the user opt in for templates
+            if (template.length !== 0) {
+                // If the user wants to use dashboard
+                /*
+                QUESTIONS.template.choices[1] looks like this:
+                {
+                name: 'Dashboard',
+                normalized: true,
+                message: 'Dashboard',
+                value: 'Dashboard',
+                input: '',
+                index: 1,
+                cursor: 0,
+                level: 1,
+                indent: '',
+                path: 'Dashboard',
+                enabled: true,
+                reset: [Function]
+                }
+                */
+                // @ts-ignore
+                if (template.some((elt): boolean => elt === QUESTIONS.template.choices[1].name)) {
+                    // clear App.css
+                    filesystem.write(`${folder}/src/App.css`, '');
+
+                    // replace index.css
+                    filesystem.write(`${folder}/src/index.css`, REACT_TEMPLATES.INDEX_CSS);
+
+                    // replace App.tsx
+                    filesystem.write(`${folder}/src/App.tsx`, REACT_TEMPLATES.APP);
+
+                    // replace App.test.tsx
+                    filesystem.write(`${folder}/src/App.test.tsx`, REACT_TEMPLATES.APP_TEST);
+
+                    // add src/pages/dashboard.tsx
+                    filesystem.write(`${folder}/src/pages/dashboard.tsx`, REACT_TEMPLATES.DASHBOARD);
+
+                    // remove unused logo.svg
+                    filesystem.remove(`${folder}/src/logo.svg`);
+                }
+            }
         }
 
         // Update index.html
