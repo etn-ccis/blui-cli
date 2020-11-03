@@ -1,4 +1,4 @@
-export const DASHBOARD: string = `import React from 'react';
+export const DASHBOARD = `import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, List } from '@material-ui/core';
 import { Menu as MenuIcon, MoreVert, Alarm, Info as InfoIcon, Cloud, Bookmark } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';

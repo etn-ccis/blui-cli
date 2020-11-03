@@ -1,4 +1,4 @@
-export const INDEX_CSS: string = `html,
+export const INDEX_CSS = `html,
 body,
 #root {
     margin: 0;

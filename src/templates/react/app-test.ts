@@ -1,4 +1,4 @@
-export const APP_TEST: string = `import React from 'react';
+export const APP_TEST = `import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
