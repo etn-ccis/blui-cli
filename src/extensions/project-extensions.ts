@@ -39,6 +39,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         if (isTs) {
             [lint] = await parse([QUESTIONS.lint]);
         }
+
         const [prettier, template]: [boolean, string[]] = await parse([QUESTIONS.prettier, QUESTIONS.template]);
 
         const command = `npx create-react-app ${name} ${isTs ? '--template typescript' : ''}`;

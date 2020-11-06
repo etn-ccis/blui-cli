@@ -257,9 +257,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
             filesystem.write(`${folder}/src/App.${!ts ? 'js' : 'tsx'}`, app);
         }
 
-        print.debug(prettier);
-        print.debug(template);
-
         // If the user opt in for templates
         if (template.length !== 0) {
             // @ts-ignore
