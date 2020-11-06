@@ -26,7 +26,6 @@ import {
     ReactProps,
     ReactNativeProps,
 } from '../utilities';
-import { REACT_TEMPLATES } from '../templates';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { print, fancyPrint, system, fileModify } = toolbox;
@@ -256,47 +255,56 @@ module.exports = (toolbox: GluegunToolbox): void => {
             let app = filesystem.read(`${folder}/src/App.${!ts ? 'js' : 'tsx'}`, 'utf8');
             app = APP_COMPONENT.react;
             filesystem.write(`${folder}/src/App.${!ts ? 'js' : 'tsx'}`, app);
+        }
 
-            // If the user opt in for templates
-            if (template.length !== 0) {
-                // If the user wants to use dashboard
-                /*
-                QUESTIONS.template.choices[1] looks like this:
-                {
-                name: 'Dashboard',
-                normalized: true,
-                message: 'Dashboard',
-                value: 'Dashboard',
-                input: '',
-                index: 1,
-                cursor: 0,
-                level: 1,
-                indent: '',
-                path: 'Dashboard',
-                enabled: true,
-                reset: [Function]
-                }
-                */
-                // @ts-ignore
-                if (template.some((elt): boolean => elt === QUESTIONS.template.choices[1].name)) {
-                    // clear App.css
-                    filesystem.write(`${folder}/src/App.css`, '');
+        print.debug(prettier);
+        print.debug(template);
 
-                    // replace index.css
-                    filesystem.write(`${folder}/src/index.css`, REACT_TEMPLATES.INDEX_CSS);
+        // If the user opt in for templates
+        if (template.length !== 0) {
+            // @ts-ignore
+            const templateOptions: string[] = QUESTIONS.template.choices.map((choice) => choice.name);
 
-                    // replace App.tsx
-                    filesystem.write(`${folder}/src/App.tsx`, REACT_TEMPLATES.APP);
+            // clear App.css
+            filesystem.write(`${folder}/src/App.css`, '');
 
-                    // replace App.test.tsx
-                    filesystem.write(`${folder}/src/App.test.tsx`, REACT_TEMPLATES.APP_TEST);
+            // replace index.css
+            toolbox.template.generate({
+                template: 'react/index.css.ejs',
+                target: `${folder}/src/index.css`,
+            });
 
-                    // add src/pages/dashboard.tsx
-                    filesystem.write(`${folder}/src/pages/dashboard.tsx`, REACT_TEMPLATES.DASHBOARD);
+            // if user opts in for dashboard
+            if (template.includes(templateOptions[1])) {
+                // replace App.tsx
+                toolbox.template.generate({
+                    template: 'react/App.tsx.ejs',
+                    target: `${folder}/src/App.${ts ? 'tsx' : 'js'}`,
+                    props: {
+                        ts,
+                    },
+                });
 
-                    // remove unused logo.svg
-                    filesystem.remove(`${folder}/src/logo.svg`);
-                }
+                // replace App.test.tsx
+                toolbox.template.generate({
+                    template: 'react/App.test.tsx.ejs',
+                    target: `${folder}/src/App.test.${ts ? 'tsx' : 'js'}`,
+                    props: {
+                        ts,
+                    },
+                });
+
+                // add src/pages/dashboard.tsx
+                toolbox.template.generate({
+                    template: 'react/pages/dashboard.tsx.ejs',
+                    target: `${folder}/src/pages/dashboard.${ts ? 'tsx' : 'js'}`,
+                    props: {
+                        ts,
+                    },
+                });
+
+                // remove unused logo.svg
+                filesystem.remove(`${folder}/src/logo.svg`);
             }
         }
 

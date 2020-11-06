@@ -1,19 +1,19 @@
-export const DASHBOARD = `import React from 'react';
+import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, List } from '@material-ui/core';
 import { Menu as MenuIcon, MoreVert, Alarm, Info as InfoIcon, Cloud, Bookmark } from '@material-ui/icons';
-import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, useTheme, <%= props.ts? 'Theme' : '' %> } from '@material-ui/core/styles';
 import { Spacer, ScoreCard, InfoListItem } from '@pxblue/react-components';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme<%= props.ts? ': Theme' : '' %>) =>
     createStyles({
         toolbar: {
-            padding: \`0 \${theme.spacing(2)}px\`,
+            padding: `0 ${theme.spacing(2)}px`,
         },
         title: {
             marginLeft: theme.spacing(2),
         },
         bodyContent: {
-            padding: \`\${theme.spacing(3)}px \${theme.spacing(2)}px\`,
+            padding: `${theme.spacing(3)}px ${theme.spacing(2)}px`,
         },
         scorecard: {
             width: 320,
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const DashboardPage: React.FC = () => {
+const DashboardPage<%= props.ts? ': React.FC' : '' %> = () => {
     const theme = useTheme();
     const classes = useStyles(theme);
     return (
@@ -124,4 +124,3 @@ const DashboardPage: React.FC = () => {
 };
 
 export default DashboardPage;
-`;
