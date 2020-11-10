@@ -272,7 +272,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             });
 
             // if user opts in for dashboard
-            if (template.includes(templateOptions[1])) {
+            if (template.includes(templateOptions[2])) {
                 // replace App.tsx
                 toolbox.template.generate({
                     template: 'react/App.tsx.ejs',
