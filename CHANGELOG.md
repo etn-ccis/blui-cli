@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.0 (Not Released)
+
+### Added
+
+-   React Templates for Blank, Basic Routing, and Authentication (for TypeScript and React projects)
+
 ## v1.1.0
 
 ### Added

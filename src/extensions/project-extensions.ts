@@ -4,7 +4,15 @@
  */
 import { GluegunToolbox } from 'gluegun';
 import { QUESTIONS } from '../constants';
-import { assignJsTs, stringToLowerCaseNoSpace, Cli, AngularProps, ReactProps, ReactNativeProps } from '../utilities';
+import {
+    assignJsTs,
+    stringToLowerCaseNoSpace,
+    Cli,
+    AngularProps,
+    ReactProps,
+    ReactNativeProps,
+    Template,
+} from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, parse, print } = toolbox;
@@ -40,9 +48,19 @@ module.exports = (toolbox: GluegunToolbox): void => {
             [lint] = await parse([QUESTIONS.lint]);
         }
 
-        const [prettier, template]: [boolean, string[]] = await parse([QUESTIONS.prettier, QUESTIONS.template]);
+        const [prettier, template]: [boolean, Template] = await parse([QUESTIONS.prettier, QUESTIONS.template]);
 
-        const command = `npx create-react-app ${name} ${isTs ? '--template typescript' : ''}`;
+        // Map the template selection to template name
+        let templateName = '';
+        switch (template) {
+            case 'Basic Routing': // Coming Soon: templateName = isTs ? '@pxblue/routing-typescript' : '@pxblue/routing';
+            case 'Authentication': // Coming Soon: templateName = isTs ? '@pxblue/authentication-typescript' : '@pxblue/authentication';
+            case 'Blank':
+            default:
+                templateName = isTs ? '@pxblue/blank-typescript' : '@pxblue/blank';
+        }
+
+        const command = `npx create-react-app ${name} --template ${templateName}`;
 
         const spinner = print.spin('Creating a new React project (this may take a few minutes)...');
         const timer = system.startTimer();
@@ -52,7 +70,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created skeleton React project in ${timer() / 1000} seconds`);
 
-        return { name, language, lint, prettier, template };
+        return { name, language, lint, prettier };
     };
 
     const createIonicProject = async (): Promise<AngularProps> => {

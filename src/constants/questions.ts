@@ -1,5 +1,7 @@
+import { Template } from '../utilities';
+
 /**
- * Questions asked when certain informations are not provided directly
+ * Questions asked when information is not provided directly
  * as a command line flag.
  */
 export const QUESTIONS = {
@@ -37,8 +39,8 @@ export const QUESTIONS = {
     },
     template: {
         optionName: 'template',
-        question: 'Use templates to kickstart your project?',
+        question: 'Choose a starting template:',
         type: 'radio',
-        choices: ['No template', 'Authentication Workflows (login, account creation, etc)', 'Dashboard', 'Routing'],
+        choices: ['Blank', 'Basic Routing', 'Authentication'] as Template[],
     },
 };
