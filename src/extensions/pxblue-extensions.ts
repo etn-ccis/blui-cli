@@ -11,11 +11,9 @@ import {
     SCRIPTS,
     ROOT_COMPONENT,
     STYLES,
-    ROOT_IMPORTS,
     PRETTIER_DEPENDENCIES,
     PRETTIER_SCRIPTS,
     PRETTIER_CONFIG,
-    APP_COMPONENT,
 } from '../constants';
 import {
     updateScripts,
@@ -182,22 +180,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const ts = language === 'ts';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
-        // Install Dependencies
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: DEPENDENCIES.react,
-            dev: false,
-            description: 'PX Blue React Dependencies',
-        });
-
-        // Install DevDependencies
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: DEV_DEPENDENCIES.react,
-            dev: true,
-            description: 'PX Blue React Dev Dependencies',
-        });
-
         // Install ESLint Packages (optional)
         if (ts && lint) {
             await fileModify.installDependencies({
@@ -210,10 +192,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 config: LINT_CONFIG.tsx,
             });
-
-            let webVitals = filesystem.read(`${folder}/src/reportWebVitals.ts`);
-            webVitals = `/* eslint-disable */\r\n${webVitals}`;
-            filesystem.write(`${folder}/src/reportWebVitals.ts`, webVitals);
         }
 
         // Install Code Formatting Packages (optional)
@@ -226,35 +204,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
             });
         }
 
-        // Final Steps: browser support, styles, theme integration
+        // Final Steps: lint and prettier scripts (if applicable) and app title
         const spinner = print.spin('Performing some final cleanup...');
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
-        packageJSON = updateScripts(packageJSON, SCRIPTS.react.concat(lint && ts ? LINT_SCRIPTS.react : []));
-        packageJSON = updateScripts(packageJSON, SCRIPTS.react.concat(prettier ? PRETTIER_SCRIPTS.react : []));
+        packageJSON = updateScripts(packageJSON, lint && ts ? LINT_SCRIPTS.react : []);
+        packageJSON = updateScripts(packageJSON, prettier ? PRETTIER_SCRIPTS.react : []);
         packageJSON = updateBrowsersListJson(packageJSON);
         if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
-
-        // Update index.css
-        filesystem.remove(`${folder}/src/index.css`);
-        filesystem.write(`${folder}/src/index.css`, STYLES);
-
-        // Update index.js/tsx
-        let index = filesystem.read(`${folder}/src/index.${!ts ? 'js' : 'tsx'}`, 'utf8');
-        const imports = ROOT_IMPORTS.react.join('\r\n');
-        index = `import 'react-app-polyfill/ie11';\r\nimport 'react-app-polyfill/stable';\r\n${index}`
-            .replace('ReactDOM.render(', `${imports}\r\n\r\nReactDOM.render(`)
-            .replace('<App />', ROOT_COMPONENT.react);
-        filesystem.write(`${folder}/src/index.${!ts ? 'js' : 'tsx'}`, index);
-
-        if (ts && lint) {
-            // update the App.tsx to pass linting
-            let app = filesystem.read(`${folder}/src/App.${!ts ? 'js' : 'tsx'}`, 'utf8');
-            app = APP_COMPONENT.react;
-            filesystem.write(`${folder}/src/App.${!ts ? 'js' : 'tsx'}`, app);
-        }
 
         // Update index.html
         let html = filesystem.read(`${folder}/public/index.html`, 'utf8');

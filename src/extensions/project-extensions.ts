@@ -4,7 +4,15 @@
  */
 import { GluegunToolbox } from 'gluegun';
 import { QUESTIONS } from '../constants';
-import { assignJsTs, stringToLowerCaseNoSpace, Cli, AngularProps, ReactProps, ReactNativeProps } from '../utilities';
+import {
+    assignJsTs,
+    stringToLowerCaseNoSpace,
+    Cli,
+    AngularProps,
+    ReactProps,
+    ReactNativeProps,
+    Template,
+} from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, parse, print } = toolbox;
@@ -32,17 +40,28 @@ module.exports = (toolbox: GluegunToolbox): void => {
     const createReactProject = async (): Promise<ReactProps> => {
         let lint = true;
 
-        const [name]: [string] = await parse([QUESTIONS.name]);
-        const [languageTemp]: [string] = await parse([QUESTIONS.language]);
+        const [name, languageTemp]: [string, string] = await parse([QUESTIONS.name, QUESTIONS.language]);
         const language = assignJsTs(languageTemp);
         const isTs = language === 'ts';
 
         if (isTs) {
             [lint] = await parse([QUESTIONS.lint]);
         }
-        const [prettier] = await parse([QUESTIONS.prettier]);
 
-        const command = `npx create-react-app ${name} ${isTs ? '--template typescript' : ''}`;
+        const [prettier, template]: [boolean, Template] = await parse([QUESTIONS.prettier, QUESTIONS.template]);
+
+        // Map the template selection to template name
+        let templateName = '';
+        switch (template.toLocaleLowerCase()) {
+            case 'basic routing': // Coming Soon: templateName = isTs ? '@pxblue/routing-typescript' : '@pxblue/routing';
+            case 'routing': // to allow for --template=routing instead of --template="basic routing"
+            case 'authentication': // Coming Soon: templateName = isTs ? '@pxblue/authentication-typescript' : '@pxblue/authentication';
+            case 'blank':
+            default:
+                templateName = isTs ? '@pxblue/blank-typescript' : '@pxblue/blank';
+        }
+
+        const command = `npx create-react-app ${name} --template ${templateName}`;
 
         const spinner = print.spin('Creating a new React project (this may take a few minutes)...');
         const timer = system.startTimer();

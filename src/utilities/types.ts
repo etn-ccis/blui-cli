@@ -1,6 +1,8 @@
 export type Language = 'ts' | 'js';
 export type Cli = 'expo' | 'rnc';
 
+export type Template = 'Blank' | 'Basic Routing' | 'Authentication';
+
 export type AngularProps = {
     name: string;
     lint: boolean;
