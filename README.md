@@ -75,7 +75,7 @@ To start a new project with PX Blue integration follow the steps below. We recom
     > **Note for Expo projects:** If you are creating an Expo project and you are behind a proxy, you will need to ensure that you have environment variables set for `HTTP_PROXY` and `HTTPS_PROXY`. Depending on your firewall settings, you may also need to temporarily add an environment variable for `NODE_TLS_REJECT_UNAUTHORIZED=0` (remove this promptly after your project is created).
 
 6. You will be asked if you want to use the PX Blue Linting configuration and code formatting packages (recommended).
-4. If you are creating a React project, you will be prompted to choose a template to scaffold your project:
+4. If you are creating a React project, you will be prompted to choose a [template](https://github.com/pxblue/react-cli-templates) to scaffold your project:
     -   Blank: a basic application with a simple placeholder homepage
     -   Routing: integrates React Router with a simple drawer navigation and several placeholder routes
     -   Authentication: integrates the [react-auth-workflow](https://www.npmjs.com/package/@pxblue/react-auth-workflow) login and registration screens plus everything from the routing template
