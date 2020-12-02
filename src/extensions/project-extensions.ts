@@ -53,9 +53,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Map the template selection to template name
         let templateName = '';
         switch (template.toLocaleLowerCase()) {
-            case 'basic routing': // Coming Soon: templateName = isTs ? '@pxblue/routing-typescript' : '@pxblue/routing';
+            case 'basic routing':
             case 'routing': // to allow for --template=routing instead of --template="basic routing"
-            case 'authentication': // Coming Soon: templateName = isTs ? '@pxblue/authentication-typescript' : '@pxblue/authentication';
+                templateName = isTs ? '@pxblue/routing-typescript' : '@pxblue/routing';
+                break;
+            case 'authentication':
+                templateName = isTs ? '@pxblue/authentication-typescript' : '@pxblue/authentication';
+                break;
             case 'blank':
             default:
                 templateName = isTs ? '@pxblue/blank-typescript' : '@pxblue/blank';
