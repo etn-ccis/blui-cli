@@ -4,7 +4,7 @@
 
 ### Added
 
--   React Templates for Blank, Basic Routing, and Authentication (for TypeScript and React projects)
+-   React Templates for Blank, Routing, and Authentication (for TypeScript and Javascript projects)
 
 ## v1.0.6
 
