@@ -17,7 +17,7 @@ Additional requirements for creating React Native projects:
 
 ## Usage
 
-The PX Blue CLI can be utilized via npx without having to install any global packages:
+The PX Blue CLI can be utilized via npx without having to install any global packages (recommended):
 
 ```
 npx -p @pxblue/cli pxb <command>
@@ -50,10 +50,12 @@ The following table list out some options for the `pxb new` command. All these o
 | Option                                                         | Description                                                                                                                                                                                                                           |
 | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code>--framework=<angular\|react\|ionic\|react-native></code> | The framework in which the project will be generated.                                                                                                                                                                                 |
-| ```--name=<name>```                                            | Project name                                                                                                                                                                                                                          |
+| ```--name=<name>```                                               | Project name                                                                                                                                                                                                                       |
 | <code>--cli=<rnc\|expo></code>                                 | (React Native projects only) which CLI to use to generate the project. We support `rnc` ([React-Native Community CLI](https://github.com/react-native-community/cli)) or `expo` ([Expo CLI](https://docs.expo.io/workflow/expo-cli/)) |
-| `--lint`                                                       | (TypeScript projects only) Install and configure PX Blue lint and prettier packages (omit or `--lint=false` to disable)                                                                                                               |
+| `--lint`                                                       | (TypeScript projects only) Install and configure [PX Blue lint package](https://www.npmjs.com/package/@pxblue/eslint-config) (omit or `--lint=false` to disable)                                                                      |
+| `--prettier`                                                   | Install and configure [PX Blue prettier package](https://www.npmjs.com/package/@pxblue/prettier-config) (omit or `--prettier=false` to disable)                                                                                       |
 | <code>--language=<typescript\|javascript></code>               | (React & React Native Only) The language in which the project will be generated                                                                                                                                                       |
+| <code>--template=<blank\|routing\|authentication></code>                        | (React Only) Template to use to start the project (available templates: 'blank')                                                                                                                                                      |
 
 ## Detailed Usage
 
@@ -73,6 +75,10 @@ To start a new project with PX Blue integration follow the steps below. We recom
     > **Note for Expo projects:** If you are creating an Expo project and you are behind a proxy, you will need to ensure that you have environment variables set for `HTTP_PROXY` and `HTTPS_PROXY`. Depending on your firewall settings, you may also need to temporarily add an environment variable for `NODE_TLS_REJECT_UNAUTHORIZED=0` (remove this promptly after your project is created).
 
 6. You will be asked if you want to use the PX Blue Linting configuration and code formatting packages (recommended).
+4. If you are creating a React project, you will be prompted to choose a [template](https://github.com/pxblue/react-cli-templates) to scaffold your project:
+    -   Blank: a basic application with a simple placeholder homepage
+    -   Routing: integrates React Router with a simple drawer navigation and several placeholder routes
+    -   Authentication: integrates the [react-auth-workflow](https://www.npmjs.com/package/@pxblue/react-auth-workflow) login and registration screens plus everything from the routing template
 7. The CLI will install all of the necessary dependencies for your project and integrate the PX Blue components, themes, and fonts. When complete, the CLI should present you instructions for running your project.
 
     > **Note for React Native projects:** If you are using the React Native Community CLI for your react native project, there are additional steps you must run for your project to run on iOS. Follow the on-screen instructions for running `pod install` to link the react-native-vector-icons package. If you are using xCode 11+, you will also need to update the Build Phases in xCode to avoid duplicated resources errors (refer to [this issue](https://github.com/oblador/react-native-vector-icons/issues/1074)).

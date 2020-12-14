@@ -53,26 +53,19 @@ module.exports = (toolbox: GluegunToolbox): void => {
             process.exit(1);
         }
 
-        let questionCount = 0;
         // for each one of our queries, fill in the answers from the prompt
         for (let i = 0; i < query.length; i++) {
             // if the params already provide the answer, skip
             if (answers[i] !== undefined) {
                 continue;
             }
-            // break when we have put all the questions into our answers[]
-            if (questionCount >= questions.length) {
-                break;
-            }
 
             // if this question is not answered by params
             // and we get something from the prompt, assign that
-            if (answers[i] === undefined && promptResult[`param${questionCount}`]) {
-                answers[i] = promptResult[`param${questionCount}`];
-                questionCount++;
+            if (answers[i] === undefined && promptResult[`param${i}`]) {
+                answers[i] = promptResult[`param${i}`];
             } else {
                 answers[i] = '';
-                questionCount++;
             }
         }
         return answers;
