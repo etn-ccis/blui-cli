@@ -22,6 +22,7 @@ import {
     AngularProps,
     ReactProps,
     ReactNativeProps,
+    IonicProps,
 } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
@@ -50,7 +51,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addPXBlueAngular = async (props: AngularProps): Promise<void> => {
-        const { name, lint, prettier } = props;
+        const { name, lint, prettier, template } = props;
         const folder = `./${name}`;
 
         const pathInFolder = (filename: string): string => filesystem.path(folder, filename);
@@ -117,6 +118,47 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dev: true,
                 description: 'PX Blue Prettier Packages',
             });
+        }
+
+        // Map the template selection to template src
+        let templateSrc = '';
+        switch (template.toLocaleLowerCase()) {
+            case 'basic routing':
+                templateSrc = 'basic-routing';
+                break;
+            case 'authentication':
+                templateSrc = 'auth-workflow';
+                break;
+            case 'blank':
+            default:
+                templateSrc = '';
+        }
+
+        // Clone the template repo
+        if (templateSrc) {
+            const templateSpinner = print.spin('Adding template selection...');
+            const templateRepo = `angular-cli-templates`;
+            const command = `cd ${name} && git clone https://github.com/pxblue/${templateRepo}`;
+            await system.run(command);
+
+            // Copy the selected template from the repo
+            filesystem.copy(`./${name}/${templateRepo}/src/app/${templateSrc}`, `./${name}/src/app/`, {
+                overwrite: true,
+            });
+
+            // Install template-specific dependencies
+            const dependencies = filesystem.read(`${name}/src/app/template-dependencies.json`, 'json').dependencies;
+            await fileModify.installDependencies({
+                folder: folder,
+                dependencies,
+                dev: false,
+                description: 'PX Blue Template Dependencies',
+            });
+
+            // Remove the templates repo folder
+            filesystem.remove(`./${name}/${templateRepo}`);
+            filesystem.remove(`./${name}/src/app/template-dependencies.json`);
+            templateSpinner.stop();
         }
 
         // Final Steps: browser support, styles, theme integration
@@ -225,7 +267,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
 
-    const addPXBlueIonic = async (props: AngularProps): Promise<void> => {
+    const addPXBlueIonic = async (props: IonicProps): Promise<void> => {
         const { name, lint, prettier } = props;
         const folder = `./${name}`;
 
