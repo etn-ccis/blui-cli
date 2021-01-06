@@ -158,6 +158,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // Remove the templates repo folder
             filesystem.remove(`./${name}/${templateRepo}`);
             filesystem.remove(`./${name}/src/app/template-dependencies.json`);
+            filesystem.remove(`./${name}/.git`);
             templateSpinner.stop();
         }
 
