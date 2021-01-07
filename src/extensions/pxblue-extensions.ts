@@ -58,22 +58,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const isYarn = filesystem.exists(pathInFolder('yarn.lock')) === 'file';
 
-        // Install Dependencies
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: DEPENDENCIES.angular,
-            dev: false,
-            description: 'PX Blue Angular Dependencies',
-        });
-
-        // Install DevDependencies
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: DEV_DEPENDENCIES.angular,
-            dev: true,
-            description: 'PX Blue Angular Dev Dependencies',
-        });
-
         // Install ESLint Packages (optional)
         if (lint) {
             await fileModify.installDependencies({
@@ -132,46 +116,44 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 break;
             case 'blank':
             default:
-                templateSrc = '';
+                templateSrc = 'blank';
         }
 
         // Clone the template repo
-        if (templateSrc) {
-            const templateSpinner = print.spin('Adding template selection...');
-            const templateRepo = `angular-cli-templates`;
-            const command = `cd ${name} && git clone https://github.com/pxblue/${templateRepo}`;
-            await system.run(command);
+        const templateSpinner = print.spin('Adding PX Blue template...');
+        const templateRepo = `angular-cli-templates-${new Date().getTime()}`;
+        const command = `cd ${name} && git clone https://github.com/pxblue/angular-cli-templates ${templateRepo}`;
+        await system.run(command);
 
-            // Copy the selected template from the repo
-            filesystem.copy(`./${name}/${templateRepo}/src/app/${templateSrc}`, `./${name}/src/app/`, {
-                overwrite: true,
-            });
-            // Copy template-specific assets from the repo (if exists)
-            if (filesystem.isDirectory(`./${name}/${templateRepo}/src/assets/${templateSrc}`)) {
-                filesystem.copy(
-                    `./${name}/${templateRepo}/src/assets/${templateSrc}`,
-                    `./${name}/src/assets/${templateSrc}`,
-                    {
-                        overwrite: true,
-                    }
-                );
-            }
-
-            // Install template-specific dependencies
-            const dependencies = filesystem.read(`${name}/src/app/template-dependencies.json`, 'json').dependencies;
-            await fileModify.installDependencies({
-                folder: folder,
-                dependencies,
-                dev: false,
-                description: 'PX Blue Template Dependencies',
-            });
-
-            // Remove the templates repo folder
-            filesystem.remove(`./${name}/${templateRepo}`);
-            filesystem.remove(`./${name}/src/app/template-dependencies.json`);
-            filesystem.remove(`./${name}/.git`);
-            templateSpinner.stop();
+        // Copy the selected template from the repo
+        filesystem.copy(`./${name}/${templateRepo}/src/app/${templateSrc}`, `./${name}/src/app/`, {
+            overwrite: true,
+        });
+        // Copy template-specific assets from the repo (if exists)
+        if (filesystem.isDirectory(`./${name}/${templateRepo}/src/assets/${templateSrc}`)) {
+            filesystem.copy(
+                `./${name}/${templateRepo}/src/assets/${templateSrc}`,
+                `./${name}/src/assets/${templateSrc}`,
+                {
+                    overwrite: true,
+                }
+            );
         }
+
+        // Install template-specific dependencies
+        const dependencies = filesystem.read(`${name}/src/app/template-dependencies.json`, 'json').dependencies;
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies,
+            dev: false,
+            description: 'PX Blue Template Dependencies',
+        });
+
+        // Remove the templates repo folder
+        filesystem.remove(`./${name}/${templateRepo}`);
+        filesystem.remove(`./${name}/src/app/template-dependencies.json`);
+        filesystem.remove(`./${name}/.git`);
+        templateSpinner.stop();
 
         // Final Steps: browser support, styles, theme integration
         const spinner = print.spin('Performing some final cleanup...');

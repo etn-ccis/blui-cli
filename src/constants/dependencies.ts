@@ -1,15 +1,4 @@
 export const DEPENDENCIES = {
-    angular: [
-        '@angular/cdk@^10.2.5',
-        '@angular/flex-layout@^10.0.0-beta.32',
-        '@angular/material@^10.2.5',
-        '@pxblue/angular-themes@^5.2.0',
-        '@pxblue/angular-components@^4.0.0',
-        '@pxblue/icons@^1.1.1',
-        '@pxblue/icons-svg@^1.1.1',
-        '@pxblue/colors@^3.0.0',
-        'typeface-open-sans',
-    ],
     ionic: [
         '@angular/cdk@^10.2.5',
         '@angular/flex-layout@^10.0.0-beta.32',
@@ -31,7 +20,6 @@ export const DEPENDENCIES = {
     ],
 };
 export const DEV_DEPENDENCIES = {
-    angular: [],
     ionic: [],
     reactNative: ['jest', 'react-test-renderer'],
 };
