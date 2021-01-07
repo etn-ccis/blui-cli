@@ -145,6 +145,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
             filesystem.copy(`./${name}/${templateRepo}/src/app/${templateSrc}`, `./${name}/src/app/`, {
                 overwrite: true,
             });
+            // Copy template-specific assets from the repo (if exists)
+            if (filesystem.isDirectory(`./${name}/${templateRepo}/src/assets/${templateSrc}`)) {
+                filesystem.copy(
+                    `./${name}/${templateRepo}/src/assets/${templateSrc}`,
+                    `./${name}/src/assets/${templateSrc}`,
+                    {
+                        overwrite: true,
+                    }
+                );
+            }
 
             // Install template-specific dependencies
             const dependencies = filesystem.read(`${name}/src/app/template-dependencies.json`, 'json').dependencies;
