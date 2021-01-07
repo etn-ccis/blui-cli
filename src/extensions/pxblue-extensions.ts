@@ -109,7 +109,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         switch (template.toLocaleLowerCase()) {
             case 'basic routing':
             case 'routing':
-                templatePackage = '@emclaug2/angular-template-routing'
+                templatePackage = '@emclaug2/angular-template-routing';
                 break;
             case 'authentication':
                 templatePackage = '@emclaug2/angular-template-authentication';
@@ -141,7 +141,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
         }
 
         // Install template-specific dependencies
-        const dependencies = filesystem.read(`${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`, 'json').dependencies;
+        const dependencies = filesystem.read(
+            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
+            'json'
+        ).dependencies;
         await fileModify.installDependencies({
             folder: folder,
             dependencies,
