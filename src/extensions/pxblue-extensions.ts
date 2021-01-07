@@ -105,35 +105,35 @@ module.exports = (toolbox: GluegunToolbox): void => {
         }
 
         // Map the template selection to template src
-        let templateSrc = '';
+        let templatePackage = '';
         switch (template.toLocaleLowerCase()) {
             case 'basic routing':
             case 'routing':
-                templateSrc = 'basic-routing';
+                templatePackage = '@emclaug2/angular-template-routing'
                 break;
             case 'authentication':
-                templateSrc = 'auth-workflow';
+                templatePackage = '@emclaug2/angular-template-authentication';
                 break;
             case 'blank':
             default:
-                templateSrc = 'blank';
+                templatePackage = '@emclaug2/angular-template-blank';
         }
 
         // Clone the template repo
         const templateSpinner = print.spin('Adding PX Blue template...');
-        const templateRepo = `angular-cli-templates-${new Date().getTime()}`;
-        const command = `cd ${name} && git clone https://github.com/pxblue/angular-cli-templates ${templateRepo}`;
+        const templateFolder = `template-${new Date().getTime()}`;
+        const command = `cd ${name} && npm install ${templatePackage} --prefix ${templateFolder}`;
         await system.run(command);
 
         // Copy the selected template from the repo
-        filesystem.copy(`./${name}/${templateRepo}/src/app/${templateSrc}`, `./${name}/src/app/`, {
+        filesystem.copy(`./${name}/${templateFolder}/node_modules/${templatePackage}/template`, `./${name}/src/app/`, {
             overwrite: true,
         });
         // Copy template-specific assets from the repo (if exists)
-        if (filesystem.isDirectory(`./${name}/${templateRepo}/src/assets/${templateSrc}`)) {
+        if (filesystem.isDirectory(`./${name}/${templateFolder}/node_modules/${templatePackage}/assets`)) {
             filesystem.copy(
-                `./${name}/${templateRepo}/src/assets/${templateSrc}`,
-                `./${name}/src/assets/${templateSrc}`,
+                `./${name}/${templateFolder}/node_modules/${templatePackage}/assets`,
+                `./${name}/src/assets/`,
                 {
                     overwrite: true,
                 }
@@ -141,7 +141,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         }
 
         // Install template-specific dependencies
-        const dependencies = filesystem.read(`${name}/src/app/template-dependencies.json`, 'json').dependencies;
+        const dependencies = filesystem.read(`${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`, 'json').dependencies;
         await fileModify.installDependencies({
             folder: folder,
             dependencies,
@@ -149,10 +149,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
             description: 'PX Blue Template Dependencies',
         });
 
-        // Remove the templates repo folder
-        filesystem.remove(`./${name}/${templateRepo}`);
-        filesystem.remove(`./${name}/src/app/template-dependencies.json`);
-        filesystem.remove(`./${name}/.git`);
+        // Remove the template package folder
+        filesystem.remove(`./${name}/${templateFolder}`);
         templateSpinner.stop();
 
         // Final Steps: browser support, styles, theme integration
