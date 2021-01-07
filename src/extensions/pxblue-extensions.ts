@@ -124,6 +124,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let templateSrc = '';
         switch (template.toLocaleLowerCase()) {
             case 'basic routing':
+            case 'routing':
                 templateSrc = 'basic-routing';
                 break;
             case 'authentication':
