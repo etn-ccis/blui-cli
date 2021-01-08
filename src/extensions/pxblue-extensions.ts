@@ -58,6 +58,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const isYarn = filesystem.exists(pathInFolder('yarn.lock')) === 'file';
 
+
         // Install ESLint Packages (optional)
         if (lint) {
             await fileModify.installDependencies({
@@ -109,14 +110,14 @@ module.exports = (toolbox: GluegunToolbox): void => {
         switch (template.toLocaleLowerCase()) {
             case 'basic routing':
             case 'routing':
-                templatePackage = '@emclaug2/angular-template-routing';
+                templatePackage = '@pxblue/angular-template-routing';
                 break;
             case 'authentication':
-                templatePackage = '@emclaug2/angular-template-authentication';
+                templatePackage = '@pxblue/angular-template-authentication';
                 break;
             case 'blank':
             default:
-                templatePackage = '@emclaug2/angular-template-blank';
+                templatePackage = '@pxblue/angular-template-blank';
         }
 
         // Clone the template repo
@@ -150,6 +151,18 @@ module.exports = (toolbox: GluegunToolbox): void => {
             dependencies,
             dev: false,
             description: 'PX Blue Template Dependencies',
+        });
+
+        // Install template-specific dev-dependencies
+        const devDependencies = filesystem.read(
+          `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
+          'json'
+        ).devDependencies;
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies: devDependencies,
+            dev: true,
+            description: 'PX Blue Template DevDependencies',
         });
 
         // Remove the template package folder
