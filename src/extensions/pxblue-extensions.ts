@@ -58,7 +58,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const isYarn = filesystem.exists(pathInFolder('yarn.lock')) === 'file';
 
-
         // Install ESLint Packages (optional)
         if (lint) {
             await fileModify.installDependencies({
@@ -155,8 +154,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Install template-specific dev-dependencies
         const devDependencies = filesystem.read(
-          `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
-          'json'
+            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
+            'json'
         ).devDependencies;
         await fileModify.installDependencies({
             folder: folder,
