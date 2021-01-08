@@ -20,7 +20,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
     const installDependencies = async (props: InstallProps): Promise<void> => {
         const { folder, dependencies, dev = false, description } = props;
-        if (dependencies.length < 1) return;
+        if (!dependencies || dependencies.length < 1) return;
 
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`);
         const installCommand = dev
