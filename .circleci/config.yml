@@ -53,7 +53,7 @@ jobs:
         - run:
             name: Build Angular Project
             command: |
-              bin/pxb new angular --name=angulartest --lint --prettier
+              bin/pxb new angular --name=angulartest --lint --prettier --template=blank
 
   build_react:
     working_directory: ~/pxblue-cli
@@ -95,7 +95,27 @@ jobs:
           name: Build Ionic Project
           command: |
             bin/pxb new ionic --name=ionictest --lint --prettier
-
+  publish:
+    docker:
+      - image: circleci/node:12.16.3-browsers
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run:
+          name: Publish @pxblue/cli
+          command:  |
+            MASTER_VERSION=`node -p "require('./package.json').version"`
+            NPM_LATEST_VERSION=`npm show @pxblue/cli version`
+            if ! [ $MASTER_VERSION == $NPM_LATEST_VERSION ];
+            then
+                npm publish
+            else
+                echo "Latest version is already published."
+            fi
 workflows:
   version: 2
   pxblue_cli:
@@ -133,3 +153,13 @@ workflows:
               only:
                 - master
                 - dev
+      - publish:
+          requires:
+            - build_angular
+            - build_ionic
+            - build_react
+            - build_react_native
+          filters:
+            branches:
+              only:
+                - master
