@@ -116,7 +116,6 @@ jobs:
             else
                 echo "Latest version is already published."
             fi
-
 workflows:
   version: 2
   pxblue_cli:
