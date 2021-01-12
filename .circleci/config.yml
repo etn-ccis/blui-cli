@@ -53,7 +53,7 @@ jobs:
         - run:
             name: Build Angular Project
             command: |
-              bin/pxb new angular --name=angulartest --lint --prettier
+              bin/pxb new angular --name=angulartest --lint --prettier --template=blank
 
   build_react:
     working_directory: ~/pxblue-cli
