@@ -50,10 +50,41 @@ module.exports = (toolbox: GluegunToolbox): void => {
         );
     };
 
+    const printWelcomeLogo = (): void => {
+        print.info('');
+        print.info(colors.blue('                          ######'));
+        print.info(colors.blue('                        ##    ### '));
+        print.info(colors.blue('                ######  ##    ##  '));
+        print.info(colors.blue('            ####           ##'));
+        print.info(colors.blue('         ###'));
+        print.info(colors.blue('       ###'));
+        print.info(colors.blue('      ##                                        #'));
+        print.info(colors.blue('    ###                                          # '));
+        print.info(colors.blue('   ##                  ######                    #  '));
+        print.info(colors.blue('  ##                #############                ## '));
+        print.info(colors.blue(' ##                ###############               ##  '));
+        print.info(colors.blue(' ##               #################               ##'));
+        print.info(colors.blue(' ##                ###############                ## '));
+        print.info(colors.blue('  ##                #############                ##'));
+        print.info(colors.blue('   ##                   #####                   ## '));
+        print.info(colors.blue('    ##                                         ##  '));
+        print.info(colors.blue('     ##                                       ## '));
+        print.info(colors.blue('      ###                                   ###  '));
+        print.info(colors.blue('        ###                               ## '));
+        print.info(colors.blue('           ####                       ####  '));
+        print.info(colors.blue('               ######           #####   '));
+        print.info(colors.blue('                       ###### '));
+        print.info(colors.blue(''));
+        print.info(colors.blue('             Welcome To Power Xpert Blue'));
+        print.info(colors.white('        Powering Teams to Make What Matters *'));
+        print.info('');
+    };
+
     toolbox.fancyPrint = {
         divider: printDivider,
         bookends: printBookends,
         info: printInfo,
         infoLeft: printInfoLeft,
+        welcomeLogo: printWelcomeLogo,
     };
 };

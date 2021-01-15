@@ -12,7 +12,9 @@ module.exports = {
     // alias: ['n'],
     description: 'Creates a new project (in chosen framework)',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
-        const { parse, print, createProject, addPXBlue } = toolbox;
+        const { parse, print, createProject, addPXBlue, fancyPrint } = toolbox;
+
+        fancyPrint.welcomeLogo();
 
         let framework: string;
         [framework] = await parse([QUESTIONS.framework]);
