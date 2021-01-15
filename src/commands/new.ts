@@ -1,5 +1,5 @@
 import { GluegunToolbox } from 'gluegun';
-import { stringToLowerCaseNoSpace } from '../utilities';
+import { printWelcomeLogo, stringToLowerCaseNoSpace } from '../utilities';
 import { QUESTIONS } from '../constants';
 
 /**
@@ -13,35 +13,8 @@ module.exports = {
     description: 'Creates a new project (in chosen framework)',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
         const { parse, print, createProject, addPXBlue } = toolbox;
-        const { colors } = print;
 
-        print.info('');
-        print.info(colors.blue('                          ######'));
-        print.info(colors.blue('                        ##    ### '));
-        print.info(colors.blue('                ######  ##    ##  '));
-        print.info(colors.blue('            ####           ##'));
-        print.info(colors.blue('         ###'));
-        print.info(colors.blue('       ###'));
-        print.info(colors.blue('      ##                                        #'));
-        print.info(colors.blue('    ###                                          # '));
-        print.info(colors.blue('   ##                  ######                    #  '));
-        print.info(colors.blue('  ##                #############                ## '));
-        print.info(colors.blue(' ##                ###############               ##  '));
-        print.info(colors.blue(' ##               #################               ##'));
-        print.info(colors.blue(' ##                ###############                ## '));
-        print.info(colors.blue('  ##                #############                ##'));
-        print.info(colors.blue('   ##                   #####                   ## '));
-        print.info(colors.blue('    ##                                         ##  '));
-        print.info(colors.blue('     ##                                       ## '));
-        print.info(colors.blue('      ###                                   ###  '));
-        print.info(colors.blue('        ###                               ## '));
-        print.info(colors.blue('           ####                       ####  '));
-        print.info(colors.blue('               ######           #####   '));
-        print.info(colors.blue('                       ###### '));
-        print.info(colors.blue(''));
-        print.info(colors.blue('             Welcome To Power Xpert Blue'));
-        print.info(colors.white('        Powering Teams to Make What Matters *'));
-        print.info(colors.blue(''));
+        printWelcomeLogo(toolbox);
 
         let framework: string;
         [framework] = await parse([QUESTIONS.framework]);
