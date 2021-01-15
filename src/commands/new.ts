@@ -1,5 +1,5 @@
 import { GluegunToolbox } from 'gluegun';
-import { printWelcomeLogo, stringToLowerCaseNoSpace } from '../utilities';
+import { stringToLowerCaseNoSpace } from '../utilities';
 import { QUESTIONS } from '../constants';
 
 /**
@@ -12,9 +12,9 @@ module.exports = {
     // alias: ['n'],
     description: 'Creates a new project (in chosen framework)',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
-        const { parse, print, createProject, addPXBlue } = toolbox;
+        const { parse, print, createProject, addPXBlue, fancyPrint } = toolbox;
 
-        printWelcomeLogo(toolbox);
+        fancyPrint.welcomeLogo();
 
         let framework: string;
         [framework] = await parse([QUESTIONS.framework]);

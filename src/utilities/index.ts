@@ -1,7 +1,6 @@
 import { SUPPORTED_BROWSERS } from '../constants';
 import { PackageJSON, Script, Language } from './types';
 export * from './types';
-import { GluegunToolbox } from 'gluegun';
 
 export const updateScripts = (packageFile: PackageJSON, scripts: Script[] = []): PackageJSON => {
     const newScripts = packageFile.scripts || {};
@@ -33,37 +32,4 @@ export const assignJsTs = (str: string): Language => {
         default:
             return 'js';
     }
-};
-
-export const printWelcomeLogo = (toolbox: GluegunToolbox): void => {
-    const { print } = toolbox;
-    const { colors } = print;
-
-    print.info('');
-    print.info(colors.blue('                          ######'));
-    print.info(colors.blue('                        ##    ### '));
-    print.info(colors.blue('                ######  ##    ##  '));
-    print.info(colors.blue('            ####           ##'));
-    print.info(colors.blue('         ###'));
-    print.info(colors.blue('       ###'));
-    print.info(colors.blue('      ##                                        #'));
-    print.info(colors.blue('    ###                                          # '));
-    print.info(colors.blue('   ##                  ######                    #  '));
-    print.info(colors.blue('  ##                #############                ## '));
-    print.info(colors.blue(' ##                ###############               ##  '));
-    print.info(colors.blue(' ##               #################               ##'));
-    print.info(colors.blue(' ##                ###############                ## '));
-    print.info(colors.blue('  ##                #############                ##'));
-    print.info(colors.blue('   ##                   #####                   ## '));
-    print.info(colors.blue('    ##                                         ##  '));
-    print.info(colors.blue('     ##                                       ## '));
-    print.info(colors.blue('      ###                                   ###  '));
-    print.info(colors.blue('        ###                               ## '));
-    print.info(colors.blue('           ####                       ####  '));
-    print.info(colors.blue('               ######           #####   '));
-    print.info(colors.blue('                       ###### '));
-    print.info(colors.blue(''));
-    print.info(colors.blue('             Welcome To Power Xpert Blue'));
-    print.info(colors.white('        Powering Teams to Make What Matters *'));
-    print.info('');
 };
