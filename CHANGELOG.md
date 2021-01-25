@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.0
+
+### Added
+
+-   Angular Templates for Blank, Routing, and Authentication
+
 ## v1.1.0
 
 ### Added
