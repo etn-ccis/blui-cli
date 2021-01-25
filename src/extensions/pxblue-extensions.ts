@@ -22,6 +22,7 @@ import {
     AngularProps,
     ReactProps,
     ReactNativeProps,
+    IonicProps,
 } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
@@ -50,28 +51,12 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addPXBlueAngular = async (props: AngularProps): Promise<void> => {
-        const { name, lint, prettier } = props;
+        const { name, lint, prettier, template } = props;
         const folder = `./${name}`;
 
         const pathInFolder = (filename: string): string => filesystem.path(folder, filename);
 
         const isYarn = filesystem.exists(pathInFolder('yarn.lock')) === 'file';
-
-        // Install Dependencies
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: DEPENDENCIES.angular,
-            dev: false,
-            description: 'PX Blue Angular Dependencies',
-        });
-
-        // Install DevDependencies
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: DEV_DEPENDENCIES.angular,
-            dev: true,
-            description: 'PX Blue Angular Dev Dependencies',
-        });
 
         // Install ESLint Packages (optional)
         if (lint) {
@@ -118,6 +103,70 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 description: 'PX Blue Prettier Packages',
             });
         }
+
+        // Map the template selection to template src
+        let templatePackage = '';
+        switch (template.toLocaleLowerCase()) {
+            case 'basic routing':
+            case 'routing':
+                templatePackage = '@pxblue/angular-template-routing';
+                break;
+            case 'authentication':
+                templatePackage = '@pxblue/angular-template-authentication';
+                break;
+            case 'blank':
+            default:
+                templatePackage = '@pxblue/angular-template-blank';
+        }
+
+        // Clone the template repo
+        const templateSpinner = print.spin('Adding PX Blue template...');
+        const templateFolder = `template-${new Date().getTime()}`;
+        const command = `cd ${name} && npm install ${templatePackage} --prefix ${templateFolder}`;
+        await system.run(command);
+
+        // Copy the selected template from the repo
+        filesystem.copy(`./${name}/${templateFolder}/node_modules/${templatePackage}/template`, `./${name}/src/app/`, {
+            overwrite: true,
+        });
+        // Copy template-specific assets from the repo (if exists)
+        if (filesystem.isDirectory(`./${name}/${templateFolder}/node_modules/${templatePackage}/assets`)) {
+            filesystem.copy(
+                `./${name}/${templateFolder}/node_modules/${templatePackage}/assets`,
+                `./${name}/src/assets/`,
+                {
+                    overwrite: true,
+                }
+            );
+        }
+
+        // Install template-specific dependencies
+        const dependencies = filesystem.read(
+            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
+            'json'
+        ).dependencies;
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies,
+            dev: false,
+            description: 'PX Blue Template Dependencies',
+        });
+
+        // Install template-specific dev-dependencies
+        const devDependencies = filesystem.read(
+            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
+            'json'
+        ).devDependencies;
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies: devDependencies,
+            dev: true,
+            description: 'PX Blue Template DevDependencies',
+        });
+
+        // Remove the template package folder
+        filesystem.remove(`./${name}/${templateFolder}`);
+        templateSpinner.stop();
 
         // Final Steps: browser support, styles, theme integration
         const spinner = print.spin('Performing some final cleanup...');
@@ -225,7 +274,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
 
-    const addPXBlueIonic = async (props: AngularProps): Promise<void> => {
+    const addPXBlueIonic = async (props: IonicProps): Promise<void> => {
         const { name, lint, prettier } = props;
         const folder = `./${name}`;
 

@@ -7,6 +7,12 @@ export type AngularProps = {
     name: string;
     lint: boolean;
     prettier: boolean;
+    template: string;
+};
+export type IonicProps = {
+    name: string;
+    lint: boolean;
+    prettier: boolean;
 };
 export type ReactProps = {
     name: string;

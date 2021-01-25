@@ -5,6 +5,7 @@ module.exports = {
     // alias: ['i'],
     description: 'Creates a new ionic project',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
+        toolbox.fancyPrint.welcomeLogo();
         const { name, lint, prettier } = await toolbox.createProject.ionic();
         await toolbox.addPXBlue.ionic({ name, lint, prettier });
     },

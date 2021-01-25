@@ -12,29 +12,29 @@ import {
     ReactProps,
     ReactNativeProps,
     Template,
+    IonicProps,
 } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, parse, print } = toolbox;
 
     const createAngularProject = async (): Promise<AngularProps> => {
-        const [name, lint, prettier]: [string, boolean, boolean] = await parse([
+        const [name, lint, prettier, template]: [string, boolean, boolean, string] = await parse([
             QUESTIONS.name,
             QUESTIONS.lint,
             QUESTIONS.prettier,
+            QUESTIONS.template,
         ]);
 
-        const command = `npx -p @angular/cli@^10.1.7 ng new ${name} --directory "${name}" --style=scss`;
-
+        const command = `npx -p @angular/cli@^11.0.0 ng new ${name} --directory "${name}" --style=scss`;
         const spinner = print.spin('Creating a new Angular project (this may take a few minutes)...');
         const timer = system.startTimer();
         const output = await system.run(command);
-        spinner.stop();
 
+        spinner.stop();
         print.info(output);
         print.success(`Created skeleton Angular project in ${timer() / 1000} seconds`);
-
-        return { name, lint, prettier };
+        return { name, lint, prettier, template };
     };
 
     const createReactProject = async (): Promise<ReactProps> => {
@@ -78,7 +78,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         return { name, language, lint, prettier };
     };
 
-    const createIonicProject = async (): Promise<AngularProps> => {
+    const createIonicProject = async (): Promise<IonicProps> => {
         const [name, lint, prettier]: [string, boolean, boolean] = await parse([
             QUESTIONS.name,
             QUESTIONS.lint,
