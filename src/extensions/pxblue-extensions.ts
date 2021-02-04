@@ -198,7 +198,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const styles = [
             'src/styles.scss',
             './node_modules/@pxblue/angular-themes/theme.scss',
-            './node_modules/typeface-open-sans',
+            './node_modules/@pxblue/angular-themes/open-sans.scss',
         ];
         angularJSON.projects[name].architect.build.options.styles = styles;
         angularJSON.projects[name].architect.test.options.styles = styles;
@@ -344,7 +344,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             { input: 'src/theme/variables.scss' },
             { input: 'src/global.scss' },
             { input: './node_modules/@pxblue/angular-themes/theme.scss' },
-            { input: './node_modules/typeface-open-sans' },
+            { input: './node_modules/@pxblue/angular-themes/open-sans.scss' },
         ];
         angularJSON.projects.app.architect.build.options.styles = styles;
         filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 4 });
