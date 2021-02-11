@@ -384,7 +384,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         if (expo) {
             await fileModify.installDependencies({
                 folder: folder,
-                dependencies: EXPO_DEPENDENCIES.concat([]),
+                dependencies: EXPO_DEPENDENCIES,
                 dev: false,
                 description: 'Expo Dependencies',
             });
