@@ -13,16 +13,20 @@ export const DEPENDENCIES = {
     reactNative: [
         '@pxblue/react-native-themes@^5.0.0',
         '@pxblue/colors@^3.0.0',
-        '@pxblue/react-native-components@^3.1.1',
+        '@pxblue/react-native-components@^4.1.0',
         'react-native-paper@^4.2.0',
         '@pxblue/icons-svg@^1.1.1',
         'react-native-vector-icons@^7.1.0',
+        'react-native-svg@^12.1.0',
+        'react-native-svg-transformer@^0.14.3',
+        'react-native-safe-area-context@^3.1.9',
     ],
 };
 export const DEV_DEPENDENCIES = {
     ionic: [],
-    reactNative: ['jest', 'react-test-renderer'],
+    reactNative: ['jest', 'react-test-renderer', '@types/react-native-vector-icons'],
 };
+export const EXPO_DEPENDENCIES = ['expo-app-loading@^1.0.1'];
 const BASE_LINT_DEPENDENCIES = [
     '@pxblue/eslint-config@^2.0.2',
     'eslint@^7.11.0',
