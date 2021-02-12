@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.3.0
+
+### Added
+
+-   SVG support for React Native projects
+
+### Changed
+
+-   Update dependencies for React Native
+
 ## v1.2.0
 
 ### Added
