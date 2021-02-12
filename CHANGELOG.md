@@ -4,7 +4,7 @@
 
 ### Added
 
--   SVG support for React Native
+-   SVG support for React Native projects
 
 ### Changed
 
