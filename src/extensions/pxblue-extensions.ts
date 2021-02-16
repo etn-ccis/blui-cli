@@ -14,6 +14,7 @@ import {
     PRETTIER_DEPENDENCIES,
     PRETTIER_SCRIPTS,
     PRETTIER_CONFIG,
+    EXPO_DEPENDENCIES,
 } from '../constants';
 import {
     updateScripts,
@@ -379,6 +380,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
             description: 'PX Blue React Native Dev Dependencies',
         });
 
+        // Install Expo Dependencies
+        if (expo) {
+            await fileModify.installDependencies({
+                folder: folder,
+                dependencies: EXPO_DEPENDENCIES,
+                dev: false,
+                description: 'Expo Dependencies',
+            });
+        }
+
         // Install ESLint Packages (optional)
         if (ts && lint) {
             await fileModify.installDependencies({
@@ -452,6 +463,26 @@ module.exports = (toolbox: GluegunToolbox): void => {
             `${folder}/App.${ts ? 'tsx' : 'js'}`,
             { overwrite: true }
         );
+
+        // Configure react-native-svg-transformer
+        if (expo) {
+            const appJSON: any = filesystem.read(`${folder}/app.json`, 'json');
+            const helperAppJSON = filesystem.read(`./${helper}/react-native/expo/app.json`, 'json');
+            appJSON.expo.packagerOpts = helperAppJSON.expo.packagerOpts;
+            filesystem.write(`${folder}/app.json`, appJSON, { jsonIndent: 4 });
+        }
+
+        filesystem.copy(`./${helper}/react-native/rnc/metro.config.js`, `${folder}/metro.config.js`, {
+            overwrite: true,
+        });
+
+        // Configure react-native-vector-icons for android
+        if (!expo) {
+            filesystem.append(
+                `./android/app/build.gradle`,
+                `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"`
+            );
+        }
 
         // Remove the temporary folder
         filesystem.remove(`./${helper}`);
