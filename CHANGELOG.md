@@ -1,5 +1,11 @@
 # Changelog
 
+## vTBD
+
+### Added
+
+-   React Native template for Blank (for TypeScript and Javascript projects)
+
 ## v1.3.0
 
 ### Added
