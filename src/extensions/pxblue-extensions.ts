@@ -364,7 +364,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         if (!expo) {
             // Map the template selection to template src
-            // @TODO update package locations to @pxblue instead of @daileytj once packages are published to pxblue npm
             switch (template.toLocaleLowerCase()) {
                 case 'basic routing':
                 case 'routing':
@@ -380,8 +379,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 case 'blank':
                 default:
                     templatePackage = ts
-                        ? '@daileytj/pxb-react-native-template-blank-typescript'
-                        : '@daileytj/pxb-react-native-template-blank';
+                        ? '@pxblue/react-native-template-blank-typescript'
+                        : '@pxblue/react-native-template-blank';
             }
 
             // Clone the template repo
