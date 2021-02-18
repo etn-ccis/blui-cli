@@ -367,14 +367,15 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // @TODO update package locations to @pxblue instead of @daileytj once packages are published to pxblue npm
             switch (template.toLocaleLowerCase()) {
                 case 'basic routing':
+                case 'routing':
                     templatePackage = ts
                         ? '@pxblue/react-native-template-routing-typescript'
                         : '@pxblue/react-native-template-routing';
                     break;
                 case 'authentication':
                     templatePackage = ts
-                        ? '@pxblue/angular-template-authentication-typescript'
-                        : '@pxblue/angular-template-authentication';
+                        ? '@pxblue/react-native-template-authentication-typescript'
+                        : '@pxblue/react-native-template-authentication';
                     break;
                 case 'blank':
                 default:
