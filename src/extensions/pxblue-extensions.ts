@@ -14,7 +14,6 @@ import {
     PRETTIER_DEPENDENCIES,
     PRETTIER_SCRIPTS,
     PRETTIER_CONFIG,
-    EXPO_DEPENDENCIES,
 } from '../constants';
 import {
     updateScripts,
@@ -356,39 +355,153 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addPXBlueReactNative = async (props: ReactNativeProps): Promise<void> => {
-        const { name, lint, prettier, language, cli } = props;
+        const { name, lint, prettier, language, cli, template } = props;
         const folder = `./${name}`;
         const ts = language === 'ts';
         const expo = cli === 'expo';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
+        let templatePackage = '';
 
-        let command: string;
+        if (!expo) {
+            // Map the template selection to template src
+            switch (template.toLocaleLowerCase()) {
+                case 'basic routing':
+                case 'routing':
+                    templatePackage = ts
+                        ? '@pxblue/react-native-template-routing-typescript'
+                        : '@pxblue/react-native-template-routing';
+                    break;
+                case 'authentication':
+                    templatePackage = ts
+                        ? '@pxblue/react-native-template-authentication-typescript'
+                        : '@pxblue/react-native-template-authentication';
+                    break;
+                case 'blank':
+                default:
+                    templatePackage = ts
+                        ? '@pxblue/react-native-template-blank-typescript'
+                        : '@pxblue/react-native-template-blank';
+            }
 
-        // Install Dependencies
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: DEPENDENCIES.reactNative.concat(expo ? ['@use-expo/font'] : []),
-            dev: false,
-            description: 'PX Blue React Native Dependencies',
-        });
+            // Clone the template repo
+            const templateSpinner = print.spin('Adding PX Blue template...');
+            const templateFolder = `template-${new Date().getTime()}`;
+            const installTemplateCommand = `cd ${name} && npm install ${templatePackage} --prefix ${templateFolder}`;
+            await system.run(installTemplateCommand);
 
-        // Install DevDependencies
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: DEV_DEPENDENCIES.reactNative.concat(expo ? ['jest-expo'] : []),
-            dev: true,
-            description: 'PX Blue React Native Dev Dependencies',
-        });
+            // Copy template files
+            filesystem.copy(`./${name}/${templateFolder}/node_modules/${templatePackage}/template`, `./${name}/`, {
+                overwrite: true,
+            });
 
-        // Install Expo Dependencies
-        if (expo) {
+            // Copy template-specific fonts
+            if (filesystem.isDirectory(`./${name}/${templateFolder}/node_modules/${templatePackage}/fonts`)) {
+                filesystem.copy(
+                    `./${name}/${templateFolder}/node_modules/${templatePackage}/fonts`,
+                    `./${name}/assets/fonts/`,
+                    {
+                        overwrite: true,
+                    }
+                );
+            }
+
+            // Copy template-specific images
+            if (filesystem.isDirectory(`./${name}/${templateFolder}/node_modules/${templatePackage}/images`)) {
+                filesystem.copy(
+                    `./${name}/${templateFolder}/node_modules/${templatePackage}/images`,
+                    `./${name}/assets/images/`,
+                    {
+                        overwrite: true,
+                    }
+                );
+            }
+
+            // Install template-specific dependencies
+            const dependencies = filesystem.read(
+                `${name}/${templateFolder}/node_modules/${templatePackage}/dependencies.json`,
+                'json'
+            ).dependencies;
             await fileModify.installDependencies({
                 folder: folder,
-                dependencies: EXPO_DEPENDENCIES,
+                dependencies,
                 dev: false,
-                description: 'Expo Dependencies',
+                description: 'PX Blue Template Dependencies',
             });
+
+            // Install template-specific dev-dependencies
+            const devDependencies = filesystem.read(
+                `${name}/${templateFolder}/node_modules/${templatePackage}/dependencies.json`,
+                'json'
+            ).devDependencies;
+            await fileModify.installDependencies({
+                folder: folder,
+                dependencies: devDependencies,
+                dev: true,
+                description: 'PX Blue Template DevDependencies',
+            });
+
+            // Remove the template package folder
+            filesystem.remove(`./${name}/${templateFolder}`);
+
+            // Configure react-native-vector-icons for android
+            filesystem.append(
+                `./android/app/build.gradle`,
+                `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"`
+            );
+
+            templateSpinner.stop();
         }
+        // End RNC(!expo) block
+
+        if (expo) {
+            const expoSpinner = print.spin('Adding Expo files and dependencies...');
+            // Install Dependencies
+            await fileModify.installDependencies({
+                folder: folder,
+                dependencies: DEPENDENCIES.reactNative.concat(['@use-expo/font', 'expo-app-loading']),
+                dev: false,
+                description: 'PX Blue React Native Dependencies',
+            });
+
+            // Install DevDependencies
+            await fileModify.installDependencies({
+                folder: folder,
+                dependencies: DEV_DEPENDENCIES.reactNative.concat(['jest-expo']),
+                dev: true,
+                description: 'PX Blue React Native Dev Dependencies',
+            });
+
+            // Clone the helpers repo
+            const helper = `cli-helpers-${Date.now()}`;
+            const command = `git clone https://github.com/pxblue/cli-helpers ${helper}`;
+            await system.run(command);
+
+            // Copy the fonts
+            filesystem.dir(`./${folder}/assets`);
+            filesystem.copy(`./${helper}/fonts`, `${folder}/assets/fonts`, { overwrite: true });
+
+            // Copy the App template with ThemeProvider (TODO: replace template with instruction insertion)
+            filesystem.copy(
+                `./${helper}/react-native/${cli}/App.${ts ? 'tsx' : 'js'}`,
+                `${folder}/App.${ts ? 'tsx' : 'js'}`,
+                { overwrite: true }
+            );
+
+            // Configure react-native-svg-transformer
+            const appJSON: any = filesystem.read(`${folder}/app.json`, 'json');
+            const helperAppJSON = filesystem.read(`./${helper}/react-native/expo/app.json`, 'json');
+            appJSON.expo.packagerOpts = helperAppJSON.expo.packagerOpts;
+            filesystem.write(`${folder}/app.json`, appJSON, { jsonIndent: 4 });
+
+            filesystem.copy(`./${helper}/react-native/rnc/metro.config.js`, `${folder}/metro.config.js`, {
+                overwrite: true,
+            });
+
+            // Remove the temporary folder
+            filesystem.remove(`./${helper}`);
+            expoSpinner.stop();
+        }
+        // End expo block
 
         // Install ESLint Packages (optional)
         if (ts && lint) {
@@ -438,54 +551,12 @@ module.exports = (toolbox: GluegunToolbox): void => {
             filesystem.write(`${folder}/.prettierrc.js`, PRETTIER_CONFIG.rc);
         }
 
-        // Clone the helpers repo
-        const helper = `cli-helpers-${Date.now()}`;
-        command = `git clone https://github.com/pxblue/cli-helpers ${helper}`;
-        await system.run(command);
-
-        // Copy the fonts
-        filesystem.dir(`./${folder}/assets`);
-        filesystem.copy(`./${helper}/fonts`, `${folder}/assets/fonts`, { overwrite: true });
-
         // Link native modules
         if (!expo) {
-            filesystem.copy(`./${helper}/react-native/rnc/react-native.config.js`, `${folder}/react-native.config.js`, {
-                overwrite: true,
-            });
-            command = `cd ${folder} && ${isYarn ? 'yarn' : 'npm run'} rnlink`;
+            const command = `cd ${folder} && ${isYarn ? 'yarn' : 'npm run'} rnlink`;
             const output = await system.run(command);
             print.info(output);
         }
-
-        // Copy the App template with ThemeProvider (TODO: replace template with instruction insertion)
-        filesystem.copy(
-            `./${helper}/react-native/${cli}/App.${ts ? 'tsx' : 'js'}`,
-            `${folder}/App.${ts ? 'tsx' : 'js'}`,
-            { overwrite: true }
-        );
-
-        // Configure react-native-svg-transformer
-        if (expo) {
-            const appJSON: any = filesystem.read(`${folder}/app.json`, 'json');
-            const helperAppJSON = filesystem.read(`./${helper}/react-native/expo/app.json`, 'json');
-            appJSON.expo.packagerOpts = helperAppJSON.expo.packagerOpts;
-            filesystem.write(`${folder}/app.json`, appJSON, { jsonIndent: 4 });
-        }
-
-        filesystem.copy(`./${helper}/react-native/rnc/metro.config.js`, `${folder}/metro.config.js`, {
-            overwrite: true,
-        });
-
-        // Configure react-native-vector-icons for android
-        if (!expo) {
-            filesystem.append(
-                `./android/app/build.gradle`,
-                `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"`
-            );
-        }
-
-        // Remove the temporary folder
-        filesystem.remove(`./${helper}`);
 
         spinner.stop();
         printSuccess(name);

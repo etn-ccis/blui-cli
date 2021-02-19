@@ -26,6 +26,7 @@ export type ReactNativeProps = {
     lint: boolean;
     prettier: boolean;
     cli: Cli;
+    template: string;
 };
 
 export type PackageJSON = {

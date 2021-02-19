@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.4.0 (Not Published Yet)
+
+### Added
+
+-   React Native template for Blank (for TypeScript and Javascript projects)
+
 ## v1.3.0
 
 ### Added
