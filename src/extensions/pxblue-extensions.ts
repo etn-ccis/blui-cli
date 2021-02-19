@@ -368,8 +368,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 case 'basic routing':
                 case 'routing':
                     templatePackage = ts
-                        ? '@pxblue/react-native-template-routing-typescript'
-                        : '@pxblue/react-native-template-routing';
+                        ? '@daileytj/pxb-react-native-template-routing-typescript'
+                        : '@daileytj/pxb-react-native-template-routing';
                     break;
                 case 'authentication':
                     templatePackage = ts
