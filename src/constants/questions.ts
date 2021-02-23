@@ -48,6 +48,6 @@ export const QUESTIONS = {
         optionName: 'template',
         question: 'Choose a starting template:',
         type: 'radio',
-        choices: ['Blank'] as Template[],
+        choices: ['Blank', 'Basic Routing'] as Template[],
     },
 };
