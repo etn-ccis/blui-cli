@@ -43,11 +43,4 @@ export const QUESTIONS = {
         type: 'radio',
         choices: ['Blank', 'Basic Routing', 'Authentication'] as Template[],
     },
-    // @TODO remove reactNativeTemplate in favor of template once all the templates are complete
-    reactNativeTemplate: {
-        optionName: 'template',
-        question: 'Choose a starting template:',
-        type: 'radio',
-        choices: ['Blank', 'Basic Routing'] as Template[],
-    },
 };

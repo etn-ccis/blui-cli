@@ -127,8 +127,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         }
 
         if (cli !== 'expo') {
-            // @TODO: Update Questions.reactNativeTemplate to Questions.template after all 3 templates are built
-            [template] = await parse([QUESTIONS.reactNativeTemplate]);
+            [template] = await parse([QUESTIONS.template]);
         }
 
         const spinner = print.spin('Creating a new React Native project (this may take a few minutes)...');
