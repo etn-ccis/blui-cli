@@ -373,8 +373,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
                     break;
                 case 'authentication':
                     templatePackage = ts
-                        ? '@daileytj/pxb-react-native-template-authentication-typescript'
-                        : '@daileytj/pxb-react-native-template-authentication';
+                        ? '@pxblue/react-native-template-authentication-typescript'
+                        : '@pxblue/react-native-template-authentication';
                     break;
                 case 'blank':
                 default:
