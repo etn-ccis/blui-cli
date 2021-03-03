@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.4.0
+
+### Added
+
+-   React Native template for Blank, Routing, and Authentication (for TypeScript and Javascript projects)
+
 ## v1.3.0
 
 ### Added

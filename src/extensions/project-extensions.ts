@@ -102,6 +102,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let lint = true;
 
         const [name]: [string] = await parse([QUESTIONS.name]);
+        let template = '';
 
         const [languageTemp]: [string] = await parse([QUESTIONS.language]);
         const language = assignJsTs(languageTemp);
@@ -125,6 +126,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
             command = `npx react-native init ${name} ${isTs ? '--template react-native-template-typescript' : ''}`;
         }
 
+        if (cli !== 'expo') {
+            [template] = await parse([QUESTIONS.template]);
+        }
+
         const spinner = print.spin('Creating a new React Native project (this may take a few minutes)...');
         const timer = system.startTimer();
         const output = await system.run(command);
@@ -133,7 +138,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created skeleton React Native project in ${timer() / 1000} seconds`);
 
-        return { name, language, lint, prettier, cli };
+        return { name, language, lint, prettier, cli, template };
     };
 
     toolbox.createProject = {
