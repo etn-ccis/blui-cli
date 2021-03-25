@@ -123,7 +123,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 isTs ? 'expo-template-blank-typescript' : 'blank'
             } "${name}"`;
         } else {
-            command = `npm_config_yes=true npx react-native init ${name} ${isTs ? '--template react-native-template-typescript' : ''}`;
+            command = `npm_config_yes=true npx react-native init ${name} ${
+                isTs ? '--template react-native-template-typescript' : ''
+            }`;
         }
 
         if (cli !== 'expo') {
