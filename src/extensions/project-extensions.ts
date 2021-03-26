@@ -65,7 +65,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 templateName = isTs ? '@pxblue/blank-typescript' : '@pxblue/blank';
         }
 
-        const command = `npm_config_yes=true create-react-app ${name} --template ${templateName}`;
+        const command = `npm_config_yes=true npx create-react-app ${name} --template ${templateName}`;
 
         const spinner = print.spin('Creating a new React project (this may take a few minutes)...');
         const timer = system.startTimer();
