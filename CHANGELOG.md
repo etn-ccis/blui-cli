@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.4.1 (Not published yet)
+
+### Fixed
+
+-   Enable commands to work with npm/npx version 7 by prefixing npx commands with `npm_config_yes=true` (https://omrilotan.medium.com/npx-breaking-on-ci-b9f3f61d4676)
+
 ## v1.4.0
 
 ### Added

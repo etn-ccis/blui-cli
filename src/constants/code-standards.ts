@@ -1,5 +1,6 @@
 export const LINT_CONFIG = {
     ts: `module.exports =  {
+        root: true,
         parser:  '@typescript-eslint/parser',
         extends:  [ '@pxblue/eslint-config/ts' ],
         parserOptions:  {
@@ -10,6 +11,7 @@ export const LINT_CONFIG = {
         }
     };`,
     tsx: `module.exports =  {
+        root: true,
         parser:  '@typescript-eslint/parser',
         extends:  [ '@pxblue/eslint-config/tsx' ],
         parserOptions:  {
