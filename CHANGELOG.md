@@ -1,6 +1,10 @@
 # Changelog
 
-## v1.4.1 (Not published yet)
+## v1.5.0
+
+### Added
+
+-   Jest configurations for React Native projects using RNC CLI.
 
 ### Fixed
 
