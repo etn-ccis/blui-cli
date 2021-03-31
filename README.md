@@ -35,6 +35,8 @@ or
 $ npm install -g @pxblue/cli
 ```
 
+> **NOTE:** If you are using NPM v7, the CLI will not work via npx — you _must_ install it globally. Check periodically to make sure you have the latest version.
+
 ### Available Commands
 
 | command               | description                                                                                                                                                              |
