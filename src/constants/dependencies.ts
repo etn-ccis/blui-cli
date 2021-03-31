@@ -3,7 +3,7 @@ export const DEPENDENCIES = {
         '@angular/cdk@^10.2.5',
         '@angular/flex-layout@^10.0.0-beta.32',
         '@angular/material@^10.2.5',
-        '@pxblue/angular-themes@^6.0.0-beta.0',
+        '@pxblue/angular-themes@^6.0.1',
         '@pxblue/angular-components@^4.0.0',
         '@pxblue/icons@^1.1.0',
         '@pxblue/icons-svg@^1.1.1',
