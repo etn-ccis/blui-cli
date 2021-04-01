@@ -8,7 +8,7 @@
 
 ### Fixed
 
--   Enable commands to work with npm/npx version 7 by prefixing npx commands with `npm_config_yes=true` (https://omrilotan.medium.com/npx-breaking-on-ci-b9f3f61d4676)
+-   Enable commands to work with npm version 7 (https://omrilotan.medium.com/npx-breaking-on-ci-b9f3f61d4676). With NPM 7 the CLI **must** be installed globally and will not run via npx.
 
 ## v1.4.0
 
