@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.5.0
+
+### Added
+
+-   Jest configurations for React Native projects using RNC CLI.
+
+### Fixed
+
+-   Enable commands to work with npm version 7 (https://omrilotan.medium.com/npx-breaking-on-ci-b9f3f61d4676). With NPM 7 the CLI **must** be installed globally and will not run via npx.
+
 ## v1.4.0
 
 ### Added

@@ -14,7 +14,9 @@ import {
     PRETTIER_DEPENDENCIES,
     PRETTIER_SCRIPTS,
     PRETTIER_CONFIG,
+    NPM7_PREFIX,
 } from '../constants';
+import { JEST } from '../constants/jest';
 import {
     updateScripts,
     updateBrowsersListFile,
@@ -198,7 +200,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const styles = [
             'src/styles.scss',
             './node_modules/@pxblue/angular-themes/theme.scss',
-            './node_modules/typeface-open-sans',
+            './node_modules/@pxblue/angular-themes/open-sans.scss',
         ];
         angularJSON.projects[name].architect.build.options.styles = styles;
         angularJSON.projects[name].architect.test.options.styles = styles;
@@ -344,7 +346,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             { input: 'src/theme/variables.scss' },
             { input: 'src/global.scss' },
             { input: './node_modules/@pxblue/angular-themes/theme.scss' },
-            { input: './node_modules/typeface-open-sans' },
+            { input: './node_modules/@pxblue/angular-themes/open-sans.scss' },
         ];
         angularJSON.projects.app.architect.build.options.styles = styles;
         filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 4 });
@@ -386,8 +388,15 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // Clone the template repo
             const templateSpinner = print.spin('Adding PX Blue template...');
             const templateFolder = `template-${new Date().getTime()}`;
+
+            // Comment the two lines below and uncomment the subsequent lines to test with local templates
             const installTemplateCommand = `cd ${name} && npm install ${templatePackage} --prefix ${templateFolder}`;
             await system.run(installTemplateCommand);
+
+            // Uncomment this line to fake npm install from local file — this will work as long as you run the pxb new command from a folder that contains the react-native-cli-templates repository
+            // filesystem.copy(`./react-native-cli-templates/${templatePackage.replace('@pxblue/react-native-template-', '')}`, `./${name}/${templateFolder}/node_modules/${templatePackage}`, {
+            //     overwrite: true,
+            // });
 
             // Copy template files
             filesystem.copy(`./${name}/${templateFolder}/node_modules/${templatePackage}/template`, `./${name}/`, {
@@ -528,7 +537,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             filesystem.write(`${folder}/.prettierignore`, `ios/\r\nandroid\r\n`);
         }
 
-        // Final Steps: browser support, styles, theme integration
+        // Final Steps: styles, theme integration
         const spinner = print.spin('Performing some final cleanup...');
 
         // Update package.json
@@ -543,12 +552,20 @@ module.exports = (toolbox: GluegunToolbox): void => {
         );
         if (prettier && ts) packageJSON.prettier = '@pxblue/prettier-config';
         packageJSON.scripts.test = 'jest';
-        if (!expo) packageJSON.scripts.rnlink = 'npx react-native link';
+        if (!expo) packageJSON.scripts.rnlink = `${NPM7_PREFIX} && npx react-native link`;
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update prettier.rc for JS projects
         if (!ts && prettier) {
             filesystem.write(`${folder}/.prettierrc.js`, PRETTIER_CONFIG.rc);
+        }
+
+        // Configure Jest
+        if (!expo) {
+            packageJSON.jest.transformIgnorePatterns = JEST.TRANSFORM_IGNORE_PATTERNS;
+            packageJSON.jest.setupFiles = JEST.SETUP_FILES;
+            packageJSON.jest.moduleNameMapper = JEST.MODULE_NAME_MAPPER;
+            filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
         }
 
         // Link native modules

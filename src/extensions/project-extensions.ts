@@ -3,7 +3,7 @@
  * the associated CLIs via npx.
  */
 import { GluegunToolbox } from 'gluegun';
-import { QUESTIONS } from '../constants';
+import { NPM7_PREFIX, QUESTIONS } from '../constants';
 import {
     assignJsTs,
     stringToLowerCaseNoSpace,
@@ -26,7 +26,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             QUESTIONS.template,
         ]);
 
-        const command = `npx -p @angular/cli@^11.0.0 ng new ${name} --directory "${name}" --style=scss`;
+        const command = `${NPM7_PREFIX} && npx -p @angular/cli@^11.0.0 ng new ${name} --directory "${name}" --style=scss`;
         const spinner = print.spin('Creating a new Angular project (this may take a few minutes)...');
         const timer = system.startTimer();
         const output = await system.run(command);
@@ -65,7 +65,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 templateName = isTs ? '@pxblue/blank-typescript' : '@pxblue/blank';
         }
 
-        const command = `npx create-react-app ${name} --template ${templateName}`;
+        const command = `${NPM7_PREFIX} && npx create-react-app ${name} --template ${templateName}`;
 
         const spinner = print.spin('Creating a new React project (this may take a few minutes)...');
         const timer = system.startTimer();
@@ -85,7 +85,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             QUESTIONS.prettier,
         ]);
 
-        const command = `npx ionic start ${name} blank`;
+        const command = `${NPM7_PREFIX} && npx ionic start ${name} blank`;
 
         const spinner = print.spin('Creating a new Ionic project (this may take a few minutes)...');
         const timer = system.startTimer();
@@ -119,11 +119,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         let command: string;
         if (cli === 'expo') {
-            command = `npx -p expo-cli expo init --name=${name} --template=${
+            command = `${NPM7_PREFIX} && npx -p expo-cli expo init --name=${name} --template=${
                 isTs ? 'expo-template-blank-typescript' : 'blank'
             } "${name}"`;
         } else {
-            command = `npx react-native init ${name} ${isTs ? '--template react-native-template-typescript' : ''}`;
+            command = `${NPM7_PREFIX} && npx react-native init ${name} ${
+                isTs ? '--template react-native-template-typescript' : ''
+            }`;
         }
 
         if (cli !== 'expo') {
