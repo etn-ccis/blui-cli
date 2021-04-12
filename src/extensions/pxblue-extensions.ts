@@ -277,7 +277,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addPXBlueIonic = async (props: IonicProps): Promise<void> => {
-        const { name, lint, prettier } = props;
+        const { name, lint, prettier, template } = props;
         const folder = `./${name}`;
 
         // Install Dependencies
@@ -286,14 +286,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
             dependencies: DEPENDENCIES.ionic,
             dev: false,
             description: 'PX Blue Ionic Dependencies',
-        });
-
-        // Install DevDependencies
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: DEV_DEPENDENCIES.ionic,
-            dev: true,
-            description: 'PX Blue Ionic Dev Dependencies',
         });
 
         // Install ESLint Packages (optional)
@@ -320,6 +312,70 @@ module.exports = (toolbox: GluegunToolbox): void => {
             });
         }
 
+        // Map the template selection to template src
+        let templatePackage = '';
+        switch (template.toLocaleLowerCase()) {
+            case 'basic routing':
+            case 'routing':
+                templatePackage = '@pxblue/angular-template-routing';
+                break;
+            case 'authentication':
+                templatePackage = '@pxblue/angular-template-authentication';
+                break;
+            case 'blank':
+            default:
+                templatePackage = '@pxblue/angular-template-blank';
+        }
+
+        // Clone the template repo
+        const templateSpinner = print.spin('Adding PX Blue template...');
+        const templateFolder = `template-${new Date().getTime()}`;
+        const command = `cd ${name} && npm install ${templatePackage} --prefix ${templateFolder}`;
+        await system.run(command);
+
+        // Copy the selected template from the repo
+        filesystem.copy(`./${name}/${templateFolder}/node_modules/${templatePackage}/template`, `./${name}/src/app/`, {
+            overwrite: true,
+        });
+        // Copy template-specific assets from the repo (if exists)
+        if (filesystem.isDirectory(`./${name}/${templateFolder}/node_modules/${templatePackage}/assets`)) {
+            filesystem.copy(
+                `./${name}/${templateFolder}/node_modules/${templatePackage}/assets`,
+                `./${name}/src/assets/`,
+                {
+                    overwrite: true,
+                }
+            );
+        }
+
+        // Install template-specific dependencies
+        const dependencies = filesystem.read(
+            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
+            'json'
+        ).dependencies;
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies,
+            dev: false,
+            description: 'PX Blue Template Dependencies',
+        });
+
+        // Install template-specific dev-dependencies
+        const devDependencies = filesystem.read(
+            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
+            'json'
+        ).devDependencies;
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies: devDependencies,
+            dev: true,
+            description: 'PX Blue Template DevDependencies',
+        });
+
+        // Remove the template package folder
+        filesystem.remove(`./${name}/${templateFolder}`);
+        templateSpinner.stop();
+
         // Final Steps: browser support, styles, theme integration
         const spinner = print.spin('Performing some final cleanup...');
 
@@ -330,6 +386,12 @@ module.exports = (toolbox: GluegunToolbox): void => {
         if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
+        // Remove ionic-generated home folder
+        filesystem.remove(`${folder}/src/app/home`);
+
+        // Remove ionic-generated app-routing.module
+        filesystem.remove(`${folder}/src/app/app.routing.module.ts`);
+
         // Update index.html
         let html = filesystem.read(`${folder}/src/index.html`, 'utf8');
         html = html
@@ -337,7 +399,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 /<title>.+<\/title>/gi,
                 `<title>${name}</title>\r\n\t<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />`
             )
-            .replace(/<app-root>.*<\/app-root>/gi, ROOT_COMPONENT.ionic);
+            .replace(/<body>(.|\n)*?<\/body>/gi, ROOT_COMPONENT.ionic);
         filesystem.write(`${folder}/src/index.html`, html);
 
         // Update angular.json
