@@ -1,8 +1,8 @@
 export const ROOT_COMPONENT = {
     angular: '<body class="pxb-blue mat-typography mat-app-background">',
     ionic: `
-        <body style="display:block">
-          <app-root class="pxb-blue mat-typography mat-app-background"></app-root>
+        <body style="display:block" class="pxb-blue mat-typography mat-app-background">
+          <app-root></app-root>
         </body>
     `,
     reactNative: '',
