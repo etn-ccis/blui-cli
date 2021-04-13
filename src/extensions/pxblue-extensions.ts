@@ -280,6 +280,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const { name, lint, prettier, template } = props;
         const folder = `./${name}`;
 
+        // Remove ionic-generated home folder
+        filesystem.remove(`${folder}/src/app/home`);
+
+        // Remove ionic-generated default app.
+        filesystem.remove(`${folder}/src/app/app-routing.module.ts`);
+        filesystem.remove(`${folder}/src/app/app-component.html`);
+        filesystem.remove(`${folder}/src/app/app-component.scss`);
+        filesystem.remove(`${folder}/src/app/app-component.ts`);
+        filesystem.remove(`${folder}/src/app/app-component.spec.ts`);
+
         // Install Dependencies
         await fileModify.installDependencies({
             folder: folder,
@@ -385,12 +395,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
         packageJSON = updateScripts(packageJSON, SCRIPTS.ionic.concat(prettier ? PRETTIER_SCRIPTS.ionic : []));
         if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
-
-        // Remove ionic-generated home folder
-        filesystem.remove(`${folder}/src/app/home`);
-
-        // Remove ionic-generated app-routing.module
-        filesystem.remove(`${folder}/src/app/app.routing.module.ts`);
 
         // Update index.html
         let html = filesystem.read(`${folder}/src/index.html`, 'utf8');
