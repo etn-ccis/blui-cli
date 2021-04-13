@@ -14,17 +14,19 @@ import {
     Template,
     IonicProps,
     Language,
+    getVersionString,
 } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, parse, print } = toolbox;
+    const { options } = toolbox.parameters;
 
     const createAngularProject = async (): Promise<AngularProps> => {
-        const [name, lint, prettier, template]: [string, boolean, boolean, string] = await parse([
+        const [name, template, lint, prettier]: [string, string, boolean, boolean] = await parse([
             QUESTIONS.name,
+            QUESTIONS.template,
             QUESTIONS.lint,
             QUESTIONS.prettier,
-            QUESTIONS.template,
         ]);
 
         const command = `${NPM7_PREFIX} && npx -p @angular/cli@^11.0.0 ng new ${name} --directory "${name}" --style=scss`;
@@ -35,6 +37,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         spinner.stop();
         print.info(output);
         print.success(`Created skeleton Angular project in ${timer() / 1000} seconds`);
+
         return { name, lint, prettier, template };
     };
 
@@ -59,14 +62,11 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const [prettier]: [boolean] = await parse([QUESTIONS.prettier]);
 
         // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
-        const params = { ...toolbox.parameters.options };
-        const templateArray = template.split('@');
-        const version = `${templateArray[1] || (params.alpha ? 'alpha' : params.beta ? 'beta' : '')}`;
-        const versionString = version ? `@${version}` : '';
+        const [templateNameParam, versionString] = getVersionString(options, template);
 
         // Map the template selection to template name
         let templateName = '';
-        switch (templateArray[0].toLocaleLowerCase()) {
+        switch (templateNameParam.toLocaleLowerCase()) {
             case 'basic routing':
             case 'routing': // to allow for --template=routing instead of --template="basic routing"
                 templateName = isTs ? '@pxblue/routing-typescript' : '@pxblue/routing';
@@ -79,8 +79,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 break;
             default:
                 // allow users to specify a local file to test
-                if (templateArray[0].startsWith('file:')) {
-                    templateName = templateArray[0];
+                if (templateNameParam.startsWith('file:')) {
+                    templateName = templateNameParam;
                 } else {
                     templateName = isTs ? '@pxblue/blank-typescript' : '@pxblue/blank';
                 }

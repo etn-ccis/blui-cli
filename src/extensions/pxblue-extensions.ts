@@ -25,10 +25,12 @@ import {
     ReactProps,
     ReactNativeProps,
     IonicProps,
+    getVersionString,
 } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { print, fancyPrint, system, fileModify } = toolbox;
+    const { options } = toolbox.parameters;
 
     const printSuccess = (project: string): void => {
         print.info('');
@@ -59,6 +61,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const pathInFolder = (filename: string): string => filesystem.path(folder, filename);
 
         const isYarn = filesystem.exists(pathInFolder('yarn.lock')) === 'file';
+        let templateSpinner = print.spin('Starting PX Blue integration...');
+        templateSpinner.stop();
 
         // Install ESLint Packages (optional)
         if (lint) {
@@ -75,6 +79,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
             // Remove all tslint configurations
             if (filesystem.exists(pathInFolder('tslint.json'))) {
+                templateSpinner = print.spin('Removing tslint dependencies...');
                 // remove tslint.json
                 filesystem.remove(pathInFolder('tslint.json'));
 
@@ -93,6 +98,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                     delete angularJSON.projects[name].architect.lint;
                     filesystem.write(pathInFolder('angular.json'), JSON.stringify(angularJSON, null, 4));
                 }
+                templateSpinner.stop();
             }
         }
 
@@ -106,9 +112,12 @@ module.exports = (toolbox: GluegunToolbox): void => {
             });
         }
 
+        // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
+        const [templateNameParam, versionString] = getVersionString(options, template);
+
         // Map the template selection to template src
         let templatePackage = '';
-        switch (template.toLocaleLowerCase()) {
+        switch (templateNameParam.toLocaleLowerCase()) {
             case 'basic routing':
             case 'routing':
                 templatePackage = '@pxblue/angular-template-routing';
@@ -117,36 +126,43 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 templatePackage = '@pxblue/angular-template-authentication';
                 break;
             case 'blank':
-            default:
                 templatePackage = '@pxblue/angular-template-blank';
+                break;
+            default:
+                // allow users to specify a local file to test
+                if (templateNameParam.startsWith('file:')) {
+                    templatePackage = templateNameParam;
+                } else {
+                    templatePackage = '@pxblue/angular-template-blank';
+                }
         }
 
         // Clone the template repo
-        const templateSpinner = print.spin('Adding PX Blue template...');
+        templateSpinner = print.spin('Adding PX Blue template...');
         const templateFolder = `template-${new Date().getTime()}`;
-        const command = `cd ${name} && npm install ${templatePackage} --prefix ${templateFolder}`;
+        const command = templatePackage.startsWith('file:')
+            ? `echo "Using Local Template"`
+            : `cd ${name} && npm install ${templatePackage}${versionString} --prefix ${templateFolder}`;
         await system.run(command);
 
+        // identify where to copy files from — local file or npm folder
+        const templatePath = templatePackage.startsWith('file:')
+            ? templatePackage.replace('file:', '')
+            : `./${name}/${templateFolder}/node_modules/${templatePackage}`;
+
         // Copy the selected template from the repo
-        filesystem.copy(`./${name}/${templateFolder}/node_modules/${templatePackage}/template`, `./${name}/src/app/`, {
+        filesystem.copy(`${templatePath}/template`, `./${name}/src/app/`, {
             overwrite: true,
         });
         // Copy template-specific assets from the repo (if exists)
-        if (filesystem.isDirectory(`./${name}/${templateFolder}/node_modules/${templatePackage}/assets`)) {
-            filesystem.copy(
-                `./${name}/${templateFolder}/node_modules/${templatePackage}/assets`,
-                `./${name}/src/assets/`,
-                {
-                    overwrite: true,
-                }
-            );
+        if (filesystem.isDirectory(`${templatePath}/assets`)) {
+            filesystem.copy(`${templatePath}/assets`, `./${name}/src/assets/`, {
+                overwrite: true,
+            });
         }
 
         // Install template-specific dependencies
-        const dependencies = filesystem.read(
-            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
-            'json'
-        ).dependencies;
+        const dependencies = filesystem.read(`${templatePath}/template-dependencies.json`, 'json').dependencies;
         await fileModify.installDependencies({
             folder: folder,
             dependencies,
@@ -155,10 +171,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         });
 
         // Install template-specific dev-dependencies
-        const devDependencies = filesystem.read(
-            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
-            'json'
-        ).devDependencies;
+        const devDependencies = filesystem.read(`${templatePath}/template-dependencies.json`, 'json').devDependencies;
         await fileModify.installDependencies({
             folder: folder,
             dependencies: devDependencies,
@@ -171,7 +184,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         templateSpinner.stop();
 
         // Final Steps: browser support, styles, theme integration
-        const spinner = print.spin('Performing some final cleanup...');
+        templateSpinner = print.spin('Performing some final cleanup...');
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
@@ -219,7 +232,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.remove(`${folder}/src/styles.scss`);
         filesystem.write(`${folder}/src/styles.scss`, STYLES);
 
-        spinner.stop();
+        templateSpinner.stop();
 
         printSuccess(name);
         printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start --open`]);

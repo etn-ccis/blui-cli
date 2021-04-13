@@ -33,3 +33,9 @@ export const assignJsTs = (str: string): Language => {
             return 'js';
     }
 };
+
+export const getVersionString = (params: { [key: string]: any }, template: string): [string, string] => {
+    const templateArray = template.split('@');
+    const version = `${templateArray[1] || (params.alpha ? 'alpha' : params.beta ? 'beta' : '')}`;
+    return [templateArray[0], version ? `@${version}` : ''];
+};
