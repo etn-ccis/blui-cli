@@ -88,7 +88,7 @@ If you are a library maintainer and you need to test out different versions of t
 
 1.  Use `--alpha` or `--beta` flags on the command line. This will install the latest alpha or beta version of the template package from NPM, respectively.
 2.  Use `--template=templateName@x.x.x` to specify a specific version of the template package to install from NPM.
-3.  Use a local template file via `--template=file:./path/to/folder`. When using this syntax, the directory that you point to should contain all of the necessary files for a template. This is usually the "template name" folder (e.g., `./myTemplates/authentication-typescript`, not `./myTemplates/authentication/typescript/template`).
+3.  Use a local template file via `--template=file:./path/to/folder`. When using this syntax, the directory that you point to should contain all of the necessary files for a template. This is usually the "template name" folder (e.g., `./myTemplates/authentication`, not `./myTemplates/authentication/template`).
     -   If you are working in a local copy of a PX Blue CLI templates repository, assuming that folder is in your current working directory, the paths would be:
         -   `--template=file:./angular-cli-templates/src/app/<name>`
         -   `--template=file:./react-cli-templates/<name>`
