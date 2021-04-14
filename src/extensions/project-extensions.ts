@@ -45,21 +45,19 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let lint = true;
         let language: Language = 'ts';
 
+        // Choose a name & template
         const [name, template]: [string, Template] = await parse([QUESTIONS.name, QUESTIONS.template]);
         const isLocal = template.startsWith('file:');
 
-        // ask for the language only if we are not using a local file
-        if (!isLocal) {
-            const [languageTemp]: [string] = await parse([QUESTIONS.language]);
-            language = assignJsTs(languageTemp);
-        }
+        // Choose a language
+        const [languageTemp]: [string] = await parse([QUESTIONS.language]);
+        language = assignJsTs(languageTemp);
         const isTs = language === 'ts';
 
-        // only ask about linting if we are using typescript or a local file (we assume ts by default for local templates)
+        // Choose code formatting options
         if (isTs) {
             [lint] = await parse([QUESTIONS.lint]);
         }
-
         const [prettier]: [boolean] = await parse([QUESTIONS.prettier]);
 
         // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
@@ -121,24 +119,33 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const createReactNativeProject = async (): Promise<ReactNativeProps> => {
-        let lint = true;
-
+        // Choose a name
         const [name]: [string] = await parse([QUESTIONS.name]);
-        let template = '';
 
+        // Choose a CLI
+        let [cliTemp]: [string] = await parse([QUESTIONS.cli]);
+        cliTemp = stringToLowerCaseNoSpace(cliTemp);
+        const cli: Cli = cliTemp === 'expo' ? 'expo' : 'rnc';
+
+        // Choose aa template
+        let template = '';
+        if (cli !== 'expo') {
+            [template] = await parse([QUESTIONS.template]);
+        }
+
+        // Choose a language
         const [languageTemp]: [string] = await parse([QUESTIONS.language]);
         const language = assignJsTs(languageTemp);
         const isTs = language === 'ts';
 
+        // Choose code formatting options
+        let lint = true;
         if (isTs) {
             [lint] = await parse([QUESTIONS.lint]);
         }
         const [prettier] = await parse([QUESTIONS.prettier]);
 
-        let [cliTemp]: [string] = await parse([QUESTIONS.cli]);
-        cliTemp = stringToLowerCaseNoSpace(cliTemp);
-        const cli: Cli = cliTemp === 'expo' ? 'expo' : 'rnc';
-
+        // Create the basic project
         let command: string;
         if (cli === 'expo') {
             command = `${NPM7_PREFIX} && npx -p expo-cli expo init --name=${name} --template=${
@@ -148,10 +155,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
             command = `${NPM7_PREFIX} && npx react-native init ${name} ${
                 isTs ? '--template react-native-template-typescript' : ''
             }`;
-        }
-
-        if (cli !== 'expo') {
-            [template] = await parse([QUESTIONS.template]);
         }
 
         const spinner = print.spin('Creating a new React Native project (this may take a few minutes)...');
