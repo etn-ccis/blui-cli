@@ -114,6 +114,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
         const [templateNameParam, versionString] = getVersionString(options, template);
+        const isLocal = templateNameParam.startsWith('file:');
 
         // Map the template selection to template src
         let templatePackage = '';
@@ -130,7 +131,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 break;
             default:
                 // allow users to specify a local file to test
-                if (templateNameParam.startsWith('file:')) {
+                if (isLocal) {
                     templatePackage = templateNameParam;
                 } else {
                     templatePackage = '@pxblue/angular-template-blank';
@@ -140,13 +141,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Clone the template repo
         templateSpinner = print.spin('Adding PX Blue template...');
         const templateFolder = `template-${new Date().getTime()}`;
-        const command = templatePackage.startsWith('file:')
+        const command = isLocal
             ? `echo "Using Local Template"`
             : `cd ${name} && npm install ${templatePackage}${versionString} --prefix ${templateFolder}`;
         await system.run(command);
 
         // identify where to copy files from — local file or npm folder
-        const templatePath = templatePackage.startsWith('file:')
+        const templatePath = isLocal
             ? templatePackage.replace('file:', '')
             : `./${name}/${templateFolder}/node_modules/${templatePackage}`;
 
@@ -480,7 +481,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // Install Dependencies
             await fileModify.installDependencies({
                 folder: folder,
-                dependencies: DEPENDENCIES.reactNative.concat(['@use-expo/font', 'expo-app-loading']),
+                dependencies: DEPENDENCIES.reactNative.concat(['expo-app-loading']),
                 dev: false,
                 description: 'PX Blue React Native Dependencies',
             });
@@ -514,10 +515,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
             const helperAppJSON = filesystem.read(`./${helper}/react-native/expo/app.json`, 'json');
             appJSON.expo.packagerOpts = helperAppJSON.expo.packagerOpts;
             filesystem.write(`${folder}/app.json`, appJSON, { jsonIndent: 4 });
-
-            filesystem.copy(`./${helper}/react-native/rnc/metro.config.js`, `${folder}/metro.config.js`, {
-                overwrite: true,
-            });
 
             // Remove the temporary folder
             filesystem.remove(`./${helper}`);

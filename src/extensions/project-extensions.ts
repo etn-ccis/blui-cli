@@ -46,9 +46,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let language: Language = 'ts';
 
         const [name, template]: [string, Template] = await parse([QUESTIONS.name, QUESTIONS.template]);
+        const isLocal = template.startsWith('file:');
 
         // ask for the language only if we are not using a local file
-        if (!template.startsWith('file:')) {
+        if (!isLocal) {
             const [languageTemp]: [string] = await parse([QUESTIONS.language]);
             language = assignJsTs(languageTemp);
         }
@@ -79,7 +80,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 break;
             default:
                 // allow users to specify a local file to test
-                if (templateNameParam.startsWith('file:')) {
+                if (isLocal) {
                     templateName = templateNameParam;
                 } else {
                     templateName = isTs ? '@pxblue/blank-typescript' : '@pxblue/blank';
