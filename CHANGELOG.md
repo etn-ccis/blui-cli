@@ -4,7 +4,7 @@
 
 ### Added
 
--   Support for using different versions of templates.
+-   Support for using different versions of templates for testing / debugging.
 
 ## v1.5.0 (April 1, 2020)
 

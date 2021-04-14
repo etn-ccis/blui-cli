@@ -475,13 +475,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // End RNC(!expo) block
 
         if (expo) {
-            const expoSpinner = print.spin('Adding Expo files and dependencies...');
             // Install Dependencies
             await fileModify.installDependencies({
                 folder: folder,
-                dependencies: DEPENDENCIES.reactNative.concat(['expo-app-loading']),
+                dependencies: DEPENDENCIES.reactNative.concat(['@expo/metro-config', 'expo-app-loading']),
                 dev: false,
                 description: 'PX Blue React Native Dependencies',
+                expo: true,
             });
 
             // Install DevDependencies
@@ -490,7 +490,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dependencies: DEV_DEPENDENCIES.reactNative.concat(['jest-expo']),
                 dev: true,
                 description: 'PX Blue React Native Dev Dependencies',
+                expo: true,
             });
+
+            const expoSpinner = print.spin('Configuring Expo files and assets...');
 
             // Clone the helpers repo
             const helper = `cli-helpers-${Date.now()}`;

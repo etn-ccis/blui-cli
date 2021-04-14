@@ -54,7 +54,7 @@ The following table list out some options for the `pxb new` command. All these o
 | <code>--framework=<angular\|react\|ionic\|react-native></code> | The framework in which the project will be generated.                                                                                                                                                                                 |
 | ```--name=<name>```                                            | Project name                                                                                                                                                                                                                          |
 | <code>--cli=<rnc\|expo></code>                                 | (React Native projects only) which CLI to use to generate the project. We support `rnc` ([React-Native Community CLI](https://github.com/react-native-community/cli)) or `expo` ([Expo CLI](https://docs.expo.io/workflow/expo-cli/)) |
-| <code>--template=<blank\|routing\|authentication></code>       | Template to use to start the project (use `--template=template-name@x.x.x` to specify a particular version)                                                                                                                           |
+| <code>--template=<blank\|routing\|authentication></code>       | Template to use to start the project                                                                                                                                                                                                  |
 | `--lint`                                                       | (TypeScript projects only) Install and configure [PX Blue lint package](https://www.npmjs.com/package/@pxblue/eslint-config) (omit or `--lint=false` to disable)                                                                      |
 | `--prettier`                                                   | Install and configure [PX Blue prettier package](https://www.npmjs.com/package/@pxblue/prettier-config) (omit or `--prettier=false` to disable)                                                                                       |
 | <code>--language=<typescript\|javascript></code>               | (React & React Native Only) The language in which the project will be generated                                                                                                                                                       |
@@ -80,14 +80,16 @@ To start a new project with PX Blue integration follow the steps below. We recom
     > **Note for React Native projects:** If you are using the React Native Community CLI for your react native project, there are additional steps you must run for your project to run on iOS. Follow the on-screen instructions for running `pod install` to link the react-native-vector-icons package. If you are using xCode 11+, you will also need to update the Build Phases in xCode to avoid duplicated resources errors (refer to [this issue](https://github.com/oblador/react-native-vector-icons/issues/1074)).
 
 
-### Testing Templates (For Maintainers)
+### Testing / Debugging Templates (For Maintainers)
 
-If you need to test out different versions of the templates, there are several ways to do this:
+You should always use the latest version of the templates when starting a new project to make sure you have the latest features and bug fixes. 
+
+If you are a library maintainer and you need to test out different versions of the templates during development, there are several ways to do this:
 
 1.  Use `--alpha` or `--beta` flags on the command line. This will install the latest alpha or beta version of the template package from NPM, respectively.
 2.  Use `--template=templateName@x.x.x` to specify a specific version of the template package to install from NPM.
-3.  Use a local template file via `--template=file:./path/to/folder`. When using this syntax, the directory that you point to should contain all of the necessary files for a template. This is usually the template name folder (e.g., `./myTemplates/authentication-typescript`, not `./myTemplates/authentication/typescript/template`).
-    -   If you are working in a local copy of the PX Blue templates repository, assuming that folder is in your current working directory, the paths would be in the format:
+3.  Use a local template file via `--template=file:./path/to/folder`. When using this syntax, the directory that you point to should contain all of the necessary files for a template. This is usually the "template name" folder (e.g., `./myTemplates/authentication-typescript`, not `./myTemplates/authentication/typescript/template`).
+    -   If you are working in a local copy of a PX Blue CLI templates repository, assuming that folder is in your current working directory, the paths would be:
         -   `--template=file:./angular-cli-templates/src/app/<name>`
         -   `--template=file:./react-cli-templates/<name>`
         -   `--template=file:./react-native-cli-templates/<name>`
