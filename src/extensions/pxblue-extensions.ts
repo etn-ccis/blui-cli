@@ -25,10 +25,12 @@ import {
     ReactProps,
     ReactNativeProps,
     IonicProps,
+    getVersionString,
 } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { print, fancyPrint, system, fileModify } = toolbox;
+    const { options } = toolbox.parameters;
 
     const printSuccess = (project: string): void => {
         print.info('');
@@ -60,6 +62,77 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const isYarn = filesystem.exists(pathInFolder('yarn.lock')) === 'file';
 
+        let templateSpinner = print.spin('Starting PX Blue integration...');
+        templateSpinner.stop(); // Start and stop the spinner to automatically infer the type instead of using any
+
+        // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
+        const [templateNameParam, versionString] = getVersionString(options, template);
+        const isLocal = templateNameParam.startsWith('file:');
+
+        // Map the template selection to template src
+        let templatePackage = '';
+        switch (templateNameParam.toLocaleLowerCase()) {
+            case 'basic routing':
+            case 'routing':
+                templatePackage = '@pxblue/angular-template-routing';
+                break;
+            case 'authentication':
+                templatePackage = '@pxblue/angular-template-authentication';
+                break;
+            case 'blank':
+                templatePackage = '@pxblue/angular-template-blank';
+                break;
+            default:
+                // allow users to specify a local file to test
+                templatePackage = isLocal ? templateNameParam : '@pxblue/angular-template-blank';
+        }
+
+        // Clone the template repo (if applicable)
+        templateSpinner = print.spin('Adding PX Blue template...');
+        const templateFolder = `template-${new Date().getTime()}`;
+        const command = isLocal
+            ? `echo "Using Local Template"`
+            : `cd ${name} && npm install ${templatePackage}${versionString} --prefix ${templateFolder}`;
+        await system.run(command);
+
+        // identify where to copy files from — local file or npm folder
+        const templatePath = isLocal
+            ? templatePackage.replace('file:', '')
+            : `./${name}/${templateFolder}/node_modules/${templatePackage}`;
+
+        // Copy the selected template from the repo
+        filesystem.copy(`${templatePath}/template`, `./${name}/src/app/`, {
+            overwrite: true,
+        });
+        // Copy template-specific assets from the repo (if exists)
+        if (filesystem.isDirectory(`${templatePath}/assets`)) {
+            filesystem.copy(`${templatePath}/assets`, `./${name}/src/assets/`, {
+                overwrite: true,
+            });
+        }
+
+        // Install template-specific dependencies
+        const dependencies = filesystem.read(`${templatePath}/template-dependencies.json`, 'json').dependencies;
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies,
+            dev: false,
+            description: 'PX Blue Template Dependencies',
+        });
+
+        // Install template-specific dev-dependencies
+        const devDependencies = filesystem.read(`${templatePath}/template-dependencies.json`, 'json').devDependencies;
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies: devDependencies,
+            dev: true,
+            description: 'PX Blue Template DevDependencies',
+        });
+
+        // Remove the template package folder
+        filesystem.remove(`./${name}/${templateFolder}`);
+        templateSpinner.stop();
+
         // Install ESLint Packages (optional)
         if (lint) {
             await fileModify.installDependencies({
@@ -75,6 +148,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
             // Remove all tslint configurations
             if (filesystem.exists(pathInFolder('tslint.json'))) {
+                templateSpinner = print.spin('Removing tslint dependencies...');
                 // remove tslint.json
                 filesystem.remove(pathInFolder('tslint.json'));
 
@@ -93,6 +167,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                     delete angularJSON.projects[name].architect.lint;
                     filesystem.write(pathInFolder('angular.json'), JSON.stringify(angularJSON, null, 4));
                 }
+                templateSpinner.stop();
             }
         }
 
@@ -106,72 +181,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
             });
         }
 
-        // Map the template selection to template src
-        let templatePackage = '';
-        switch (template.toLocaleLowerCase()) {
-            case 'basic routing':
-            case 'routing':
-                templatePackage = '@pxblue/angular-template-routing';
-                break;
-            case 'authentication':
-                templatePackage = '@pxblue/angular-template-authentication';
-                break;
-            case 'blank':
-            default:
-                templatePackage = '@pxblue/angular-template-blank';
-        }
-
-        // Clone the template repo
-        const templateSpinner = print.spin('Adding PX Blue template...');
-        const templateFolder = `template-${new Date().getTime()}`;
-        const command = `cd ${name} && npm install ${templatePackage} --prefix ${templateFolder}`;
-        await system.run(command);
-
-        // Copy the selected template from the repo
-        filesystem.copy(`./${name}/${templateFolder}/node_modules/${templatePackage}/template`, `./${name}/src/app/`, {
-            overwrite: true,
-        });
-        // Copy template-specific assets from the repo (if exists)
-        if (filesystem.isDirectory(`./${name}/${templateFolder}/node_modules/${templatePackage}/assets`)) {
-            filesystem.copy(
-                `./${name}/${templateFolder}/node_modules/${templatePackage}/assets`,
-                `./${name}/src/assets/`,
-                {
-                    overwrite: true,
-                }
-            );
-        }
-
-        // Install template-specific dependencies
-        const dependencies = filesystem.read(
-            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
-            'json'
-        ).dependencies;
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies,
-            dev: false,
-            description: 'PX Blue Template Dependencies',
-        });
-
-        // Install template-specific dev-dependencies
-        const devDependencies = filesystem.read(
-            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
-            'json'
-        ).devDependencies;
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: devDependencies,
-            dev: true,
-            description: 'PX Blue Template DevDependencies',
-        });
-
-        // Remove the template package folder
-        filesystem.remove(`./${name}/${templateFolder}`);
-        templateSpinner.stop();
-
         // Final Steps: browser support, styles, theme integration
-        const spinner = print.spin('Performing some final cleanup...');
+        templateSpinner = print.spin('Performing some final cleanup...');
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
@@ -219,7 +230,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.remove(`${folder}/src/styles.scss`);
         filesystem.write(`${folder}/src/styles.scss`, STYLES);
 
-        spinner.stop();
+        templateSpinner.stop();
 
         printSuccess(name);
         printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start --open`]);
@@ -362,11 +373,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const ts = language === 'ts';
         const expo = cli === 'expo';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
-        let templatePackage = '';
 
+        // Set up the template for non-expo projects
         if (!expo) {
+            // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
+            const [templateNameParam, versionString] = getVersionString(options, template);
+            const isLocal = templateNameParam.startsWith('file:');
+
             // Map the template selection to template src
-            switch (template.toLocaleLowerCase()) {
+            let templatePackage = '';
+            switch (templateNameParam.toLocaleLowerCase()) {
                 case 'basic routing':
                 case 'routing':
                     templatePackage = ts
@@ -379,18 +395,25 @@ module.exports = (toolbox: GluegunToolbox): void => {
                         : '@pxblue/react-native-template-authentication';
                     break;
                 case 'blank':
-                default:
                     templatePackage = ts
+                        ? '@pxblue/react-native-template-blank-typescript'
+                        : '@pxblue/react-native-template-blank';
+                    break;
+                default:
+                    // allow users to specify a local file to test
+                    templatePackage = isLocal
+                        ? templateNameParam
+                        : ts
                         ? '@pxblue/react-native-template-blank-typescript'
                         : '@pxblue/react-native-template-blank';
             }
 
-            // Clone the template repo
+            // Clone the template repo (if applicable)
             const templateSpinner = print.spin('Adding PX Blue template...');
             const templateFolder = `template-${new Date().getTime()}`;
-
-            // Comment the two lines below and uncomment the subsequent lines to test with local templates
-            const installTemplateCommand = `cd ${name} && npm install ${templatePackage} --prefix ${templateFolder}`;
+            const installTemplateCommand = isLocal
+                ? `echo "Using Local Template"`
+                : `cd ${name} && npm install ${templatePackage}${versionString} --prefix ${templateFolder} && cd ..`;
             await system.run(installTemplateCommand);
 
             // Uncomment this line to fake npm install from local file — this will work as long as you run the pxb new command from a folder that contains the react-native-cli-templates repository
@@ -398,53 +421,42 @@ module.exports = (toolbox: GluegunToolbox): void => {
             //     overwrite: true,
             // });
 
+            const templatePath = isLocal
+                ? templatePackage.replace('file:', '')
+                : `./${name}/${templateFolder}/node_modules/${templatePackage}`;
+
             // Copy template files
-            filesystem.copy(`./${name}/${templateFolder}/node_modules/${templatePackage}/template`, `./${name}/`, {
+            filesystem.copy(`${templatePath}/template`, `./${name}/`, {
                 overwrite: true,
             });
 
             // Copy template-specific fonts
-            if (filesystem.isDirectory(`./${name}/${templateFolder}/node_modules/${templatePackage}/fonts`)) {
-                filesystem.copy(
-                    `./${name}/${templateFolder}/node_modules/${templatePackage}/fonts`,
-                    `./${name}/assets/fonts/`,
-                    {
-                        overwrite: true,
-                    }
-                );
+            if (filesystem.isDirectory(`${templatePath}/fonts`)) {
+                filesystem.copy(`${templatePath}/fonts`, `./${name}/assets/fonts/`, {
+                    overwrite: true,
+                });
             }
 
             // Copy template-specific images
-            if (filesystem.isDirectory(`./${name}/${templateFolder}/node_modules/${templatePackage}/images`)) {
-                filesystem.copy(
-                    `./${name}/${templateFolder}/node_modules/${templatePackage}/images`,
-                    `./${name}/assets/images/`,
-                    {
-                        overwrite: true,
-                    }
-                );
+            if (filesystem.isDirectory(`${templatePath}/images`)) {
+                filesystem.copy(`${templatePath}/images`, `./${name}/assets/images/`, {
+                    overwrite: true,
+                });
             }
 
             // Install template-specific dependencies
-            const dependencies = filesystem.read(
-                `${name}/${templateFolder}/node_modules/${templatePackage}/dependencies.json`,
-                'json'
-            ).dependencies;
+            const dependencies = filesystem.read(`${templatePath}/dependencies.json`, 'json');
             await fileModify.installDependencies({
                 folder: folder,
-                dependencies,
+                dependencies: dependencies.dependencies,
                 dev: false,
                 description: 'PX Blue Template Dependencies',
             });
 
             // Install template-specific dev-dependencies
-            const devDependencies = filesystem.read(
-                `${name}/${templateFolder}/node_modules/${templatePackage}/dependencies.json`,
-                'json'
-            ).devDependencies;
             await fileModify.installDependencies({
                 folder: folder,
-                dependencies: devDependencies,
+                dependencies: dependencies.devDependencies,
                 dev: true,
                 description: 'PX Blue Template DevDependencies',
             });
@@ -454,7 +466,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
             // Configure react-native-vector-icons for android
             filesystem.append(
-                `./android/app/build.gradle`,
+                `./${name}/android/app/build.gradle`,
                 `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"`
             );
 
@@ -463,13 +475,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // End RNC(!expo) block
 
         if (expo) {
-            const expoSpinner = print.spin('Adding Expo files and dependencies...');
             // Install Dependencies
             await fileModify.installDependencies({
                 folder: folder,
-                dependencies: DEPENDENCIES.reactNative.concat(['@use-expo/font', 'expo-app-loading']),
+                dependencies: DEPENDENCIES.reactNative.concat(['@expo/metro-config', 'expo-app-loading']),
                 dev: false,
                 description: 'PX Blue React Native Dependencies',
+                expo: true,
             });
 
             // Install DevDependencies
@@ -478,7 +490,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 dependencies: DEV_DEPENDENCIES.reactNative.concat(['jest-expo']),
                 dev: true,
                 description: 'PX Blue React Native Dev Dependencies',
+                expo: true,
             });
+
+            const expoSpinner = print.spin('Configuring Expo files and assets...');
 
             // Clone the helpers repo
             const helper = `cli-helpers-${Date.now()}`;
@@ -501,10 +516,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
             const helperAppJSON = filesystem.read(`./${helper}/react-native/expo/app.json`, 'json');
             appJSON.expo.packagerOpts = helperAppJSON.expo.packagerOpts;
             filesystem.write(`${folder}/app.json`, appJSON, { jsonIndent: 4 });
-
-            filesystem.copy(`./${helper}/react-native/rnc/metro.config.js`, `${folder}/metro.config.js`, {
-                overwrite: true,
-            });
 
             // Remove the temporary folder
             filesystem.remove(`./${helper}`);
