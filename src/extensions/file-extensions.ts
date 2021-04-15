@@ -3,6 +3,7 @@
  * and creating config files.
  */
 import { GluegunToolbox, filesystem } from 'gluegun';
+import { NPM7_PREFIX } from '../constants';
 
 type InstallProps = {
     folder: string;
@@ -25,7 +26,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`);
         const installCommand = expo
-            ? `cd ${folder} && expo install`
+            ? `cd ${folder} && ${NPM7_PREFIX} && npx -p expo-cli expo install`
             : dev
             ? `cd ${folder} && ${isYarn ? 'yarn add --dev' : 'npm install --save-dev'}`
             : `cd ${folder} && ${isYarn ? 'yarn add' : 'npm install --save'}`;
