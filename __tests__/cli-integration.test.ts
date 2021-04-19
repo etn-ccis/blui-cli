@@ -3,6 +3,8 @@ const packageJSON = require('../package.json');
 
 const src = filesystem.path(__dirname, '..');
 
+jest.setTimeout(10000);
+
 const cli = async (cmd) => system.run('node ' + filesystem.path(src, 'bin', 'pxb') + ` ${cmd}`);
 
 test('outputs version', async () => {
