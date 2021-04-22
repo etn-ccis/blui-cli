@@ -216,14 +216,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
         angularJSON.projects[name].architect.build.options.styles = styles;
         angularJSON.projects[name].architect.test.options.styles = styles;
 
-        // make it work for ie11
-        angularJSON.projects[name].architect.build.configurations['es5'] = { tsConfig: './tsconfig.es5.json' };
-        angularJSON.projects[name].architect.serve.configurations['es5'] = { browserTarget: `${name}:build:es5` };
-        filesystem.write(
-            `${folder}/tsconfig.es5.json`,
-            `{\r\n\t"extends": "./tsconfig.app.json",\r\n\t"compilerOptions": {\r\n\t\t"target": "es5"\r\n\t}\r\n}`
-        );
-
         filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 4 });
 
         // Update styles.scss

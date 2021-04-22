@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7.0 (Unpublished)
+
+### Removed
+
+-   IE11 is no longer supported by Microsoft, we so no longer include the necessary configurations to run projects on that browser.
+
 ## v1.6.0 (April 19, 2021)
 
 ### Added
