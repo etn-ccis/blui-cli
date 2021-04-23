@@ -1,5 +1,5 @@
 export const SCRIPTS = {
-    angular: [{ name: 'start', command: 'ng serve --configuration es5' }],
+    angular: [],
     ionic: [],
     reactNative: [],
 };
