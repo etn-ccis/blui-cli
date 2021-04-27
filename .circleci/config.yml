@@ -110,7 +110,7 @@ jobs:
       - run:
           name: Publish @pxblue/cli
           command:  |
-            yarn publish:package
+            yarn publish:package -b $CIRCLE_BRANCH
 workflows:
   version: 2
   pxblue_cli:
