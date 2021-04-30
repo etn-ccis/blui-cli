@@ -225,7 +225,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         templateSpinner.stop();
 
         printSuccess(name);
-        printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start --open`]);
+        printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
 
     const addPXBlueReact = async (props: ReactProps): Promise<void> => {
