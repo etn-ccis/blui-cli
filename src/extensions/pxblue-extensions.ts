@@ -293,14 +293,96 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.remove(`${folder}/src/app/app-component.ts`);
         filesystem.remove(`${folder}/src/app/app-component.spec.ts`);
 
-        // Install Dependencies
-        // Ionic-scaffolded projects do not include @angular/animations out of the box, so we have to manually add them.
+        const pathInFolder = (filename: string): string => filesystem.path(folder, filename);
+
+        const isYarn = filesystem.exists(pathInFolder('yarn.lock')) === 'file';
+
+        let templateSpinner = print.spin('Starting PX Blue integration...');
+        templateSpinner.stop(); // Start and stop the spinner to automatically infer the type instead of using any
+
+        // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
+        const [templateNameParam, versionString] = getVersionString(options, template);
+        const isLocal = templateNameParam.startsWith('file:');
+
+        // Map the template selection to template src
+        let templatePackage = '';
+        switch (templateNameParam.toLocaleLowerCase()) {
+            case 'basic routing':
+            case 'routing':
+                templatePackage = '@pxblue/angular-template-routing';
+                break;
+            case 'authentication':
+                templatePackage = '@pxblue/angular-template-authentication';
+                break;
+            case 'blank':
+                templatePackage = '@pxblue/angular-template-blank';
+                break;
+            default:
+                // allow users to specify a local file to test
+                templatePackage = isLocal ? templateNameParam : '@pxblue/angular-template-blank';
+        }
+
+        // Clone the template repo (if applicable)
+        templateSpinner = print.spin('Adding PX Blue template...');
+        const templateFolder = `template-${new Date().getTime()}`;
+        const command = isLocal
+            ? `echo "Using Local Template"`
+            : `cd ${name} && npm install ${templatePackage}${versionString} --prefix ${templateFolder}`;
+        await system.run(command);
+
+        // identify where to copy files from — local file or npm folder
+        const templatePath = isLocal
+            ? templatePackage.replace('file:', '')
+            : `./${name}/${templateFolder}/node_modules/${templatePackage}`;
+
+        // Copy the selected template from the repo
+        filesystem.copy(`${templatePath}/template`, `./${name}/src/app/`, {
+            overwrite: true,
+        });
+        // Copy template-specific assets from the repo (if exists)
+        if (filesystem.isDirectory(`${templatePath}/assets`)) {
+            filesystem.copy(`${templatePath}/assets`, `./${name}/src/assets/`, {
+                overwrite: true,
+            });
+        }
+
+        await system.run('echo HELP');
+        await system.run(`echo HELP`);
+        await system.run(`cd ${folder} && ls && pwd`);
+
+
+        // Massage the angular template so it supports Ionic
+        await system.run(`
+            cd ${folder} 
+            && echo -e "import { IonicModule } from '@ionic/angular';\\n$(cat src/app/app.module.ts)" >  src/app/app.module.ts
+            && sed -ie '/MatIconModule,/a IonicModule,' src/app/app.module.ts
+            && echo -e "<ion-content>\\n$(cat src/app/app.component.html)</ion-content>" > src/app/app.component.html
+            && sed -i 's/Angular/Ionic/g' src/app/app.component.html
+            && sed -i 's/angular-design-patterns/ionic-design-patterns/g' src/app/app.component.html
+            && sed -i 's/frameworks-web\\/angular/frameworks-mobile\\/ionic/g' src/app/app.component.html
+        `);
+
+        // Install template-specific dependencies
+        const dependencies = filesystem.read(`${templatePath}/template-dependencies.json`, 'json').dependencies;
         await fileModify.installDependencies({
             folder: folder,
-            dependencies: DEPENDENCIES.ionic,
+            dependencies,
             dev: false,
-            description: 'PX Blue Ionic Dependencies',
+            description: 'PX Blue Template Dependencies',
         });
+
+        // Install template-specific dev-dependencies
+        const devDependencies = filesystem.read(`${templatePath}/template-dependencies.json`, 'json').devDependencies;
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies: devDependencies,
+            dev: true,
+            description: 'PX Blue Template DevDependencies',
+        });
+
+        // Remove the template package folder
+        filesystem.remove(`./${name}/${templateFolder}`);
+        templateSpinner.stop();
 
         // Install ESLint Packages (optional)
         if (lint) {
@@ -314,6 +396,30 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 config: LINT_CONFIG.ts,
             });
+
+            // Remove all tslint configurations
+            if (filesystem.exists(pathInFolder('tslint.json'))) {
+                templateSpinner = print.spin('Removing tslint dependencies...');
+                // remove tslint.json
+                filesystem.remove(pathInFolder('tslint.json'));
+
+                // uninstall tslint
+                let output = '';
+                if (isYarn) {
+                    output = await system.run(`cd ${folder} && yarn remove tslint`);
+                } else {
+                    output = await system.run(`cd ${folder} && npm uninstall tslint`);
+                }
+                print.info(output);
+
+                // remove lint attribute in angular.json
+                if (filesystem.exists(pathInFolder('angular.json'))) {
+                    const angularJSON = filesystem.read(pathInFolder('angular.json'), 'json');
+                    delete angularJSON.projects[name].architect.lint;
+                    filesystem.write(pathInFolder('angular.json'), JSON.stringify(angularJSON, null, 4));
+                }
+                templateSpinner.stop();
+            }
         }
 
         // Install Code Formatting Packages (optional)
@@ -326,89 +432,20 @@ module.exports = (toolbox: GluegunToolbox): void => {
             });
         }
 
-        // Map the template selection to template src
-        let templatePackage = '';
-        switch (template.toLocaleLowerCase()) {
-            case 'basic routing':
-            case 'routing':
-                templatePackage = '@pxblue/angular-template-routing';
-                break;
-            case 'authentication':
-                templatePackage = '@pxblue/angular-template-authentication';
-                break;
-            case 'blank':
-            default:
-                templatePackage = '@pxblue/angular-template-blank';
-        }
-
-        // Clone the template repo
-        const templateSpinner = print.spin('Adding PX Blue template...');
-        const templateFolder = `template-${new Date().getTime()}`;
-        const command = `cd ${name} && npm install ${templatePackage} --prefix ${templateFolder}`;
-        await system.run(command);
-
-        // Copy the selected template from the repo
-        filesystem.copy(`./${name}/${templateFolder}/node_modules/${templatePackage}/template`, `./${name}/src/app/`, {
-            overwrite: true,
-        });
-        // Copy template-specific assets from the repo (if exists)
-        if (filesystem.isDirectory(`./${name}/${templateFolder}/node_modules/${templatePackage}/assets`)) {
-            filesystem.copy(
-                `./${name}/${templateFolder}/node_modules/${templatePackage}/assets`,
-                `./${name}/src/assets/`,
-                {
-                    overwrite: true,
-                }
-            );
-        }
-
-        // Massage the angular template so it supports Ionic
-        await system.run(`
-            echo -e "import { IonicModule } from '@ionic/angular';\\n$(cat src/app/app.module.ts)" >  src/app/app.module.ts
-            sed -ie '/MatIconModule,/a IonicModule,' src/app/app.module.ts
-            echo -e "<ion-content>\\n$(cat src/app/app.component.html)</ion-content>" > src/app/app.component.html
-            sed -i 's/Angular/Ionic/g' src/app/app.component.html
-            sed -i 's/angular-design-patterns/ionic-design-patterns/g' src/app/app.component.html
-            sed -i 's/frameworks-web\\/angular/frameworks-mobile\\/ionic/g' src/app/app.component.html
-        `)
-
-        // Install template-specific dependencies
-        const dependencies = filesystem.read(
-            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
-            'json'
-        ).dependencies;
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies,
-            dev: false,
-            description: 'PX Blue Template Dependencies',
-        });
-
-        // Install template-specific dev-dependencies
-        const devDependencies = filesystem.read(
-            `${name}/${templateFolder}/node_modules/${templatePackage}/template-dependencies.json`,
-            'json'
-        ).devDependencies;
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: devDependencies,
-            dev: true,
-            description: 'PX Blue Template DevDependencies',
-        });
-
-        // Remove the template package folder
-        filesystem.remove(`./${name}/${templateFolder}`);
-        templateSpinner.stop();
-
         // Final Steps: browser support, styles, theme integration
-        const spinner = print.spin('Performing some final cleanup...');
+        templateSpinner = print.spin('Performing some final cleanup...');
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
-        packageJSON = updateScripts(packageJSON, SCRIPTS.ionic.concat(lint ? LINT_SCRIPTS.ionic : []));
-        packageJSON = updateScripts(packageJSON, SCRIPTS.ionic.concat(prettier ? PRETTIER_SCRIPTS.ionic : []));
+        packageJSON = updateScripts(packageJSON, SCRIPTS.angular.concat(lint ? LINT_SCRIPTS.ionic : []));
+        packageJSON = updateScripts(packageJSON, SCRIPTS.angular.concat(prettier ? PRETTIER_SCRIPTS.ionic : []));
         if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
+
+        // Update browsers list
+        let browsers = filesystem.read(`${folder}/.browserslistrc`, 'utf8');
+        browsers = updateBrowsersListFile(browsers);
+        filesystem.write(`${folder}/.browserslistrc`, browsers);
 
         // Update index.html
         let html = filesystem.read(`${folder}/src/index.html`, 'utf8');
@@ -423,17 +460,23 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Update angular.json
         const angularJSON: any = filesystem.read(`${folder}/angular.json`, 'json');
         const styles = [
-            { input: 'src/theme/variables.scss' },
-            { input: 'src/global.scss' },
-            { input: './node_modules/@pxblue/angular-themes/theme.scss' },
-            { input: './node_modules/@pxblue/angular-themes/open-sans.scss' },
+            'src/styles.scss',
+            './node_modules/@pxblue/angular-themes/theme.scss',
+            './node_modules/@pxblue/angular-themes/open-sans.scss',
         ];
-        angularJSON.projects.app.architect.build.options.styles = styles;
+        angularJSON.projects['app'].architect.build.options.styles = styles;
+        angularJSON.projects['app'].architect.test.options.styles = styles;
+
         filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 4 });
 
-        spinner.stop();
+        // Update styles.scss
+        filesystem.remove(`${folder}/src/styles.scss`);
+        filesystem.write(`${folder}/src/styles.scss`, STYLES);
+
+        templateSpinner.stop();
+
         printSuccess(name);
-        printInstructions([`cd ${name}`, `ionic serve`]);
+        printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
 
     const addPXBlueReactNative = async (props: ReactNativeProps): Promise<void> => {
