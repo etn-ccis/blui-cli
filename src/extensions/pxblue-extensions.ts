@@ -294,6 +294,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.remove(`${folder}/src/app/app-component.spec.ts`);
 
         // Install Dependencies
+        // Ionic-scaffolded projects do not include @angular/animations out of the box, so we have to manually add them.
         await fileModify.installDependencies({
             folder: folder,
             dependencies: DEPENDENCIES.ionic,
@@ -360,6 +361,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 }
             );
         }
+
+        // Massage the angular template so it supports Ionic
+        await system.run(`
+            echo -e "import { IonicModule } from '@ionic/angular';\\n$(cat src/app/app.module.ts)" >  src/app/app.module.ts
+            sed -ie '/MatIconModule,/a IonicModule,' src/app/app.module.ts
+            echo -e "<ion-content>\\n$(cat src/app/app.component.html)</ion-content>" > src/app/app.component.html
+            sed -i 's/Angular/Ionic/g' src/app/app.component.html
+            sed -i 's/angular-design-patterns/ionic-design-patterns/g' src/app/app.component.html
+            sed -i 's/frameworks-web\\/angular/frameworks-mobile\\/ionic/g' src/app/app.component.html
+        `)
 
         // Install template-specific dependencies
         const dependencies = filesystem.read(
