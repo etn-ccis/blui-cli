@@ -3,12 +3,14 @@
  * and creating config files.
  */
 import { GluegunToolbox, filesystem } from 'gluegun';
+import { NPM7_PREFIX } from '../constants';
 
 type InstallProps = {
     folder: string;
     dependencies: string[];
     dev?: boolean;
     description: string;
+    expo?: boolean;
 };
 type LintConfigProps = {
     folder: string;
@@ -19,11 +21,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
     const { system, print } = toolbox;
 
     const installDependencies = async (props: InstallProps): Promise<void> => {
-        const { folder, dependencies, dev = false, description } = props;
+        const { folder, dependencies, dev = false, description, expo = false } = props;
         if (!dependencies || dependencies.length < 1) return;
 
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`);
-        const installCommand = dev
+        const installCommand = expo
+            ? `cd ${folder} && ${NPM7_PREFIX} && npx -p expo-cli expo install`
+            : dev
             ? `cd ${folder} && ${isYarn ? 'yarn add --dev' : 'npm install --save-dev'}`
             : `cd ${folder} && ${isYarn ? 'yarn add' : 'npm install --save'}`;
 
