@@ -283,6 +283,14 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const { name, lint, prettier, template } = props;
         const folder = `./${name}`;
 
+        // Install Dependencies
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies: DEPENDENCIES.ionic,
+            dev: false,
+            description: 'PX Blue Ionic Dependencies',
+        });
+
         // Remove ionic-generated home folder
         filesystem.remove(`${folder}/src/app/home`);
 
@@ -306,7 +314,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Map the template selection to template src
         let templatePackage = '';
-        switch (templateNameParam.toLocaleLowerCase()) {
+        const templateName = templateNameParam.toLocaleLowerCase();
+        switch (templateName) {
             case 'basic routing':
             case 'routing':
                 templatePackage = '@pxblue/angular-template-routing';
@@ -346,21 +355,46 @@ module.exports = (toolbox: GluegunToolbox): void => {
             });
         }
 
-        await system.run('echo HELP');
-        await system.run(`echo HELP`);
-        await system.run(`cd ${folder} && ls && pwd`);
-
-
         // Massage the angular template so it supports Ionic
-        await system.run(`
-            cd ${folder} 
-            && echo -e "import { IonicModule } from '@ionic/angular';\\n$(cat src/app/app.module.ts)" >  src/app/app.module.ts
-            && sed -ie '/MatIconModule,/a IonicModule,' src/app/app.module.ts
-            && echo -e "<ion-content>\\n$(cat src/app/app.component.html)</ion-content>" > src/app/app.component.html
-            && sed -i 's/Angular/Ionic/g' src/app/app.component.html
-            && sed -i 's/angular-design-patterns/ionic-design-patterns/g' src/app/app.component.html
-            && sed -i 's/frameworks-web\\/angular/frameworks-mobile\\/ionic/g' src/app/app.component.html
-        `);
+
+        // Add Ionic Module to app.module.ts
+        await system.run(
+            `cd ${folder} && sed -i "1iimport { IonicModule } from '@ionic/angular';" src/app/app.module.ts`
+        );
+        await system.run(`cd ${folder} && sed -i "/BrowserModule,/i IonicModule," src/app/app.module.ts`);
+
+        // Wrap app.component.html with <ion-content>
+
+        if (templateName === 'blank') {
+            filesystem.write(
+                pathInFolder('src/app/app.component.html'),
+                `<ion-content><app-home></app-home></ion-content>`
+            );
+        } else if (templateName === 'routing') {
+            filesystem.write(
+                pathInFolder('src/app/app.component.html'),
+                `<ion-content><app-navigation></app-navigation></ion-content>`
+            );
+        } else if (templateName === 'authentication') {
+            filesystem.write(
+                pathInFolder('src/app/app.component.html'),
+                `<ion-content><router-outlet></router-outlet></ion-content>`
+            );
+        }
+
+        // Update home page links to point to Ionic-specific resources
+        await system.run(`cd ${folder} && sed -i 's/Angular/Ionic/g' src/app/pages/home/home.component.html`);
+        await system.run(
+            `cd ${folder} && sed -i 's/angular-design-patterns/ionic-design-patterns/g' src/app/pages/home/home.component.html`
+        );
+        await system.run(
+            `cd ${folder} && sed -i 's/frameworks-web\\/angular/frameworks-mobile\\/ionic/g' src/app/pages/home/home.component.html`
+        );
+
+        // Update Drawer header text
+        if (templateName === 'routing' || templateName === 'authentication') {
+            await system.run(`cd ${folder} && sed -i 's/Angular/Ionic/g' src/app/navigation/navigation.component.html`);
+        }
 
         // Install template-specific dependencies
         const dependencies = filesystem.read(`${templatePath}/template-dependencies.json`, 'json').dependencies;
