@@ -358,13 +358,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Massage the angular template so it supports Ionic
 
         // Add Ionic Module to app.module.ts
-        await system.run(
-            `cd ${folder} && sed -i "1iimport { IonicModule } from '@ionic/angular';" src/app/app.module.ts`
-        );
-        await system.run(`cd ${folder} && sed -i "/BrowserModule,/i IonicModule," src/app/app.module.ts`);
+        let appModule = filesystem.read(`${folder}/src/app/app.module.ts`, 'utf8');
+        appModule = appModule
+            .replace(
+                /import { CommonModule } from '@angular\/common';/gi,
+                `import { CommonModule } from '@angular/common'; import { IonicModule } from '@ionic/angular';`
+            )
+            .replace(/CommonModule,/gi, `CommonModule, IonicModule,`);
+        filesystem.write(`${folder}/src/app/app.module.ts`, appModule);
 
         // Wrap app.component.html with <ion-content>
-
         if (templateName === 'blank') {
             filesystem.write(
                 pathInFolder('src/app/app.component.html'),
@@ -383,17 +386,18 @@ module.exports = (toolbox: GluegunToolbox): void => {
         }
 
         // Update home page links to point to Ionic-specific resources
-        await system.run(`cd ${folder} && sed -i 's/Angular/Ionic/g' src/app/pages/home/home.component.html`);
-        await system.run(
-            `cd ${folder} && sed -i 's/angular-design-patterns/ionic-design-patterns/g' src/app/pages/home/home.component.html`
-        );
-        await system.run(
-            `cd ${folder} && sed -i 's/frameworks-web\\/angular/frameworks-mobile\\/ionic/g' src/app/pages/home/home.component.html`
-        );
+        let homeComponent = filesystem.read(`${folder}/src/app/pages/home/home.component.html`, 'utf8');
+        homeComponent = homeComponent
+            .replace(/Angular/g, `Ionic`)
+            .replace(/angular-design-patterns/g, 'ionic-design-patterns')
+            .replace(/frameworks-web\/angular/g, 'frameworks-mobile/ionic');
+        filesystem.write(`${folder}/src/app/pages/home/home.component.html`, homeComponent);
 
         // Update Drawer header text
         if (templateName === 'routing' || templateName === 'authentication') {
-            await system.run(`cd ${folder} && sed -i 's/Angular/Ionic/g' src/app/navigation/navigation.component.html`);
+            let drawerComponent = filesystem.read(`${folder}/src/app/navigation/navigation.component.html`, 'utf8');
+            drawerComponent = drawerComponent.replace(/Angular/g, `Ionic`);
+            filesystem.write(`${folder}/src/app/navigation/navigation.component.html`, drawerComponent);
         }
 
         // Install template-specific dependencies
