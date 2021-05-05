@@ -475,8 +475,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
-        packageJSON = updateScripts(packageJSON, SCRIPTS.angular.concat(lint ? LINT_SCRIPTS.ionic : []));
-        packageJSON = updateScripts(packageJSON, SCRIPTS.angular.concat(prettier ? PRETTIER_SCRIPTS.ionic : []));
+        packageJSON = updateScripts(packageJSON, SCRIPTS.ionic.concat(lint ? LINT_SCRIPTS.ionic : []));
+        packageJSON = updateScripts(packageJSON, SCRIPTS.ionic.concat(prettier ? PRETTIER_SCRIPTS.ionic : []));
         if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
