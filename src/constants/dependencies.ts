@@ -1,5 +1,4 @@
 export const DEPENDENCIES = {
-    ionic: ['@angular/animations'],
     reactNative: [
         '@pxblue/react-native-themes@^5.0.0',
         '@pxblue/colors@^3.0.0',

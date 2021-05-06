@@ -283,14 +283,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const { name, lint, prettier, template } = props;
         const folder = `./${name}`;
 
-        // Install Dependencies
-        await fileModify.installDependencies({
-            folder: folder,
-            dependencies: DEPENDENCIES.ionic,
-            dev: false,
-            description: 'PX Blue Ionic Dependencies',
-        });
-
         // Remove ionic-generated home folder
         filesystem.remove(`${folder}/src/app/home`);
 
