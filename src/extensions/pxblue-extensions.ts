@@ -393,6 +393,25 @@ module.exports = (toolbox: GluegunToolbox): void => {
             .replace(/frameworks-web\/angular/g, 'frameworks-mobile/ionic');
         filesystem.write(`${folder}/src/app/pages/home/home.component.html`, homeComponent);
 
+        // Update the styles.scss to be ionic-friendly
+        filesystem.write(
+            `${folder}/src/styles.scss`,
+            `
+         * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                overflow: scroll;
+            }
+            mat-toolbar {
+                padding-top: constant(safe-area-inset-top) !important; //for iOS 11.2
+                padding-top: env(safe-area-inset-top) !important; //for iOS 11.1
+                height: calc(constant(safe-area-inset-top) + 56px) !important;
+                height: calc(env(safe-area-inset-top) + 56px) !important;
+            }
+        `
+        );
+
         // Update Drawer header text
         if (templateName === 'routing' || templateName === 'authentication') {
             let drawerComponent = filesystem.read(`${folder}/src/app/navigation/navigation.component.html`, 'utf8');

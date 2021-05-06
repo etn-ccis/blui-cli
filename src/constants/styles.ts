@@ -1,7 +1,7 @@
 export const ROOT_COMPONENT = {
     angular: '<body class="pxb-blue mat-typography mat-app-background">',
     ionic: `
-        <body style="display:block" class="pxb-blue mat-typography mat-app-background">
+        <body style="overflow: scroll; height: 100vh" class="pxb-blue mat-typography mat-app-background">
             <app-root></app-root>
         </body>
     `,
