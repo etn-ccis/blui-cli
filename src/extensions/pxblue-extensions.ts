@@ -526,10 +526,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         filesystem.write(`${folder}/angular.json`, angularJSON, { jsonIndent: 4 });
 
-        // Update styles.scss
-        filesystem.remove(`${folder}/src/styles.scss`);
-        filesystem.write(`${folder}/src/styles.scss`, STYLES);
-
         templateSpinner.stop();
 
         printSuccess(name);
