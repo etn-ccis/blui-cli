@@ -401,13 +401,15 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
-                overflow: scroll;
             }
             mat-toolbar {
                 padding-top: constant(safe-area-inset-top) !important; //for iOS 11.2
                 padding-top: env(safe-area-inset-top) !important; //for iOS 11.1
                 height: calc(constant(safe-area-inset-top) + 56px) !important;
                 height: calc(env(safe-area-inset-top) + 56px) !important;
+            }
+            html, body, app-root, ion-content {
+              overflow: scroll;
             }
         `
         );
