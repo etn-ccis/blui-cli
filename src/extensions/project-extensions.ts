@@ -99,10 +99,11 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const createIonicProject = async (): Promise<IonicProps> => {
-        const [name, lint, prettier]: [string, boolean, boolean] = await parse([
+        const [name, lint, prettier, template]: [string, boolean, boolean, string] = await parse([
             QUESTIONS.name,
             QUESTIONS.lint,
             QUESTIONS.prettier,
+            QUESTIONS.template,
         ]);
 
         const command = `${NPM7_PREFIX} && npx ionic start ${name} blank`;
@@ -115,7 +116,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created skeleton Ionic project in ${timer() / 1000} seconds`);
 
-        return { name, lint, prettier };
+        return { name, lint, prettier, template };
     };
 
     const createReactNativeProject = async (): Promise<ReactNativeProps> => {

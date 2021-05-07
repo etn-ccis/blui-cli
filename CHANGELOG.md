@@ -1,6 +1,16 @@
 # Changelog
 
-## v1.6.0
+## v1.7.0 (May 7, 2021)
+
+### Added
+
+-   Added support for ionic templates. 
+
+### Removed
+
+-   IE11 is no longer supported by Microsoft, we so no longer include the necessary configurations to run projects on that browser.
+
+## v1.6.0 (April 19, 2021)
 
 ### Added
 
