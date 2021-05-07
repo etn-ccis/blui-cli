@@ -2,6 +2,10 @@
 
 ## v1.7.0 (Unpublished)
 
+### Added
+
+-   Added support for ionic templates. 
+
 ### Removed
 
 -   IE11 is no longer supported by Microsoft, we so no longer include the necessary configurations to run projects on that browser.
