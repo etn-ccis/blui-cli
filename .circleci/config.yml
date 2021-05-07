@@ -94,7 +94,7 @@ jobs:
       - run:
           name: Build Ionic Project
           command: |
-            bin/pxb new ionic --name=ionictest --lint --prettier
+            bin/pxb new ionic --name=ionictest --lint --prettier --template=blank
   publish:
     docker:
       - image: circleci/node:12.16.3-browsers
