@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7.1 (Not published yet)
+
+### Changed
+
+-  Changed ionic project creation tool from `ionic` to `@ionic/cli`. 
+
 ## v1.7.0 (May 7, 2021)
 
 ### Added
