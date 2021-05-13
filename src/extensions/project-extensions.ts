@@ -106,7 +106,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             QUESTIONS.template,
         ]);
 
-        const command = `${NPM7_PREFIX} && npx ionic start ${name} blank`;
+        const command = `${NPM7_PREFIX} && npx @ionic/cli start ${name} blank`;
 
         const spinner = print.spin('Creating a new Ionic project (this may take a few minutes)...');
         const timer = system.startTimer();
