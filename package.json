@@ -27,7 +27,7 @@
         "test": "jest",
         "watch": "jest --watch",
         "snapupdate": "jest --updateSnapshot",
-        "coverage": "jest --coverage",
+        "coverage": "yarn test --coverage --watchAll=false",
         "precommit": "yarn && yarn prettier && yarn build && yarn test"
     },
     "files": [
@@ -52,6 +52,7 @@
         "@types/node": "^10.12.12",
         "@typescript-eslint/eslint-plugin": "^2.26.0",
         "@typescript-eslint/parser": "^2.26.0",
+        "codecov": "^3.8.2",
         "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.10.1",
         "jest": "^23.6.0",
@@ -60,7 +61,9 @@
     },
     "jest": {
         "preset": "ts-jest",
-        "testEnvironment": "node"
+        "testEnvironment": "node",
+        "coverageDirectory": "./coverage",
+        "collectCoverage": true
     },
     "prettier": "@pxblue/prettier-config"
 }

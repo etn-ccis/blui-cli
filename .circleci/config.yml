@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+    codecov: codecov/codecov@1.1.3
 jobs:
   build_cli:
     working_directory: ~/pxblue-cli
@@ -29,7 +31,7 @@ jobs:
       - run:
           name: Unit Tests
           command: |
-            yarn test
+            yarn test --coverage --watchAll=false
       - run:
           name: Build
           command: |
@@ -41,6 +43,18 @@ jobs:
             - node_modules
             - build
             - bin
+            - coverage
+  coverage_report:
+        working_directory: ~/pxblue-cli
+        docker:
+            - image: circleci/node:12.9.1-browsers
+        steps:
+            - checkout
+            - attach_workspace:
+                at: .
+            - codecov/upload:
+                file: './coverage/clover.xml'
+                token: c928f23e-512b-48eb-aacf-f57c2fc9516f
 
   build_angular:
       working_directory: ~/pxblue-cli
@@ -159,3 +173,10 @@ workflows:
               only:
                 - master
                 - dev
+      - coverage_report:
+                   requires:
+                        - build_cli
+                   filters:
+                        branches:
+                            only:
+                                - master
