@@ -176,7 +176,7 @@ workflows:
       - coverage_report:
                    requires:
                         - build_cli
-                  #  filters:
-                  #       branches:
-                  #           only:
-                  #               - master
+                   filters:
+                        branches:
+                            only:
+                                - master
