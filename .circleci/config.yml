@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
     codecov: codecov/codecov@1.1.3
+    gh: circleci/github-cli@1.0.3
 jobs:
   build_cli:
     working_directory: ~/pxblue-cli
@@ -125,6 +126,16 @@ jobs:
           name: Publish @pxblue/cli
           command:  |
             yarn publish:package -b $CIRCLE_BRANCH
+  tag:
+    docker:
+      - image: circleci/node:12.16.3-browsers
+    steps:
+      - checkout
+      - gh/setup
+      - run:
+          name: Tag @pxblue/cli
+          command: |
+            yarn tag:package -b $CIRCLE_BRANCH
 workflows:
   version: 2
   pxblue_cli:
@@ -173,6 +184,13 @@ workflows:
               only:
                 - master
                 - dev
+      - tag:
+          requires:
+            - publish
+          filters:
+            branches:
+              only:
+                - master
       - coverage_report:
                    requires:
                         - build_cli

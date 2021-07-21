@@ -20,6 +20,7 @@
         "prettier:check": "prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --check",
         "prettier": "prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write",
         "publish:package": "set npm_config_yes=true && npx -p @pxblue/publish pxb-publish",
+        "tag:package": "npx -p @pxblue/tag pxb-tag",
         "clean-build": "rm -rf ./build",
         "compile": "tsc -p .",
         "copy-templates": "if [ -e ./src/templates ]; then cp -a ./src/templates ./build/; fi",
