@@ -623,10 +623,60 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // Remove the template package folder
             filesystem.remove(`./${name}/${templateFolder}`);
 
-            // Configure react-native-vector-icons for android
+            // Configure vector icons
+
+            // update pod file
+            let podfile = filesystem.read(`./${name}/ios/Podfile`, 'utf8');
+            podfile = podfile
+                .trim()
+
+                .replace(
+                    /end$/gi,
+
+                    `\tpod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'\r\n\tpod 'RNPXBVectorIcons', :path => '../node_modules/@pxblue/react-native-vector-icons'\r\nend`
+                );
+
+            filesystem.write(`./${name}/ios/Podfile`, podfile);
+
+            // update info.plist
+            let plist = filesystem.read(`./${name}/ios/${name}/Info.plist`, 'utf8');
+        console.log(plist)
+
+        plist = plist
+            .trim()
+
+            .replace(
+                /<\/array>/i,
+
+                `</array>
+    <key>UIAppFonts</key>
+    <array>
+        <string>AntDesign.ttf</string>
+        <string>Entypo.ttf</string>
+        <string>EvilIcons.ttf</string>
+        <string>Feather.ttf</string>
+        <string>FontAwesome.ttf</string>
+        <string>FontAwesome5_Brands.ttf</string>
+        <string>FontAwesome5_Regular.ttf</string>
+        <string>FontAwesome5_Solid.ttf</string>
+        <string>Foundation.ttf</string>
+        <string>Ionicons.ttf</string>
+        <string>MaterialIcons.ttf</string>
+        <string>MaterialCommunityIcons.ttf</string>
+        <string>SimpleLineIcons.ttf</string>
+        <string>Octicons.ttf</string>
+        <string>Zocial.ttf</string>
+        <string>Fontisto.ttf</string>
+        <string>PXBlueIcons.ttf</string>
+    </array>`
+            );
+
+        filesystem.write(`./${name}/ios/${name}/Info.plist`, plist);
+
+            // update build for gradle
             filesystem.append(
                 `./${name}/android/app/build.gradle`,
-                `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"`
+                `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"\r\napply from: "../../node_modules/@pxblue/react-native-vector-icons/fonts.gradle"`
             );
 
             templateSpinner.stop();
