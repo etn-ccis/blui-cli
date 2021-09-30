@@ -639,13 +639,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // update info.plist
             let plist = filesystem.read(`./${name}/ios/${name}/Info.plist`, 'utf8');
 
-        plist = plist
-            .trim()
+            plist = plist
+                .trim()
 
-            .replace(
-                /<\/array>/i,
+                .replace(
+                    /<\/array>/i,
 
-                `</array>
+                    `</array>
     <key>UIAppFonts</key>
     <array>
         <string>AntDesign.ttf</string>
@@ -666,9 +666,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
         <string>Fontisto.ttf</string>
         <string>PXBlueIcons.ttf</string>
     </array>`
-            );
+                );
 
-        filesystem.write(`./${name}/ios/${name}/Info.plist`, plist);
+            filesystem.write(`./${name}/ios/${name}/Info.plist`, plist);
 
             // update build.gradle for android
             filesystem.append(
