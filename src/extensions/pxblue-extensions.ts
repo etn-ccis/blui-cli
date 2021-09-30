@@ -623,9 +623,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // Remove the template package folder
             filesystem.remove(`./${name}/${templateFolder}`);
 
-            // Configure vector icons
-
-            // update pod file
+            // update pod file configure vector icons
             let podfile = filesystem.read(`./${name}/ios/Podfile`, 'utf8');
             podfile = podfile
                 .trim()
@@ -672,7 +670,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         filesystem.write(`./${name}/ios/${name}/Info.plist`, plist);
 
-            // update build for gradle
+            // update build.gradle for android
             filesystem.append(
                 `./${name}/android/app/build.gradle`,
                 `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"\r\napply from: "../../node_modules/@pxblue/react-native-vector-icons/fonts.gradle"`
