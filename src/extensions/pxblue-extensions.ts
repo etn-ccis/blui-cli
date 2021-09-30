@@ -640,7 +640,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
             // update info.plist
             let plist = filesystem.read(`./${name}/ios/${name}/Info.plist`, 'utf8');
-        console.log(plist)
 
         plist = plist
             .trim()
