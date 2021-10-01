@@ -3,6 +3,7 @@ export const DEPENDENCIES = {
         '@pxblue/react-native-themes@^6.0.0',
         '@pxblue/colors@^3.0.1',
         '@pxblue/react-native-components@^6.0.0',
+        '@pxblue/react-native-vector-icons@^1.0.0',
         'react-native-paper@^4.2.0',
         '@pxblue/icons-svg@^1.0.0',
         'react-native-vector-icons@^8.0.0',
