@@ -191,6 +191,25 @@ module.exports = (toolbox: GluegunToolbox): void => {
         if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
+        // Update tsconfig.json
+        const tsconfigJSON: any = {
+            compileOnSave: false,
+            compilerOptions: {
+                baseUrl: './',
+                outDir: './dist/out-tsc',
+                sourceMap: true,
+                declaration: false,
+                downlevelIteration: true,
+                experimentalDecorators: true,
+                moduleResolution: 'node',
+                importHelpers: true,
+                target: 'es2015',
+                module: 'es2020',
+                lib: ['es2018', 'dom'],
+            },
+        };
+        filesystem.write(`${folder}/tsconfig.json`, tsconfigJSON, { jsonIndent: 4 });
+
         // Update browsers list
         let browsers = filesystem.read(`${folder}/.browserslistrc`, 'utf8');
         browsers = updateBrowsersListFile(browsers);
@@ -492,6 +511,25 @@ module.exports = (toolbox: GluegunToolbox): void => {
         packageJSON = updateScripts(packageJSON, SCRIPTS.ionic.concat(prettier ? PRETTIER_SCRIPTS.ionic : []));
         if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
+
+        // Update tsconfig.json
+        const tsconfigJSON: any = {
+            compileOnSave: false,
+            compilerOptions: {
+                baseUrl: './',
+                outDir: './dist/out-tsc',
+                sourceMap: true,
+                declaration: false,
+                downlevelIteration: true,
+                experimentalDecorators: true,
+                moduleResolution: 'node',
+                importHelpers: true,
+                target: 'es2015',
+                module: 'es2020',
+                lib: ['es2018', 'dom'],
+            },
+        };
+        filesystem.write(`${folder}/tsconfig.json`, tsconfigJSON, { jsonIndent: 4 });
 
         // Update browsers list
         let browsers = filesystem.read(`${folder}/.browserslistrc`, 'utf8');
