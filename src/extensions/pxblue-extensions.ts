@@ -623,10 +623,50 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // Remove the template package folder
             filesystem.remove(`./${name}/${templateFolder}`);
 
-            // Configure react-native-vector-icons for android
+            // Configure vector icons
+            // Update Podfile for iOS
+            let podfile = filesystem.read(`./${name}/ios/Podfile`, 'utf8');
+            podfile = podfile
+                .trim()
+                .replace('use_flipper!()', '# use_flipper!()')
+                .replace(
+                    /end$/gi,
+                    `\r\n\r\n\tpod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'\r\n\tpod 'RNPXBVectorIcons', :path => '../node_modules/@pxblue/react-native-vector-icons'\r\nend`
+                );
+            filesystem.write(`./${name}/ios/Podfile`, podfile);
+
+            // Update Info.plist for iOS
+            let plist = filesystem.read(`./${name}/ios/${name}/Info.plist`, 'utf8');
+            plist = plist.trim().replace(
+                /<\/array>/i,
+                `</array>
+    <key>UIAppFonts</key>
+    <array>
+        <string>AntDesign.ttf</string>
+        <string>Entypo.ttf</string>
+        <string>EvilIcons.ttf</string>
+        <string>Feather.ttf</string>
+        <string>FontAwesome.ttf</string>
+        <string>FontAwesome5_Brands.ttf</string>
+        <string>FontAwesome5_Regular.ttf</string>
+        <string>FontAwesome5_Solid.ttf</string>
+        <string>Foundation.ttf</string>
+        <string>Ionicons.ttf</string>
+        <string>MaterialIcons.ttf</string>
+        <string>MaterialCommunityIcons.ttf</string>
+        <string>SimpleLineIcons.ttf</string>
+        <string>Octicons.ttf</string>
+        <string>Zocial.ttf</string>
+        <string>Fontisto.ttf</string>
+        <string>PXBlueIcons.ttf</string>
+    </array>`
+            );
+            filesystem.write(`./${name}/ios/${name}/Info.plist`, plist);
+
+            // Update build.gradle for android
             filesystem.append(
                 `./${name}/android/app/build.gradle`,
-                `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"`
+                `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"\r\napply from: "../../node_modules/@pxblue/react-native-vector-icons/fonts.gradle"`
             );
 
             templateSpinner.stop();
@@ -637,7 +677,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // Install Dependencies
             await fileModify.installDependencies({
                 folder: folder,
-                dependencies: DEPENDENCIES.reactNative.concat(['@expo/metro-config', 'expo-app-loading']),
+                dependencies: DEPENDENCIES.expo.concat(['@expo/metro-config', 'expo-app-loading']),
                 dev: false,
                 description: 'PX Blue React Native Dependencies',
                 expo: true,
@@ -646,7 +686,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // Install DevDependencies
             await fileModify.installDependencies({
                 folder: folder,
-                dependencies: DEV_DEPENDENCIES.reactNative.concat(['jest-expo']),
+                dependencies: DEV_DEPENDENCIES.expo.concat(['jest-expo']),
                 dev: true,
                 description: 'PX Blue React Native Dev Dependencies',
                 expo: true,
@@ -722,7 +762,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
         );
         if (prettier && ts) packageJSON.prettier = '@pxblue/prettier-config';
         packageJSON.scripts.test = 'jest';
-        if (!expo) packageJSON.scripts.rnlink = `${NPM7_PREFIX} && npx react-native link`;
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update prettier.rc for JS projects
@@ -740,7 +779,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Link native modules
         if (!expo) {
-            const command = `cd ${folder} && ${isYarn ? 'yarn' : 'npm run'} rnlink`;
+            const command = `cd ${folder} && ${NPM7_PREFIX} && npx react-native-asset`;
             const output = await system.run(command);
             print.info(output);
         }
@@ -764,7 +803,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         );
         if (!expo)
             print.warning(
-                'Before running your project on iOS, you may need to open xCode and remove the react-native-vector-icons fonts from the "Copy Bundle Resources" step in Build Phases (refer to https://github.com/oblador/react-native-vector-icons/issues/1074).'
+                'Due to some issues with the latest version of Xcode, we have disabled Flipper in the iOS project (refer to https://github.com/facebook/react-native/issues/31179).'
             );
         print.info('');
     };
