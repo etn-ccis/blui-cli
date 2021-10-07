@@ -1,16 +1,30 @@
 # Changelog
 
+## v1.8.1 (October 7, 2021)
+
+### Changed
+
+-   Use `react-native` v0.64.1 due to compatibility issues between `react-native` v0.65.0 and `react-native-keyboard-aware-scroll-view`.
+
+## v1.8.0 (October 1, 2021)
+
+### Changed
+
+-   Add new dependency for `@pxblue/react-native-vector-icons`.
+-   Update angular projects to use angular 12.
+-   Update dependencies.
+
 ## v1.7.1 (May 14, 2021)
 
 ### Changed
 
--  Changed ionic project creation tool from `ionic` to `@ionic/cli`. 
+-   Changed ionic project creation tool from `ionic` to `@ionic/cli`.
 
 ## v1.7.0 (May 7, 2021)
 
 ### Added
 
--   Added support for ionic templates. 
+-   Added support for ionic templates.
 
 ### Removed
 
