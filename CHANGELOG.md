@@ -1,10 +1,16 @@
 # Changelog
 
+## 1.8.2 (November 1, 2021)
+
+### Changed
+
+-   Use `@react-native-community/cli` v5.0.0 to ensure react native projects are built with v0.64.0 due to compatibility issues between `react-native` v0.65.0 and `react-native-keyboard-aware-scroll-view`.
+
 ## v1.8.1 (October 7, 2021)
 
 ### Changed
 
--   Use `react-native` v0.64.1 due to compatibility issues between `react-native` v0.65.0 and `react-native-keyboard-aware-scroll-view`.
+-   Use `react-native` v0.64.1 in TS projects due to compatibility issues between `react-native` v0.65.0 and `react-native-keyboard-aware-scroll-view`.
 
 ## v1.8.0 (October 1, 2021)
 

@@ -9,7 +9,7 @@
         "url": "https://github.com/pxblue/pxblue-cli",
         "type": "git"
     },
-    "version": "1.8.1",
+    "version": "1.8.2",
     "description": "A command-line interface for quickly scaffolding Power Xpert Blue applications",
     "bin": {
         "pxb": "bin/pxb"
