@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.8.2 (November 1, 2021)
+## v1.8.2 (November 1, 2021)
 
 ### Changed
 
