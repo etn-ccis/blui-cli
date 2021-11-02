@@ -153,8 +153,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 isTs ? 'expo-template-blank-typescript' : 'blank'
             } "${name}"`;
         } else {
-            command = `${NPM7_PREFIX} && npx -p react-native@0.64.0 react-native init ${name} ${
-                isTs ? '--template react-native-template-typescript@6.6.4' : ''
+            command = `${NPM7_PREFIX} && npx -p react-native@0.64.1 react-native init ${name} ${
+                isTs ? '--template react-native-template-typescript@6.6.4' : '--template react-native@0.64.1'
             }`;
         }
 
