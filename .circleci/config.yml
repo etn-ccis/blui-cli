@@ -135,7 +135,7 @@ jobs:
       - run:
           name: Tag @@brightlayer-ui/cli
           command: |
-            yarn tag:package -b $CIRCLE_BRANCH
+            yarn tag:package -b $CIRCLE_BRANCH -s -blui-cli
 workflows:
   version: 2
   @brightlayer-ui_cli:
