@@ -4,7 +4,7 @@ orbs:
     gh: circleci/github-cli@1.0.3
 jobs:
   build_cli:
-    working_directory: ~/pxblue-cli
+    working_directory: ~/@brightlayer-ui-cli
     docker:
       - image: circleci/node:12.16.3-browsers
     steps:
@@ -46,7 +46,7 @@ jobs:
             - bin
             - coverage
   coverage_report:
-        working_directory: ~/pxblue-cli
+        working_directory: ~/@brightlayer-ui-cli
         docker:
             - image: circleci/node:12.9.1-browsers
         steps:
@@ -58,7 +58,7 @@ jobs:
                 token: c928f23e-512b-48eb-aacf-f57c2fc9516f
 
   build_angular:
-      working_directory: ~/pxblue-cli
+      working_directory: ~/@brightlayer-ui-cli
       docker:
           - image: circleci/node:12.16.3-browsers
       steps:
@@ -68,10 +68,10 @@ jobs:
         - run:
             name: Build Angular Project
             command: |
-              bin/pxb new angular --name=angulartest --lint --prettier --template=blank
+              bin/blui new angular --name=angulartest --lint --prettier --template=blank
 
   build_react:
-    working_directory: ~/pxblue-cli
+    working_directory: ~/@brightlayer-ui-cli
     docker:
         - image: circleci/node:12.16.3-browsers
     steps:
@@ -81,11 +81,11 @@ jobs:
       - run:
           name: Build React Project
           command: |
-            bin/pxb new react --name=reacttest --lint --prettier --language=typescript --template=blank
+            bin/blui new react --name=reacttest --lint --prettier --language=typescript --template=blank
 
 
   build_react_native:
-    working_directory: ~/pxblue-cli
+    working_directory: ~/@brightlayer-ui-cli
     docker:
         - image: circleci/node:12.16.3-browsers
     steps:
@@ -96,10 +96,10 @@ jobs:
           name: Build React Native Project
           # TODO: Using Expo for the test now because react-native link has stopped working on CircleCI
           command: |
-            bin/pxb new react-native --name=reactnativetest --cli=expo --lint --prettier --language=typescript
+            bin/blui new react-native --name=reactnativetest --cli=expo --lint --prettier --language=typescript
             
   build_ionic:
-    working_directory: ~/pxblue-cli
+    working_directory: ~/@brightlayer-ui-cli
     docker:
         - image: circleci/node:12.16.3-browsers
     steps:
@@ -109,7 +109,7 @@ jobs:
       - run:
           name: Build Ionic Project
           command: |
-            bin/pxb new ionic --name=ionictest --lint --prettier --template=blank
+            bin/blui new ionic --name=ionictest --lint --prettier --template=blank
   publish:
     docker:
       - image: circleci/node:12.16.3-browsers
@@ -123,7 +123,7 @@ jobs:
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run:
-          name: Publish @pxblue/cli
+          name: Publish @@brightlayer-ui/cli
           command:  |
             yarn publish:package -b $CIRCLE_BRANCH
   tag:
@@ -133,12 +133,12 @@ jobs:
       - checkout
       - gh/setup
       - run:
-          name: Tag @pxblue/cli
+          name: Tag @@brightlayer-ui/cli
           command: |
             yarn tag:package -b $CIRCLE_BRANCH
 workflows:
   version: 2
-  pxblue_cli:
+  @brightlayer-ui_cli:
     jobs:
       - build_cli
       - build_angular:

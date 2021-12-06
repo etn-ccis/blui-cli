@@ -1,26 +1,26 @@
 {
-    "name": "@pxblue/cli",
+    "name": "@brightlayer-ui/cli",
     "author": {
-        "name": "PX Blue",
-        "email": "pxblue@eaton.com"
+        "name": "Brightlayer UI",
+        "email": "brightlayer-ui@eaton.com"
     },
-    "homepage": "https://github.com/pxblue/pxblue-cli",
+    "homepage": "https://github.com/brightlayer-ui/brightlayer-ui-cli",
     "repository": {
-        "url": "https://github.com/pxblue/pxblue-cli",
+        "url": "https://github.com/brightlayer-ui/brightlayer-ui-cli",
         "type": "git"
     },
     "version": "1.8.2",
-    "description": "A command-line interface for quickly scaffolding Power Xpert Blue applications",
+    "description": "A command-line interface for quickly scaffolding Brightlayer UI applications",
     "bin": {
-        "pxb": "bin/pxb"
+        "blui": "bin/blui"
     },
     "scripts": {
         "lint": "eslint \"src/**/**.ts\"",
         "lint:fix": "eslint \"src/**/**.ts\" --fix",
         "prettier:check": "prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --check",
         "prettier": "prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write",
-        "publish:package": "set npm_config_yes=true && npx -p @pxblue/publish pxb-publish",
-        "tag:package": "npx -p @pxblue/tag pxb-tag",
+        "publish:package": "set npm_config_yes=true && npx -p @brightlayer-ui/publish blui-publish",
+        "tag:package": "npx -p @brightlayer-ui/tag blui-tag",
         "clean-build": "rm -rf ./build",
         "compile": "tsc -p .",
         "copy-templates": "if [ -e ./src/templates ]; then cp -a ./src/templates ./build/; fi",
@@ -47,8 +47,8 @@
         "typescript": "^3.2.2"
     },
     "devDependencies": {
-        "@pxblue/eslint-config": "^1.1.5",
-        "@pxblue/prettier-config": "^1.0.2",
+        "@brightlayer-ui/eslint-config": "^1.1.5",
+        "@brightlayer-ui/prettier-config": "^1.0.2",
         "@types/jest": "^23.3.10",
         "@types/node": "^10.12.12",
         "@typescript-eslint/eslint-plugin": "^2.26.0",
@@ -66,5 +66,5 @@
         "coverageDirectory": "./coverage",
         "collectCoverage": true
     },
-    "prettier": "@pxblue/prettier-config"
+    "prettier": "@brightlayer-ui/prettier-config"
 }

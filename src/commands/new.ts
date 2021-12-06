@@ -3,8 +3,8 @@ import { stringToLowerCaseNoSpace } from '../utilities';
 import { QUESTIONS } from '../constants';
 
 /**
- * The following commands get executed when the user uses `pxb new`
- * For the commands get run when the user uses `pxb new <framework>`, see
+ * The following commands get executed when the user uses `blui new`
+ * For the commands get run when the user uses `blui new <framework>`, see
  * the corresponding files in ./new/
  */
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
     // alias: ['n'],
     description: 'Creates a new project (in chosen framework)',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
-        const { parse, print, createProject, addPXBlue, fancyPrint } = toolbox;
+        const { parse, print, createProject, addBLUI, fancyPrint } = toolbox;
 
         fancyPrint.welcomeLogo();
 
@@ -22,20 +22,20 @@ module.exports = {
 
         switch (framework) {
             case 'angular':
-                await addPXBlue.angular(await createProject.angular());
+                await addBLUI.angular(await createProject.angular());
                 break;
             case 'react':
-                await addPXBlue.react(await createProject.react());
+                await addBLUI.react(await createProject.react());
                 break;
             case 'ionic':
-                await addPXBlue.ionic(await createProject.ionic());
+                await addBLUI.ionic(await createProject.ionic());
                 break;
             case 'reactnative':
-                await addPXBlue.reactNative(await createProject.reactNative());
+                await addBLUI.reactNative(await createProject.reactNative());
                 break;
             default:
                 print.error('You must specify one of the supported frameworks.');
-                print.info('PX Blue only supports Angular, React, Ionic and React-Native.');
+                print.info('Brightlayer UI only supports Angular, React, Ionic and React-Native.');
                 return;
         }
     },

@@ -1,5 +1,5 @@
 /*
- * This file includes utilities for adding PX Blue to a skeleton project.
+ * This file includes utilities for adding Brightlayer UI to a skeleton project.
  */
 import { GluegunToolbox, filesystem } from 'gluegun';
 import {
@@ -36,7 +36,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info('');
         fancyPrint.divider('•', 60);
         fancyPrint.info('', '•', 60, 10);
-        fancyPrint.info('PX Blue integration complete', '•', 60, 10);
+        fancyPrint.info('Brightlayer UI integration complete', '•', 60, 10);
         fancyPrint.info('Your project:', '•', 60, 10);
         fancyPrint.info(`${project}`, '•', 60, 10);
         fancyPrint.info('has been created successfully!', '•', 60, 10);
@@ -54,7 +54,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info('');
     };
 
-    const addPXBlueAngular = async (props: AngularProps): Promise<void> => {
+    const addBLUIAngular = async (props: AngularProps): Promise<void> => {
         const { name, lint, prettier, template } = props;
         const folder = `./${name}`;
 
@@ -62,7 +62,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const isYarn = filesystem.exists(pathInFolder('yarn.lock')) === 'file';
 
-        let templateSpinner = print.spin('Starting PX Blue integration...');
+        let templateSpinner = print.spin('Starting Brightlayer UI integration...');
         templateSpinner.stop(); // Start and stop the spinner to automatically infer the type instead of using any
 
         // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
@@ -74,21 +74,21 @@ module.exports = (toolbox: GluegunToolbox): void => {
         switch (templateNameParam.toLocaleLowerCase()) {
             case 'basic routing':
             case 'routing':
-                templatePackage = '@pxblue/angular-template-routing';
+                templatePackage = '@brightlayer-ui/angular-template-routing';
                 break;
             case 'authentication':
-                templatePackage = '@pxblue/angular-template-authentication';
+                templatePackage = '@brightlayer-ui/angular-template-authentication';
                 break;
             case 'blank':
-                templatePackage = '@pxblue/angular-template-blank';
+                templatePackage = '@brightlayer-ui/angular-template-blank';
                 break;
             default:
                 // allow users to specify a local file to test
-                templatePackage = isLocal ? templateNameParam : '@pxblue/angular-template-blank';
+                templatePackage = isLocal ? templateNameParam : '@brightlayer-ui/angular-template-blank';
         }
 
         // Clone the template repo (if applicable)
-        templateSpinner = print.spin('Adding PX Blue template...');
+        templateSpinner = print.spin('Adding Brightlayer UI template...');
         const templateFolder = `template-${new Date().getTime()}`;
         const command = isLocal
             ? `echo "Using Local Template"`
@@ -117,7 +117,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             folder: folder,
             dependencies,
             dev: false,
-            description: 'PX Blue Template Dependencies',
+            description: 'Brightlayer UI Template Dependencies',
         });
 
         // Install template-specific dev-dependencies
@@ -126,7 +126,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             folder: folder,
             dependencies: devDependencies,
             dev: true,
-            description: 'PX Blue Template DevDependencies',
+            description: 'Brightlayer UI Template DevDependencies',
         });
 
         // Remove the template package folder
@@ -139,7 +139,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: LINT_DEPENDENCIES.angular,
                 dev: true,
-                description: 'PX Blue ESLint Packages',
+                description: 'Brightlayer UI ESLint Packages',
             });
             fileModify.addLintConfig({
                 folder: folder,
@@ -177,7 +177,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: PRETTIER_DEPENDENCIES.angular,
                 dev: true,
-                description: 'PX Blue Prettier Packages',
+                description: 'Brightlayer UI Prettier Packages',
             });
         }
 
@@ -188,7 +188,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
         packageJSON = updateScripts(packageJSON, SCRIPTS.angular.concat(lint ? LINT_SCRIPTS.angular : []));
         packageJSON = updateScripts(packageJSON, SCRIPTS.angular.concat(prettier ? PRETTIER_SCRIPTS.angular : []));
-        if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
+        if (prettier) packageJSON.prettier = '@brightlayer-ui/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update tsconfig.json
@@ -229,8 +229,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const angularJSON: any = filesystem.read(`${folder}/angular.json`, 'json');
         const styles = [
             'src/styles.scss',
-            './node_modules/@pxblue/angular-themes/theme.scss',
-            './node_modules/@pxblue/angular-themes/open-sans.scss',
+            './node_modules/@brightlayer-ui/angular-themes/theme.scss',
+            './node_modules/@brightlayer-ui/angular-themes/open-sans.scss',
         ];
         angularJSON.projects[name].architect.build.options.styles = styles;
         angularJSON.projects[name].architect.test.options.styles = styles;
@@ -247,7 +247,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
 
-    const addPXBlueReact = async (props: ReactProps): Promise<void> => {
+    const addBLUIReact = async (props: ReactProps): Promise<void> => {
         const { name, lint, prettier, language } = props;
         const folder = `./${name}`;
         const ts = language === 'ts';
@@ -259,7 +259,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: LINT_DEPENDENCIES.react,
                 dev: true,
-                description: 'PX Blue ESLint Packages',
+                description: 'Brightlayer UI ESLint Packages',
             });
             fileModify.addLintConfig({
                 folder: folder,
@@ -273,7 +273,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: PRETTIER_DEPENDENCIES.react,
                 dev: true,
-                description: 'PX Blue Prettier Packages',
+                description: 'Brightlayer UI Prettier Packages',
             });
         }
 
@@ -285,7 +285,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         packageJSON = updateScripts(packageJSON, lint && ts ? LINT_SCRIPTS.react : []);
         packageJSON = updateScripts(packageJSON, prettier ? PRETTIER_SCRIPTS.react : []);
         packageJSON = updateBrowsersListJson(packageJSON);
-        if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
+        if (prettier) packageJSON.prettier = '@brightlayer-ui/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update index.html
@@ -298,7 +298,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
 
-    const addPXBlueIonic = async (props: IonicProps): Promise<void> => {
+    const addBLUIIonic = async (props: IonicProps): Promise<void> => {
         const { name, lint, prettier, template } = props;
         const folder = `./${name}`;
 
@@ -316,7 +316,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const isYarn = filesystem.exists(pathInFolder('yarn.lock')) === 'file';
 
-        let templateSpinner = print.spin('Starting PX Blue integration...');
+        let templateSpinner = print.spin('Starting Brightlayer UI integration...');
         templateSpinner.stop(); // Start and stop the spinner to automatically infer the type instead of using any
 
         // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
@@ -329,21 +329,21 @@ module.exports = (toolbox: GluegunToolbox): void => {
         switch (templateName) {
             case 'basic routing':
             case 'routing':
-                templatePackage = '@pxblue/angular-template-routing';
+                templatePackage = '@brightlayer-ui/angular-template-routing';
                 break;
             case 'authentication':
-                templatePackage = '@pxblue/angular-template-authentication';
+                templatePackage = '@brightlayer-ui/angular-template-authentication';
                 break;
             case 'blank':
-                templatePackage = '@pxblue/angular-template-blank';
+                templatePackage = '@brightlayer-ui/angular-template-blank';
                 break;
             default:
                 // allow users to specify a local file to test
-                templatePackage = isLocal ? templateNameParam : '@pxblue/angular-template-blank';
+                templatePackage = isLocal ? templateNameParam : '@brightlayer-ui/angular-template-blank';
         }
 
         // Clone the template repo (if applicable)
-        templateSpinner = print.spin('Adding PX Blue template...');
+        templateSpinner = print.spin('Adding Brightlayer UI template...');
         const templateFolder = `template-${new Date().getTime()}`;
         const command = isLocal
             ? `echo "Using Local Template"`
@@ -438,7 +438,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             folder: folder,
             dependencies,
             dev: false,
-            description: 'PX Blue Template Dependencies',
+            description: 'Brightlayer UI Template Dependencies',
         });
 
         // Install template-specific dev-dependencies
@@ -447,7 +447,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             folder: folder,
             dependencies: devDependencies,
             dev: true,
-            description: 'PX Blue Template DevDependencies',
+            description: 'Brightlayer UI Template DevDependencies',
         });
 
         // Remove the template package folder
@@ -460,7 +460,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: LINT_DEPENDENCIES.ionic,
                 dev: true,
-                description: 'PX Blue ESLint Packages',
+                description: 'Brightlayer UI ESLint Packages',
             });
             fileModify.addLintConfig({
                 folder: folder,
@@ -498,7 +498,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: PRETTIER_DEPENDENCIES.ionic,
                 dev: true,
-                description: 'PX Blue Prettier Packages',
+                description: 'Brightlayer UI Prettier Packages',
             });
         }
 
@@ -509,7 +509,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
         packageJSON = updateScripts(packageJSON, SCRIPTS.ionic.concat(lint ? LINT_SCRIPTS.ionic : []));
         packageJSON = updateScripts(packageJSON, SCRIPTS.ionic.concat(prettier ? PRETTIER_SCRIPTS.ionic : []));
-        if (prettier) packageJSON.prettier = '@pxblue/prettier-config';
+        if (prettier) packageJSON.prettier = '@brightlayer-ui/prettier-config';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Update tsconfig.json
@@ -550,8 +550,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const angularJSON: any = filesystem.read(`${folder}/angular.json`, 'json');
         const styles = [
             'src/styles.scss',
-            './node_modules/@pxblue/angular-themes/theme.scss',
-            './node_modules/@pxblue/angular-themes/open-sans.scss',
+            './node_modules/@brightlayer-ui/angular-themes/theme.scss',
+            './node_modules/@brightlayer-ui/angular-themes/open-sans.scss',
         ];
         angularJSON.projects['app'].architect.build.options.styles = styles;
         angularJSON.projects['app'].architect.test.options.styles = styles;
@@ -564,7 +564,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
 
-    const addPXBlueReactNative = async (props: ReactNativeProps): Promise<void> => {
+    const addBLUIReactNative = async (props: ReactNativeProps): Promise<void> => {
         const { name, lint, prettier, language, cli, template } = props;
         const folder = `./${name}`;
         const ts = language === 'ts';
@@ -583,38 +583,38 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 case 'basic routing':
                 case 'routing':
                     templatePackage = ts
-                        ? '@pxblue/react-native-template-routing-typescript'
-                        : '@pxblue/react-native-template-routing';
+                        ? '@brightlayer-ui/react-native-template-routing-typescript'
+                        : '@brightlayer-ui/react-native-template-routing';
                     break;
                 case 'authentication':
                     templatePackage = ts
-                        ? '@pxblue/react-native-template-authentication-typescript'
-                        : '@pxblue/react-native-template-authentication';
+                        ? '@brightlayer-ui/react-native-template-authentication-typescript'
+                        : '@brightlayer-ui/react-native-template-authentication';
                     break;
                 case 'blank':
                     templatePackage = ts
-                        ? '@pxblue/react-native-template-blank-typescript'
-                        : '@pxblue/react-native-template-blank';
+                        ? '@brightlayer-ui/react-native-template-blank-typescript'
+                        : '@brightlayer-ui/react-native-template-blank';
                     break;
                 default:
                     // allow users to specify a local file to test
                     templatePackage = isLocal
                         ? templateNameParam
                         : ts
-                        ? '@pxblue/react-native-template-blank-typescript'
-                        : '@pxblue/react-native-template-blank';
+                        ? '@brightlayer-ui/react-native-template-blank-typescript'
+                        : '@brightlayer-ui/react-native-template-blank';
             }
 
             // Clone the template repo (if applicable)
-            const templateSpinner = print.spin('Adding PX Blue template...');
+            const templateSpinner = print.spin('Adding Brightlayer UI template...');
             const templateFolder = `template-${new Date().getTime()}`;
             const installTemplateCommand = isLocal
                 ? `echo "Using Local Template"`
                 : `cd ${name} && npm install ${templatePackage}${versionString} --prefix ${templateFolder} && cd ..`;
             await system.run(installTemplateCommand);
 
-            // Uncomment this line to fake npm install from local file — this will work as long as you run the pxb new command from a folder that contains the react-native-cli-templates repository
-            // filesystem.copy(`./react-native-cli-templates/${templatePackage.replace('@pxblue/react-native-template-', '')}`, `./${name}/${templateFolder}/node_modules/${templatePackage}`, {
+            // Uncomment this line to fake npm install from local file — this will work as long as you run the blui new command from a folder that contains the react-native-cli-templates repository
+            // filesystem.copy(`./react-native-cli-templates/${templatePackage.replace('@brightlayer-ui/react-native-template-', '')}`, `./${name}/${templateFolder}/node_modules/${templatePackage}`, {
             //     overwrite: true,
             // });
 
@@ -647,7 +647,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: dependencies.dependencies,
                 dev: false,
-                description: 'PX Blue Template Dependencies',
+                description: 'Brightlayer UI Template Dependencies',
             });
 
             // Install template-specific dev-dependencies
@@ -655,7 +655,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: dependencies.devDependencies,
                 dev: true,
-                description: 'PX Blue Template DevDependencies',
+                description: 'Brightlayer UI Template DevDependencies',
             });
 
             // Remove the template package folder
@@ -669,7 +669,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 .replace('use_flipper!()', '# use_flipper!()')
                 .replace(
                     /end$/gi,
-                    `\r\n\r\n\tpod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'\r\n\tpod 'RNPXBVectorIcons', :path => '../node_modules/@pxblue/react-native-vector-icons'\r\nend`
+                    `\r\n\r\n\tpod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'\r\n\tpod 'RNBLUIVectorIcons', :path => '../node_modules/@brightlayer-ui/react-native-vector-icons'\r\nend`
                 );
             filesystem.write(`./${name}/ios/Podfile`, podfile);
 
@@ -696,7 +696,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         <string>Octicons.ttf</string>
         <string>Zocial.ttf</string>
         <string>Fontisto.ttf</string>
-        <string>PXBlueIcons.ttf</string>
+        <string>BLUIIcons.ttf</string>
     </array>`
             );
             filesystem.write(`./${name}/ios/${name}/Info.plist`, plist);
@@ -704,7 +704,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // Update build.gradle for android
             filesystem.append(
                 `./${name}/android/app/build.gradle`,
-                `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"\r\napply from: "../../node_modules/@pxblue/react-native-vector-icons/fonts.gradle"`
+                `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"\r\napply from: "../../node_modules/@brightlayer-ui/react-native-vector-icons/fonts.gradle"`
             );
 
             templateSpinner.stop();
@@ -717,7 +717,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: DEPENDENCIES.expo.concat(['@expo/metro-config', 'expo-app-loading']),
                 dev: false,
-                description: 'PX Blue React Native Dependencies',
+                description: 'Brightlayer UI React Native Dependencies',
                 expo: true,
             });
 
@@ -726,7 +726,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: DEV_DEPENDENCIES.expo.concat(['jest-expo']),
                 dev: true,
-                description: 'PX Blue React Native Dev Dependencies',
+                description: 'Brightlayer UI React Native Dev Dependencies',
                 expo: true,
             });
 
@@ -734,7 +734,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
             // Clone the helpers repo
             const helper = `cli-helpers-${Date.now()}`;
-            const command = `git clone https://github.com/pxblue/cli-helpers ${helper}`;
+            const command = `git clone https://github.com/brightlayer-ui/cli-helpers ${helper}`;
             await system.run(command);
 
             // Copy the fonts
@@ -766,7 +766,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: LINT_DEPENDENCIES.reactNative,
                 dev: true,
-                description: 'PX Blue ESLint Packages',
+                description: 'Brightlayer UI ESLint Packages',
             });
             fileModify.addLintConfig({
                 folder: folder,
@@ -780,7 +780,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 folder: folder,
                 dependencies: PRETTIER_DEPENDENCIES.reactNative,
                 dev: true,
-                description: 'PX Blue Prettier Packages',
+                description: 'Brightlayer UI Prettier Packages',
             });
             filesystem.write(`${folder}/.prettierignore`, `ios/\r\nandroid\r\n`);
         }
@@ -798,7 +798,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             packageJSON,
             SCRIPTS.reactNative.concat(prettier ? PRETTIER_SCRIPTS.reactNative : [])
         );
-        if (prettier && ts) packageJSON.prettier = '@pxblue/prettier-config';
+        if (prettier && ts) packageJSON.prettier = '@brightlayer-ui/prettier-config';
         packageJSON.scripts.test = 'jest';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
@@ -846,10 +846,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info('');
     };
 
-    toolbox.addPXBlue = {
-        angular: addPXBlueAngular,
-        react: addPXBlueReact,
-        ionic: addPXBlueIonic,
-        reactNative: addPXBlueReactNative,
+    toolbox.addBLUI = {
+        angular: addBLUIAngular,
+        react: addBLUIReact,
+        ionic: addBLUIIonic,
+        reactNative: addBLUIReactNative,
     };
 };

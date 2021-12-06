@@ -12,13 +12,13 @@ import { build, GluegunToolbox } from 'gluegun';
 async function run(argv?: string[] | string): Promise<GluegunToolbox> {
     // create a CLI runtime
     const cli = build()
-        .brand('pxb')
+        .brand('blui')
         .src(__dirname)
-        .plugins('./node_modules', { matching: 'pxb-*', hidden: true })
+        .plugins('./node_modules', { matching: 'blui-*', hidden: true })
         .help() // provides default for help, h, --help, -h
         .defaultCommand({
             run: (toolbox: GluegunToolbox) => {
-                toolbox.print.info('Welcome to the PX Blue CLI! Type "pxb --help" for a list of available commands.');
+                toolbox.print.info('Welcome to the Brightlayer UI CLI! Type "blui --help" for a list of available commands.');
                 toolbox.print.info(`v${toolbox.meta.version()}`);
             },
         })
@@ -36,7 +36,7 @@ async function run(argv?: string[] | string): Promise<GluegunToolbox> {
                 info('');
                 fancyPrint.divider('•', 40);
                 fancyPrint.bookends('•', 40, 22);
-                fancyPrint.info('Power Xpert Blue CLI', '•', 40, 7);
+                fancyPrint.info('Brightlayer UI CLI', '•', 40, 7);
                 fancyPrint.bookends('•', 40, 22);
                 fancyPrint.divider('•', 40);
                 fancyPrint.bookends('•', 40, 34);

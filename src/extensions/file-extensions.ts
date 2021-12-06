@@ -45,7 +45,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
     const addLintConfig = (props: LintConfigProps): void => {
         const { folder, config } = props;
 
-        const spinner = print.spin('Configuring PX Blue code standards...');
+        const spinner = print.spin('Configuring Brightlayer UI code standards...');
         filesystem.write(filesystem.path(folder, '.eslintrc.js'), config, { jsonIndent: 4 });
         spinner.stop();
     };
