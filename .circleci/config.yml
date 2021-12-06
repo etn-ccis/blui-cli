@@ -123,7 +123,7 @@ jobs:
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run:
-          name: Publish @@brightlayer-ui/cli
+          name: Publish @brightlayer-ui/cli
           command:  |
             yarn publish:package -b $CIRCLE_BRANCH
   tag:
@@ -133,12 +133,12 @@ jobs:
       - checkout
       - gh/setup
       - run:
-          name: Tag @@brightlayer-ui/cli
+          name: Tag @brightlayer-ui/cli
           command: |
             yarn tag:package -b $CIRCLE_BRANCH -s -blui-cli
 workflows:
   version: 2
-  @brightlayer-ui_cli:
+  blui_cli:
     jobs:
       - build_cli
       - build_angular:
