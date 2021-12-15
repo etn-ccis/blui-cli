@@ -48,7 +48,7 @@
         "typescript": "^3.2.2"
     },
     "devDependencies": {
-        "@brightlayer-ui/eslint-config": "^2.0.5",
+        "@brightlayer-ui/eslint-config": "^1.1.5",
         "@brightlayer-ui/prettier-config": "^1.0.3",
         "@types/jest": "^23.3.10",
         "@types/node": "^10.12.12",
