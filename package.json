@@ -9,7 +9,7 @@
         "url": "https://github.com/brightlayer-ui/brightlayer-ui-cli",
         "type": "git"
     },
-    "version": "1.8.2",
+    "version": "1.8.2-beta.1",
     "description": "A command-line interface for quickly scaffolding Brightlayer UI applications",
     "bin": {
         "blui": "bin/blui"
@@ -29,7 +29,8 @@
         "watch": "jest --watch",
         "snapupdate": "jest --updateSnapshot",
         "coverage": "yarn test --coverage --watchAll=false",
-        "precommit": "yarn && yarn prettier && yarn build && yarn test"
+        "precommit": "yarn && yarn prettier && yarn build && yarn test",
+        "build:local": "blui --version && blui new"
     },
     "files": [
         "tsconfig.json",

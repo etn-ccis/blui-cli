@@ -18,7 +18,9 @@ async function run(argv?: string[] | string): Promise<GluegunToolbox> {
         .help() // provides default for help, h, --help, -h
         .defaultCommand({
             run: (toolbox: GluegunToolbox) => {
-                toolbox.print.info('Welcome to the Brightlayer UI CLI! Type "blui --help" for a list of available commands.');
+                toolbox.print.info(
+                    'Welcome to the Brightlayer UI CLI! Type "blui --help" for a list of available commands.'
+                );
                 toolbox.print.info(`v${toolbox.meta.version()}`);
             },
         })
