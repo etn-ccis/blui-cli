@@ -6,7 +6,7 @@ jobs:
   build_cli:
     working_directory: ~/@brightlayer-ui-cli
     docker:
-      - image: circleci/node:12.16.3-browsers
+      - image: circleci/node:14.17.0-browsers
     steps:
       - checkout
       - restore_cache:
@@ -60,7 +60,7 @@ jobs:
   build_angular:
       working_directory: ~/@brightlayer-ui-cli
       docker:
-          - image: circleci/node:12.16.3-browsers
+          - image: circleci/node:14.17.0-browsers
       steps:
         - checkout
         - attach_workspace:
@@ -73,7 +73,7 @@ jobs:
   build_react:
     working_directory: ~/@brightlayer-ui-cli
     docker:
-        - image: circleci/node:12.16.3-browsers
+        - image: circleci/node:14.17.0-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -87,7 +87,7 @@ jobs:
   build_react_native:
     working_directory: ~/@brightlayer-ui-cli
     docker:
-        - image: circleci/node:12.16.3-browsers
+        - image: circleci/node:14.17.0-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -101,7 +101,7 @@ jobs:
   build_ionic:
     working_directory: ~/@brightlayer-ui-cli
     docker:
-        - image: circleci/node:12.16.3-browsers
+        - image: circleci/node:14.17.0-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -112,7 +112,7 @@ jobs:
             bin/blui new ionic --name=ionictest --lint --prettier --template=blank
   publish:
     docker:
-      - image: circleci/node:12.16.3-browsers
+      - image: circleci/node:14.17.0-browsers
     steps:
       - checkout
       - attach_workspace:
@@ -128,7 +128,7 @@ jobs:
             yarn publish:package -b $CIRCLE_BRANCH
   tag:
     docker:
-      - image: circleci/node:12.16.3-browsers
+      - image: circleci/node:14.17.0-browsers
     steps:
       - checkout
       - gh/setup
