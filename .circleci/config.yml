@@ -157,28 +157,28 @@ workflows:
               only:
                 - master
                 - dev
-      - build_react_native:
-          requires:
-            - build_cli
-          filters:
-            branches:
-              only:
-                - master
-                - dev
-      - build_ionic:
-          requires:
-            - build_cli
-          filters:
-            branches:
-              only:
-                - master
-                - dev
+      #- build_react_native:
+      #    requires:
+      #      - build_cli
+      #    filters:
+      #      branches:
+      #       only:
+      #          - master
+      #          - dev
+      # - build_ionic:
+      #    requires:
+      #      - build_cli
+      #    filters:
+      #      branches:
+      #        only:
+      #          - master
+      #          - dev
       - publish:
           requires:
             - build_angular
-            - build_ionic
+          #  - build_ionic
             - build_react
-            - build_react_native
+          #  - build_react_native
           filters:
             branches:
               only:
