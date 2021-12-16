@@ -1,3 +1,3 @@
-# Command Reference for pxb
+# Command Reference for blui
 
 TODO: Add your command reference here

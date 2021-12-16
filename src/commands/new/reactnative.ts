@@ -7,6 +7,6 @@ module.exports = {
     run: async (toolbox: GluegunToolbox): Promise<void> => {
         toolbox.fancyPrint.welcomeLogo();
         const { name, language, lint, prettier, cli, template } = await toolbox.createProject.reactNative();
-        await toolbox.addPXBlue.reactNative({ name, language, lint, prettier, cli, template });
+        await toolbox.addBLUI.reactNative({ name, language, lint, prettier, cli, template });
     },
 };

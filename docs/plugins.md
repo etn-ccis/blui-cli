@@ -1,10 +1,10 @@
-# Plugin guide for pxb
+# Plugin guide for blui
 
-Plugins allow you to add features to pxb, such as commands and
+Plugins allow you to add features to blui, such as commands and
 extensions to the `toolbox` object that provides the majority of the functionality
-used by pxb.
+used by blui.
 
-Creating a pxb plugin is easy. Just create a repo with two folders:
+Creating a blui plugin is easy. Just create a repo with two folders:
 
 ```
 commands/
@@ -42,6 +42,6 @@ This is then accessible in your plugin's commands as `toolbox.bar`.
 
 # Loading a plugin
 
-To load a particular plugin (which has to start with `pxb-*`),
-install it to your project using `npm install --save-dev pxb-PLUGINNAME`,
-and pxb will pick it up automatically.
+To load a particular plugin (which has to start with `blui-*`),
+install it to your project using `npm install --save-dev blui-PLUGINNAME`,
+and blui will pick it up automatically.

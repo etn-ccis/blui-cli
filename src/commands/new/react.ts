@@ -7,6 +7,6 @@ module.exports = {
     run: async (toolbox: GluegunToolbox): Promise<void> => {
         toolbox.fancyPrint.welcomeLogo();
         const { name, language, lint, prettier } = await toolbox.createProject.react();
-        await toolbox.addPXBlue.react({ name, language, lint, prettier });
+        await toolbox.addBLUI.react({ name, language, lint, prettier });
     },
 };
