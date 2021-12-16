@@ -7,6 +7,6 @@ module.exports = {
     run: async (toolbox: GluegunToolbox): Promise<void> => {
         toolbox.fancyPrint.welcomeLogo();
         const { name, lint, prettier, template } = await toolbox.createProject.angular();
-        await toolbox.addPXBlue.angular({ name, lint, prettier, template });
+        await toolbox.addBLUI.angular({ name, lint, prettier, template });
     },
 };

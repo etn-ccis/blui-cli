@@ -8,13 +8,13 @@ export const QUESTIONS = {
     name: { optionName: 'name', question: 'Project Name', type: 'input' },
     lint: {
         optionName: 'lint',
-        question: 'Use PX Blue ESLint config?',
+        question: 'Use Brightlayer UI ESLint config?',
         type: 'confirm',
         initial: true,
     },
     prettier: {
         optionName: 'prettier',
-        question: 'Use PX Blue Prettier config?',
+        question: 'Use Brightlayer UI Prettier config?',
         type: 'confirm',
         initial: true,
     },

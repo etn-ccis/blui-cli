@@ -2,7 +2,7 @@ export const LINT_CONFIG = {
     ts: `module.exports =  {
         root: true,
         parser:  '@typescript-eslint/parser',
-        extends:  [ '@pxblue/eslint-config/ts' ],
+        extends:  [ '@brightlayer-ui/eslint-config/ts' ],
         parserOptions:  {
             project: "./tsconfig.json",
         },
@@ -13,7 +13,7 @@ export const LINT_CONFIG = {
     tsx: `module.exports =  {
         root: true,
         parser:  '@typescript-eslint/parser',
-        extends:  [ '@pxblue/eslint-config/tsx' ],
+        extends:  [ '@brightlayer-ui/eslint-config/tsx' ],
         parserOptions:  {
             project: "./tsconfig.json",
         },
@@ -24,5 +24,5 @@ export const LINT_CONFIG = {
 };
 
 export const PRETTIER_CONFIG = {
-    rc: 'module.exports = {\r\n\t...require("@pxblue/prettier-config")\r\n};',
+    rc: 'module.exports = {\r\n\t...require("@brightlayer-ui/prettier-config")\r\n};',
 };

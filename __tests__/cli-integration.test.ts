@@ -5,7 +5,7 @@ const src = filesystem.path(__dirname, '..');
 
 jest.setTimeout(10000);
 
-const cli = async (cmd) => system.run('node ' + filesystem.path(src, 'bin', 'pxb') + ` ${cmd}`);
+const cli = async (cmd) => system.run('node ' + filesystem.path(src, 'bin', 'blui') + ` ${cmd}`);
 
 test('outputs version', async () => {
     const output = await cli('--version');

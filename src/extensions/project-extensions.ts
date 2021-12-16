@@ -68,20 +68,20 @@ module.exports = (toolbox: GluegunToolbox): void => {
         switch (templateNameParam.toLocaleLowerCase()) {
             case 'basic routing':
             case 'routing': // to allow for --template=routing instead of --template="basic routing"
-                templateName = isTs ? '@pxblue/routing-typescript' : '@pxblue/routing';
+                templateName = isTs ? '@brightlayer-ui/routing-typescript' : '@brightlayer-ui/routing';
                 break;
             case 'authentication':
-                templateName = isTs ? '@pxblue/authentication-typescript' : '@pxblue/authentication';
+                templateName = isTs ? '@brightlayer-ui/authentication-typescript' : '@brightlayer-ui/authentication';
                 break;
             case 'blank':
-                templateName = isTs ? '@pxblue/blank-typescript' : '@pxblue/blank';
+                templateName = isTs ? '@brightlayer-ui/blank-typescript' : '@brightlayer-ui/blank';
                 break;
             default:
                 // allow users to specify a local file to test
                 if (isLocal) {
                     templateName = templateNameParam;
                 } else {
-                    templateName = isTs ? '@pxblue/blank-typescript' : '@pxblue/blank';
+                    templateName = isTs ? '@brightlayer-ui/blank-typescript' : '@brightlayer-ui/blank';
                 }
         }
 

@@ -75,7 +75,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(colors.blue('               ######           #####   '));
         print.info(colors.blue('                       ###### '));
         print.info(colors.blue(''));
-        print.info(colors.blue('             Welcome To Power Xpert Blue'));
+        print.info(colors.blue('             Welcome To Brightlayer UI'));
         print.info(colors.white('        Powering Teams to Make What Matters *'));
         print.info('');
     };
