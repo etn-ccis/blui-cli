@@ -128,7 +128,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         cliTemp = stringToLowerCaseNoSpace(cliTemp);
         const cli: Cli = cliTemp === 'expo' ? 'expo' : 'rnc';
 
-        // Choose aa template
+        // Choose a template
         let template = '';
         if (cli !== 'expo') {
             [template] = await parse([QUESTIONS.template]);

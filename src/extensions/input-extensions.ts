@@ -14,9 +14,40 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const questions = [];
         const answers = [];
 
+        const checkIsValidTemplate = (templateName: string): boolean => {
+            let isValid: boolean;
+
+            if (templateName.startsWith('file:')) {
+                isValid = true;
+            } else {
+                switch (templateName.toLocaleLowerCase()) {
+                    case 'blank':
+                    case 'routing':
+                    case 'basic routing':
+                    case 'authentication':
+                        isValid = true;
+                        break;
+                    default:
+                        isValid = false;
+                }
+            }
+
+            return isValid;
+        };
+
         // for each query, check if the params already have an answer to it
         for (let i = 0; i < query.length; i++) {
             // if the params already have answer, it will be the final answer
+
+            // if there's a template name provided, ensure that it's valid
+            if (query[i].optionName === 'template') {
+                const isValidTemplate = checkIsValidTemplate(params[query[i].optionName]);
+
+                if (!isValidTemplate) {
+                    params[query[i].optionName] = undefined;
+                }
+            }
+
             // otherwise, we prepare for the answer to ask the user
             if (params[query[i].optionName] !== undefined) {
                 // if this is a yes or no question
