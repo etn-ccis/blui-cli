@@ -1,4 +1,11 @@
 # Changelog
+
+## v1.9.0 (unreleased)
+
+### Added
+
+-   Added functionality to enforce valid template selection (#52)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/52].
+
 ## v1.8.2 (December 16, 2021)
 
 ### Changed
@@ -10,6 +17,7 @@
 Previous versions listed after this indicator refer to our deprecated `@pxblue` packages.
 
 ---
+
 ## v1.8.2 (November 1, 2021)
 
 ### Changed
