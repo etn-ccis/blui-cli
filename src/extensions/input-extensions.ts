@@ -40,7 +40,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             // if the params already have answer, it will be the final answer
 
             // if there's a template name provided, ensure that it's valid
-            if (query[i].optionName === 'template') {
+            if (query[i].optionName === 'template' && params[query[i].optionName]) {
                 const isValidTemplate = checkIsValidTemplate(params[query[i].optionName]);
 
                 if (!isValidTemplate) {
