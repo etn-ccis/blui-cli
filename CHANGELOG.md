@@ -6,6 +6,10 @@
 
 -   Added functionality to enforce valid template selection (#52)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/52].
 
+### Changed
+
+-   Updated docs for testing/debugging templates (#113)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/113]
+
 ## v1.8.2 (December 16, 2021)
 
 ### Changed
