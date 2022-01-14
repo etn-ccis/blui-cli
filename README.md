@@ -39,10 +39,10 @@ $ npm install -g @brightlayer-ui/cli
 
 ### Available Commands
 
-| command               | description                                                                                                                                                              |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `blui help`            | lists all available commands and descriptions                                                                                                                            |
-| `blui version`         | displays the version of the currently installed CLI                                                                                                                      |
+| command                | description                                                                                                                                                                     |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `blui help`            | lists all available commands and descriptions                                                                                                                                   |
+| `blui version`         | displays the version of the currently installed CLI                                                                                                                             |
 | `blui new <framework>` | Creates a new skeleton project with Brightlayer UI integration. You'll be prompted to give your project a name and select various options depending on your selected framework. |
 
 #### Available options
@@ -52,11 +52,11 @@ The following table list out some options for the `blui new` command. All these 
 | Option                                                         | Description                                                                                                                                                                                                                           |
 | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code>--framework=<angular\|react\|ionic\|react-native></code> | The framework in which the project will be generated.                                                                                                                                                                                 |
-| ```--name=<name>```                                            | Project name                                                                                                                                                                                                                          |
+| `--name=<name>`                                                | Project name                                                                                                                                                                                                                          |
 | <code>--cli=<rnc\|expo></code>                                 | (React Native projects only) which CLI to use to generate the project. We support `rnc` ([React-Native Community CLI](https://github.com/react-native-community/cli)) or `expo` ([Expo CLI](https://docs.expo.io/workflow/expo-cli/)) |
 | <code>--template=<blank\|routing\|authentication></code>       | Template to use to start the project                                                                                                                                                                                                  |
-| `--lint`                                                       | (TypeScript projects only) Install and configure [Brightlayer UI lint package](https://www.npmjs.com/package/@brightlayer-ui/eslint-config) (omit or `--lint=false` to disable)                                                                      |
-| `--prettier`                                                   | Install and configure [Brightlayer UI prettier package](https://www.npmjs.com/package/@brightlayer-ui/prettier-config) (omit or `--prettier=false` to disable)                                                                                       |
+| `--lint`                                                       | (TypeScript projects only) Install and configure [Brightlayer UI lint package](https://www.npmjs.com/package/@brightlayer-ui/eslint-config) (omit or `--lint=false` to disable)                                                       |
+| `--prettier`                                                   | Install and configure [Brightlayer UI prettier package](https://www.npmjs.com/package/@brightlayer-ui/prettier-config) (omit or `--prettier=false` to disable)                                                                        |
 | <code>--language=<typescript\|javascript></code>               | (React & React Native Only) The language in which the project will be generated                                                                                                                                                       |
 
 ## Detailed Usage
@@ -71,23 +71,22 @@ To start a new project with Brightlayer UI integration follow the steps below. W
 4. For React Native projects, you'll be asked which CLI to use to scaffold your project. You can choose between the React Native Community CLI (recommended) or Expo (better for smaller demo or proof-of-concept projects).
     > **Note for Expo projects:** If you are creating an Expo project and you are behind a proxy, you will need to ensure that you have environment variables set for `HTTP_PROXY` and `HTTPS_PROXY`. Depending on your firewall settings, you may also need to temporarily add an environment variable for `NODE_TLS_REJECT_UNAUTHORIZED=0` (remove this promptly after your project is created).
 5. You will be prompted to choose a template from our list of [angular](https://github.com/brightlayer-ui/angular-cli-templates), [react](https://github.com/brightlayer-ui/react-cli-templates), or [react native](https://github.com/brightlayer-ui/react-native-cli-templates) templates (RNC CLI only) to scaffold your project:
-    -   Blank: a basic application with a simple placeholder homepage
-    -   Routing: integrates React Router with a simple drawer navigation and several placeholder routes
-    -   Authentication: integrates the [react](https://www.npmjs.com/package/@brightlayer-ui/react-auth-workflow), [angular](https://www.npmjs.com/package/@brightlayer-ui/angular-auth-workflow), or [react native](https://www.npmjs.com/package/@brightlayer-ui/react-native-auth-workflow) auth-workflow login and registration screens plus everything from the routing template
+    - Blank: a basic application with a simple placeholder homepage
+    - Routing: integrates React Router with a simple drawer navigation and several placeholder routes
+    - Authentication: integrates the [react](https://www.npmjs.com/package/@brightlayer-ui/react-auth-workflow), [angular](https://www.npmjs.com/package/@brightlayer-ui/angular-auth-workflow), or [react native](https://www.npmjs.com/package/@brightlayer-ui/react-native-auth-workflow) auth-workflow login and registration screens plus everything from the routing template
 6. If you are creating a React or React Native project, you will be prompted to choose JavaScript or Typescript for your project language.
 7. You will be asked if you want to use the Brightlayer UI Linting configuration and code formatting packages (recommended).
 8. The CLI will install all of the necessary dependencies for your project and integrate the Brightlayer UI components, themes, and fonts. When complete, the CLI should present you instructions for running your project.
     > **Note for React Native projects:** If you are using the React Native Community CLI for your react native project, there are additional steps you must run for your project to run on iOS. Follow the on-screen instructions for running `pod install` to link the react-native-vector-icons package. If you are using xCode 11+, you will also need to update the Build Phases in xCode to avoid duplicated resources errors (refer to [this issue](https://github.com/oblador/react-native-vector-icons/issues/1074)).
 
-
 ### Testing / Debugging Templates (For Maintainers)
 
-You should always use the latest version of the templates when starting a new project to make sure you have the latest features and bug fixes. 
+You should always use the latest version of the templates when starting a new project to make sure you have the latest features and bug fixes.
 
 If you are a library maintainer and you need to test out different versions of the templates during development, there are several ways to do this:
 
 1.  Use `--alpha` or `--beta` flags on the command line. This will install the latest alpha or beta version of the template package from NPM, respectively.
-2.  Use `--template=templateName@x.x.x` to specify a specific version of the template package to install from NPM.
+2.  Use `--template=<blank|routing|authentication>@x.x.x` to specify a specific version of the template package to install from NPM.
 3.  Use a local template file via `--template=file:./path/to/folder`. When using this syntax, the directory that you point to should contain all of the necessary files for a template. This is usually the "template name" folder (e.g., `./myTemplates/authentication`, not `./myTemplates/authentication/template`).
     -   If you are working in a local copy of a Brightlayer UI CLI templates repository, assuming that folder is in your current working directory, the paths would be:
         -   `--template=file:./angular-cli-templates/src/app/<name>`

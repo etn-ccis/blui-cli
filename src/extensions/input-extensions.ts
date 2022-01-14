@@ -17,7 +17,12 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const checkIsValidTemplate = (templateName: string): boolean => {
             let isValid: boolean;
 
-            if (templateName.startsWith('file:')) {
+            if (
+                templateName.startsWith('file:') ||
+                templateName.startsWith('blank@') ||
+                templateName.startsWith('routing@') ||
+                templateName.startsWith('authentication@')
+            ) {
                 isValid = true;
             } else {
                 switch (templateName.toLocaleLowerCase()) {
