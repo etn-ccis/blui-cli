@@ -9,6 +9,15 @@
         "url": "https://github.com/brightlayer-ui/brightlayer-ui-cli",
         "type": "git"
     },
+    "keywords": [
+        "Brightlayer UI",
+        "Command-line Interface",
+        "CLI",
+        "Eaton",
+        "Angular",
+        "React",
+        "React Native"
+    ],
     "version": "1.9.0-beta.0",
     "description": "A command-line interface for quickly scaffolding Brightlayer UI applications",
     "bin": {
