@@ -38,8 +38,9 @@
         "watch": "jest --watch",
         "snapupdate": "jest --updateSnapshot",
         "coverage": "yarn test --coverage --watchAll=false",
-        "precommit": "yarn && yarn prettier && yarn build && yarn test",
-        "build:local": "blui --version && blui new"
+        "precommit": "yarn && yarn prettier && yarn build && yarn test && yarn generate:licenses",
+        "build:local": "blui --version && blui new",
+        "generate:licenses": "npm-license-crawler -onlyDirectDependencies -json LICENSES.json"
     },
     "files": [
         "tsconfig.json",
@@ -67,6 +68,7 @@
         "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.10.1",
         "jest": "^23.6.0",
+        "npm-license-crawler": "^0.2.1",
         "prettier": "^1.19.1",
         "ts-jest": "^23.10.5"
     },
