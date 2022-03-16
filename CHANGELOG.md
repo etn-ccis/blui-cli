@@ -2,6 +2,10 @@
 
 ## v1.9.0 (unreleased)
 
+### Changed
+
+-   Update angular projects to use angular 13.
+
 ### Added
 
 -   Added functionality to enforce valid template selection (#52)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/52].
