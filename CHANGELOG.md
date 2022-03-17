@@ -4,7 +4,8 @@
 
 ### Changed
 
--   Update angular projects to use angular 13.
+- Update angular projects to use angular 13.
+- Updated bundle size budgets when building angular projects.
 
 ### Removed
 
