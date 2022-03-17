@@ -27,12 +27,10 @@ const BASE_PRETTIER_DEPENDENCIES = ['prettier@^2.1.2', '@brightlayer-ui/prettier
 export const LINT_DEPENDENCIES = {
     angular: BASE_LINT_DEPENDENCIES,
     react: BASE_LINT_DEPENDENCIES.concat(['eslint-plugin-react@^7.0.0']),
-    ionic: BASE_LINT_DEPENDENCIES,
     reactNative: BASE_LINT_DEPENDENCIES.concat(['eslint-plugin-react@^7.0.0']),
 };
 export const PRETTIER_DEPENDENCIES = {
     angular: BASE_PRETTIER_DEPENDENCIES,
     react: BASE_PRETTIER_DEPENDENCIES,
-    ionic: BASE_PRETTIER_DEPENDENCIES,
     reactNative: BASE_PRETTIER_DEPENDENCIES.slice(1),
 };

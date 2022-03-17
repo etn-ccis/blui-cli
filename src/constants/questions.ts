@@ -35,7 +35,7 @@ export const QUESTIONS = {
         question: 'Project Framework:',
         required: true,
         type: 'radio',
-        choices: ['Angular', 'React', 'Ionic', 'React Native'],
+        choices: ['Angular', 'React', 'React Native'],
     },
     template: {
         optionName: 'template',

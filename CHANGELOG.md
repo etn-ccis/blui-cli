@@ -6,6 +6,10 @@
 
 -   Update angular projects to use angular 13.
 
+### Removed
+
+-   Removed ability to generate new Ionic projects. 
+
 ### Added
 
 -   Added functionality to enforce valid template selection (#52)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/52].
