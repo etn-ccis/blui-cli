@@ -12,7 +12,6 @@ import {
     ReactProps,
     ReactNativeProps,
     Template,
-    IonicProps,
     Language,
     getVersionString,
 } from '../utilities';
@@ -98,27 +97,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
         return { name, language, lint, prettier };
     };
 
-    const createIonicProject = async (): Promise<IonicProps> => {
-        const [name, lint, prettier, template]: [string, boolean, boolean, string] = await parse([
-            QUESTIONS.name,
-            QUESTIONS.lint,
-            QUESTIONS.prettier,
-            QUESTIONS.template,
-        ]);
-
-        const command = `${NPM7_PREFIX}&& npx -p @ionic/cli ionic start ${name} blank`;
-
-        const spinner = print.spin('Creating a new Ionic project (this may take a few minutes)...');
-        const timer = system.startTimer();
-        const output = await system.run(command);
-        spinner.stop();
-
-        print.info(output);
-        print.success(`Created skeleton Ionic project in ${timer() / 1000} seconds`);
-
-        return { name, lint, prettier, template };
-    };
-
     const createReactNativeProject = async (): Promise<ReactNativeProps> => {
         // Choose a name
         const [name]: [string] = await parse([QUESTIONS.name]);
@@ -172,7 +150,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
     toolbox.createProject = {
         angular: createAngularProject,
         react: createReactProject,
-        ionic: createIonicProject,
         reactNative: createReactNativeProject,
     };
 };
