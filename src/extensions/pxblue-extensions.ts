@@ -231,12 +231,13 @@ module.exports = (toolbox: GluegunToolbox): void => {
             './node_modules/@brightlayer-ui/angular-themes/theme.scss',
             './node_modules/@brightlayer-ui/angular-themes/open-sans.scss',
         ];
-        const budgets =
-                [{
-                    "type": "initial",
-                    "maximumWarning": "1.5mb",
-                    "maximumError": "2mb"
-                }];
+        const budgets = [
+            {
+                type: 'initial',
+                maximumWarning: '1.5mb',
+                maximumError: '2mb',
+            },
+        ];
         angularJSON.projects[name].architect.build.options.styles = styles;
         angularJSON.projects[name].architect.test.options.styles = styles;
         angularJSON.projects[name].architect.build.configurations.production.budgets = budgets;
