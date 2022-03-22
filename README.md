@@ -66,8 +66,7 @@ To start a new project with Brightlayer UI integration follow the steps below. W
 1. `npx -p @brightlayer-ui/cli blui new`
 2. Choose your desired framework from the list
     - Alternatively, you can pre-select a framework by running `npx -p @brightlayer-ui/cli blui new <framework>`
-``        > **Note for Ionic:** If you are creating an Ionic project and you are behind a proxy, ensure that you have set an environment variable for `IONIC_HTTP_PROXY`. Depending on your firewall settings, you may also need to temporarily add an environment variable for `NODE_TLS_REJECT_UNAUTHORIZED=0` (remove this promptly after your project is created).
-``3. You will be prompted to enter a name for your project. Make sure the name you select meets the requirements of the CLI for your chosen framework.
+3. You will be prompted to enter a name for your project. Make sure the name you select meets the requirements of the CLI for your chosen framework.
 4. For React Native projects, you'll be asked which CLI to use to scaffold your project. You can choose between the React Native Community CLI (recommended) or Expo (better for smaller demo or proof-of-concept projects).
     > **Note for Expo projects:** If you are creating an Expo project and you are behind a proxy, you will need to ensure that you have environment variables set for `HTTP_PROXY` and `HTTPS_PROXY`. Depending on your firewall settings, you may also need to temporarily add an environment variable for `NODE_TLS_REJECT_UNAUTHORIZED=0` (remove this promptly after your project is created).
 5. You will be prompted to choose a template from our list of [angular](https://github.com/brightlayer-ui/angular-cli-templates/tree/master), [react](https://github.com/brightlayer-ui/react-cli-templates/tree/master), or [react native](https://github.com/brightlayer-ui/react-native-cli-templates/tree/master) templates (RNC CLI only) to scaffold your project:
