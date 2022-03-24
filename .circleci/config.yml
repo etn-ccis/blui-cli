@@ -97,18 +97,6 @@ jobs:
                   command: |
                       bin/blui new react-native --name=reactnativetest --lint --prettier --language=typescript
 
-    build_ionic:
-        working_directory: ~/@brightlayer-ui-cli
-        docker:
-            - image: cimg/node:14.19.0-browsers
-        steps:
-            - checkout
-            - attach_workspace:
-                  at: .
-            - run:
-                  name: Build Ionic Project
-                  command: |
-                      bin/blui new ionic --name=ionictest --lint --prettier --template=blank
     publish:
         docker:
             - image: cimg/node:14.19.0-browsers
@@ -164,18 +152,9 @@ workflows:
             #       only:
             #          - master
             #          - dev
-            # - build_ionic:
-            #    requires:
-            #      - build_cli
-            #    filters:
-            #      branches:
-            #        only:
-            #          - master
-            #          - dev
             - publish:
                   requires:
                       - build_angular
-                      #  - build_ionic
                       - build_react
                   #  - build_react_native
                   filters:
