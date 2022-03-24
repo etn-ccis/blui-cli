@@ -1,4 +1,4 @@
-/* eslint-disable */ 
+/* eslint-disable */
 export const JEST = {
     TRANSFORM_IGNORE_PATTERNS: ['node_modules/(@react-native-community|react-navigation|@react-navigation/.*)'],
     SETUP_FILES: ['./jestSetupFile.js', './node_modules/react-native-gesture-handler/jestSetup.js'],
