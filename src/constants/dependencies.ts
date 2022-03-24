@@ -1,20 +1,3 @@
-export const DEPENDENCIES = {
-    expo: [
-        '@brightlayer-ui/react-native-themes@^6.0.0',
-        '@brightlayer-ui/colors@^3.0.1',
-        '@brightlayer-ui/react-native-components@^6.0.0',
-        '@brightlayer-ui/react-native-vector-icons@^1.0.0',
-        'react-native-paper@^4.2.0',
-        '@brightlayer-ui/icons-svg@^1.0.0',
-        'react-native-vector-icons@^8.0.0',
-        'react-native-svg@^12.1.0',
-        'react-native-svg-transformer@^0.14.3',
-        'react-native-safe-area-context@^3.1.9',
-    ],
-};
-export const DEV_DEPENDENCIES = {
-    expo: ['jest', 'react-test-renderer', '@types/react-native-vector-icons'],
-};
 const BASE_LINT_DEPENDENCIES = [
     '@brightlayer-ui/eslint-config@^2.0.2',
     'eslint@^7.11.0',

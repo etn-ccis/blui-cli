@@ -1,15 +1,16 @@
 # Changelog
 
-## v1.9.0 (unreleased)
+## v2.0.0 (unreleased)
 
 ### Changed
 
-- Update angular projects to use angular 13.
-- Updated bundle size budgets when building angular projects.
+-   Update angular projects to use angular 13.
+-   Updated bundle size budgets when building angular projects.
 
 ### Removed
 
--   Removed ability to generate new Ionic projects. 
+-   Removed ability to generate new Ionic projects. (#115)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/115]
+-   Removed ability to generate new React Native projects using Expo. (#114)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/114]
 
 ### Added
 
