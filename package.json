@@ -1,29 +1,8 @@
 {
     "name": "@brightlayer-ui/cli",
-    "author": {
-        "name": "Brightlayer UI",
-        "email": "brightlayer-ui@eaton.com"
-    },
-    "homepage": "https://github.com/brightlayer-ui/brightlayer-ui-cli",
-    "repository": {
-        "url": "https://github.com/brightlayer-ui/brightlayer-ui-cli",
-        "type": "git"
-    },
-    "keywords": [
-        "Brightlayer UI",
-        "Command-line Interface",
-        "CLI",
-        "Eaton",
-        "Angular",
-        "React",
-        "React Native"
-    ],
     "version": "2.0.0-beta.0",
     "description": "A command-line interface for quickly scaffolding Brightlayer UI applications",
-    "bin": {
-        "blui": "bin/blui"
-    },
-    "scripts": {
+     "scripts": {
         "lint": "eslint \"src/**/**.ts\"",
         "lint:fix": "eslint \"src/**/**.ts\" --fix",
         "prettier:check": "prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --check",
@@ -42,16 +21,6 @@
         "build:local": "blui --version && blui new",
         "generate:licenses": "npm-license-crawler -onlyDirectDependencies -json LICENSES.json"
     },
-    "files": [
-        "tsconfig.json",
-        "tslint.json",
-        "build",
-        "LICENSE",
-        "README.md",
-        "CHANGELOG.md",
-        "bin"
-    ],
-    "license": "BSD-3-Clause",
     "dependencies": {
         "gluegun": "^5.1.0",
         "ts-node": "^10.7.0",
@@ -72,6 +41,37 @@
         "prettier": "^2.6.0",
         "ts-jest": "^27.1.3"
     },
+    "repository": {
+        "url": "https://github.com/brightlayer-ui/brightlayer-ui-cli",
+        "type": "git"
+    },
+    "keywords": [
+        "Brightlayer UI",
+        "Command-line Interface",
+        "CLI",
+        "Eaton",
+        "Angular",
+        "React",
+        "React Native"
+    ],
+    "bin": {
+        "blui": "bin/blui"
+    },
+    "files": [
+        "tsconfig.json",
+        "tslint.json",
+        "build",
+        "LICENSE",
+        "README.md",
+        "CHANGELOG.md",
+        "bin"
+    ],
+    "author": {
+        "name": "Brightlayer UI",
+        "email": "brightlayer-ui@eaton.com"
+    },
+    "homepage": "https://github.com/brightlayer-ui/brightlayer-ui-cli",
+    "license": "BSD-3-Clause",
     "jest": {
         "preset": "ts-jest",
         "testEnvironment": "node",
