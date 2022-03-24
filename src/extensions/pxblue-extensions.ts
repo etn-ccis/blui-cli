@@ -3,8 +3,6 @@
  */
 import { GluegunToolbox, filesystem } from 'gluegun';
 import {
-    DEPENDENCIES,
-    DEV_DEPENDENCIES,
     LINT_DEPENDENCIES,
     LINT_SCRIPTS,
     LINT_CONFIG,
@@ -306,119 +304,116 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addBLUIReactNative = async (props: ReactNativeProps): Promise<void> => {
-        const { name, lint, prettier, language, cli, template } = props;
+        const { name, lint, prettier, language, template } = props;
         const folder = `./${name}`;
         const ts = language === 'ts';
-        const expo = cli === 'expo';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
-        // Set up the template for non-expo projects
-        if (!expo) {
-            // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
-            const [templateNameParam, versionString] = getVersionString(options, template);
-            const isLocal = templateNameParam.startsWith('file:');
+        // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
+        const [templateNameParam, versionString] = getVersionString(options, template);
+        const isLocal = templateNameParam.startsWith('file:');
 
-            // Map the template selection to template src
-            let templatePackage = '';
-            switch (templateNameParam.toLocaleLowerCase()) {
-                case 'basic routing':
-                case 'routing':
-                    templatePackage = ts
-                        ? '@brightlayer-ui/react-native-template-routing-typescript'
-                        : '@brightlayer-ui/react-native-template-routing';
-                    break;
-                case 'authentication':
-                    templatePackage = ts
-                        ? '@brightlayer-ui/react-native-template-authentication-typescript'
-                        : '@brightlayer-ui/react-native-template-authentication';
-                    break;
-                case 'blank':
-                    templatePackage = ts
-                        ? '@brightlayer-ui/react-native-template-blank-typescript'
-                        : '@brightlayer-ui/react-native-template-blank';
-                    break;
-                default:
-                    // allow users to specify a local file to test
-                    templatePackage = isLocal
-                        ? templateNameParam
-                        : ts
-                        ? '@brightlayer-ui/react-native-template-blank-typescript'
-                        : '@brightlayer-ui/react-native-template-blank';
-            }
+        // Map the template selection to template src
+        let templatePackage = '';
+        switch (templateNameParam.toLocaleLowerCase()) {
+            case 'basic routing':
+            case 'routing':
+                templatePackage = ts
+                    ? '@brightlayer-ui/react-native-template-routing-typescript'
+                    : '@brightlayer-ui/react-native-template-routing';
+                break;
+            case 'authentication':
+                templatePackage = ts
+                    ? '@brightlayer-ui/react-native-template-authentication-typescript'
+                    : '@brightlayer-ui/react-native-template-authentication';
+                break;
+            case 'blank':
+                templatePackage = ts
+                    ? '@brightlayer-ui/react-native-template-blank-typescript'
+                    : '@brightlayer-ui/react-native-template-blank';
+                break;
+            default:
+                // allow users to specify a local file to test
+                templatePackage = isLocal
+                    ? templateNameParam
+                    : ts
+                    ? '@brightlayer-ui/react-native-template-blank-typescript'
+                    : '@brightlayer-ui/react-native-template-blank';
+        }
 
-            // Clone the template repo (if applicable)
-            const templateSpinner = print.spin('Adding Brightlayer UI template...');
-            const templateFolder = `template-${new Date().getTime()}`;
-            const installTemplateCommand = isLocal
-                ? `echo "Using Local Template"`
-                : `cd ${name} && npm install ${templatePackage}${versionString} --prefix ${templateFolder} && cd ..`;
-            await system.run(installTemplateCommand);
+        // Clone the template repo (if applicable)
+        const templateSpinner = print.spin('Adding Brightlayer UI template...');
+        const templateFolder = `template-${new Date().getTime()}`;
+        const installTemplateCommand = isLocal
+            ? `echo "Using Local Template"`
+            : `cd ${name} && npm install ${templatePackage}${versionString} --prefix ${templateFolder} && cd ..`;
+        await system.run(installTemplateCommand);
 
-            // Uncomment this line to fake npm install from local file — this will work as long as you run the blui new command from a folder that contains the react-native-cli-templates repository
-            // filesystem.copy(`./react-native-cli-templates/${templatePackage.replace('@brightlayer-ui/react-native-template-', '')}`, `./${name}/${templateFolder}/node_modules/${templatePackage}`, {
-            //     overwrite: true,
-            // });
+        // Uncomment this line to fake npm install from local file — this will work as long as you run the blui new command from a folder that contains the react-native-cli-templates repository
+        // filesystem.copy(`./react-native-cli-templates/${templatePackage.replace('@brightlayer-ui/react-native-template-', '')}`, `./${name}/${templateFolder}/node_modules/${templatePackage}`, {
+        //     overwrite: true,
+        // });
 
-            const templatePath = isLocal
-                ? templatePackage.replace('file:', '')
-                : `./${name}/${templateFolder}/node_modules/${templatePackage}`;
+        const templatePath = isLocal
+            ? templatePackage.replace('file:', '')
+            : `./${name}/${templateFolder}/node_modules/${templatePackage}`;
 
-            // Copy template files
-            filesystem.copy(`${templatePath}/template`, `./${name}/`, {
+        // Copy template files
+        filesystem.copy(`${templatePath}/template`, `./${name}/`, {
+            overwrite: true,
+        });
+
+        // Copy template-specific fonts
+        if (filesystem.isDirectory(`${templatePath}/fonts`)) {
+            filesystem.copy(`${templatePath}/fonts`, `./${name}/assets/fonts/`, {
                 overwrite: true,
             });
+        }
 
-            // Copy template-specific fonts
-            if (filesystem.isDirectory(`${templatePath}/fonts`)) {
-                filesystem.copy(`${templatePath}/fonts`, `./${name}/assets/fonts/`, {
-                    overwrite: true,
-                });
-            }
-
-            // Copy template-specific images
-            if (filesystem.isDirectory(`${templatePath}/images`)) {
-                filesystem.copy(`${templatePath}/images`, `./${name}/assets/images/`, {
-                    overwrite: true,
-                });
-            }
-
-            // Install template-specific dependencies
-            const dependencies = filesystem.read(`${templatePath}/dependencies.json`, 'json');
-            await fileModify.installDependencies({
-                folder: folder,
-                dependencies: dependencies.dependencies,
-                dev: false,
-                description: 'Brightlayer UI Template Dependencies',
+        // Copy template-specific images
+        if (filesystem.isDirectory(`${templatePath}/images`)) {
+            filesystem.copy(`${templatePath}/images`, `./${name}/assets/images/`, {
+                overwrite: true,
             });
+        }
 
-            // Install template-specific dev-dependencies
-            await fileModify.installDependencies({
-                folder: folder,
-                dependencies: dependencies.devDependencies,
-                dev: true,
-                description: 'Brightlayer UI Template DevDependencies',
-            });
+        // Install template-specific dependencies
+        const dependencies = filesystem.read(`${templatePath}/dependencies.json`, 'json');
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies: dependencies.dependencies,
+            dev: false,
+            description: 'Brightlayer UI Template Dependencies',
+        });
 
-            // Remove the template package folder
-            filesystem.remove(`./${name}/${templateFolder}`);
+        // Install template-specific dev-dependencies
+        await fileModify.installDependencies({
+            folder: folder,
+            dependencies: dependencies.devDependencies,
+            dev: true,
+            description: 'Brightlayer UI Template DevDependencies',
+        });
 
-            // Configure vector icons
-            // Update Podfile for iOS
-            let podfile = filesystem.read(`./${name}/ios/Podfile`, 'utf8');
-            podfile = podfile
-                .trim()
-                .replace('use_flipper!()', '# use_flipper!()')
-                .replace(
-                    /end$/gi,
-                    `\r\n\r\n\tpod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'\r\n\tpod 'RNBLUIVectorIcons', :path => '../node_modules/@brightlayer-ui/react-native-vector-icons'\r\nend`
-                );
-            filesystem.write(`./${name}/ios/Podfile`, podfile);
+        // Remove the template package folder
+        filesystem.remove(`./${name}/${templateFolder}`);
 
-            // Update Info.plist for iOS
-            let plist = filesystem.read(`./${name}/ios/${name}/Info.plist`, 'utf8');
-            plist = plist.trim().replace(
-                /<\/array>/i,
-                `</array>
+        // Configure vector icons
+        // Update Podfile for iOS
+        let podfile = filesystem.read(`./${name}/ios/Podfile`, 'utf8');
+        podfile = podfile
+            .trim()
+            .replace('use_flipper!()', '# use_flipper!()')
+            .replace(
+                /end$/gi,
+                `\r\n\r\n\tpod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'\r\n\tpod 'RNBLUIVectorIcons', :path => '../node_modules/@brightlayer-ui/react-native-vector-icons'\r\nend`
+            );
+        filesystem.write(`./${name}/ios/Podfile`, podfile);
+
+        // Update Info.plist for iOS
+        let plist = filesystem.read(`./${name}/ios/${name}/Info.plist`, 'utf8');
+        plist = plist.trim().replace(
+            /<\/array>/i,
+            `</array>
     <key>UIAppFonts</key>
     <array>
         <string>AntDesign.ttf</string>
@@ -439,67 +434,16 @@ module.exports = (toolbox: GluegunToolbox): void => {
         <string>Fontisto.ttf</string>
         <string>BLUIIcons.ttf</string>
     </array>`
-            );
-            filesystem.write(`./${name}/ios/${name}/Info.plist`, plist);
+        );
+        filesystem.write(`./${name}/ios/${name}/Info.plist`, plist);
 
-            // Update build.gradle for android
-            filesystem.append(
-                `./${name}/android/app/build.gradle`,
-                `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"\r\napply from: "../../node_modules/@brightlayer-ui/react-native-vector-icons/fonts.gradle"`
-            );
+        // Update build.gradle for android
+        filesystem.append(
+            `./${name}/android/app/build.gradle`,
+            `apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"\r\napply from: "../../node_modules/@brightlayer-ui/react-native-vector-icons/fonts.gradle"`
+        );
 
-            templateSpinner.stop();
-        }
-        // End RNC(!expo) block
-
-        if (expo) {
-            // Install Dependencies
-            await fileModify.installDependencies({
-                folder: folder,
-                dependencies: DEPENDENCIES.expo.concat(['@expo/metro-config', 'expo-app-loading']),
-                dev: false,
-                description: 'Brightlayer UI React Native Dependencies',
-                expo: true,
-            });
-
-            // Install DevDependencies
-            await fileModify.installDependencies({
-                folder: folder,
-                dependencies: DEV_DEPENDENCIES.expo.concat(['jest-expo']),
-                dev: true,
-                description: 'Brightlayer UI React Native Dev Dependencies',
-                expo: true,
-            });
-
-            const expoSpinner = print.spin('Configuring Expo files and assets...');
-
-            // Clone the helpers repo
-            const helper = `cli-helpers-${Date.now()}`;
-            const command = `git clone https://github.com/brightlayer-ui/cli-helpers ${helper}`;
-            await system.run(command);
-
-            // Copy the fonts
-            filesystem.dir(`./${folder}/assets`);
-            filesystem.copy(`./${helper}/fonts`, `${folder}/assets/fonts`, { overwrite: true });
-
-            // Copy the App template with ThemeProvider (TODO: replace template with instruction insertion)
-            filesystem.copy(
-                `./${helper}/react-native/${cli}/App.${ts ? 'tsx' : 'js'}`,
-                `${folder}/App.${ts ? 'tsx' : 'js'}`,
-                { overwrite: true }
-            );
-
-            // Configure react-native-svg-transformer
-            const appJSON: any = filesystem.read(`${folder}/app.json`, 'json');
-            const helperAppJSON = filesystem.read(`./${helper}/react-native/expo/app.json`, 'json');
-            appJSON.expo.packagerOpts = helperAppJSON.expo.packagerOpts;
-            filesystem.write(`${folder}/app.json`, appJSON, { jsonIndent: 4 });
-
-            // Remove the temporary folder
-            filesystem.remove(`./${helper}`);
-            expoSpinner.stop();
-        }
-        // End expo block
+        templateSpinner.stop();
 
         // Install ESLint Packages (optional)
         if (ts && lint) {
@@ -549,41 +493,32 @@ module.exports = (toolbox: GluegunToolbox): void => {
         }
 
         // Configure Jest
-        if (!expo) {
-            packageJSON.jest.transformIgnorePatterns = JEST.TRANSFORM_IGNORE_PATTERNS;
-            packageJSON.jest.setupFiles = JEST.SETUP_FILES;
-            packageJSON.jest.moduleNameMapper = JEST.MODULE_NAME_MAPPER;
-            filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
-        }
+        packageJSON.jest.transformIgnorePatterns = JEST.TRANSFORM_IGNORE_PATTERNS;
+        packageJSON.jest.setupFiles = JEST.SETUP_FILES;
+        packageJSON.jest.moduleNameMapper = JEST.MODULE_NAME_MAPPER;
+        filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
         // Link native modules
-        if (!expo) {
-            const command = `cd ${folder} && ${NPM7_PREFIX} && npx react-native-asset`;
-            const output = await system.run(command);
-            print.info(output);
-        }
+        const command = `cd ${folder} && ${NPM7_PREFIX} && npx react-native-asset`;
+        const output = await system.run(command);
+        print.info(output);
 
         spinner.stop();
         printSuccess(name);
-        printInstructions(
-            !expo
-                ? [
-                      `iOS:`,
-                      `• cd ${name}/ios`,
-                      `• pod install`,
-                      `• cd ..`,
-                      `• ${isYarn ? 'yarn' : 'npm run'} ios`,
-                      ``,
-                      `Android:`,
-                      `• Have an Android emulator running`,
-                      `• ${isYarn ? 'yarn' : 'npm run'} android`,
-                  ]
-                : [`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]
+        printInstructions([
+            `iOS:`,
+            `• cd ${name}/ios`,
+            `• pod install`,
+            `• cd ..`,
+            `• ${isYarn ? 'yarn' : 'npm run'} ios`,
+            ``,
+            `Android:`,
+            `• Have an Android emulator running`,
+            `• ${isYarn ? 'yarn' : 'npm run'} android`,
+        ]);
+        print.warning(
+            'Due to some issues with the latest version of Xcode, we have disabled Flipper in the iOS project (refer to https://github.com/facebook/react-native/issues/31179).'
         );
-        if (!expo)
-            print.warning(
-                'Due to some issues with the latest version of Xcode, we have disabled Flipper in the iOS project (refer to https://github.com/facebook/react-native/issues/31179).'
-            );
         print.info('');
     };
 

@@ -1,5 +1,4 @@
 export type Language = 'ts' | 'js';
-export type Cli = 'expo' | 'rnc';
 
 export type Template = 'Blank' | 'Basic Routing' | 'Authentication';
 
@@ -20,7 +19,6 @@ export type ReactNativeProps = {
     language: Language;
     lint: boolean;
     prettier: boolean;
-    cli: Cli;
     template: string;
 };
 

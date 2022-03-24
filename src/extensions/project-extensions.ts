@@ -6,8 +6,6 @@ import { GluegunToolbox } from 'gluegun';
 import { NPM7_PREFIX, QUESTIONS } from '../constants';
 import {
     assignJsTs,
-    stringToLowerCaseNoSpace,
-    Cli,
     AngularProps,
     ReactProps,
     ReactNativeProps,
@@ -101,16 +99,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Choose a name
         const [name]: [string] = await parse([QUESTIONS.name]);
 
-        // Choose a CLI
-        let [cliTemp]: [string] = await parse([QUESTIONS.cli]);
-        cliTemp = stringToLowerCaseNoSpace(cliTemp);
-        const cli: Cli = cliTemp === 'expo' ? 'expo' : 'rnc';
-
         // Choose a template
         let template = '';
-        if (cli !== 'expo') {
-            [template] = await parse([QUESTIONS.template]);
-        }
+        [template] = await parse([QUESTIONS.template]);
 
         // Choose a language
         const [languageTemp]: [string] = await parse([QUESTIONS.language]);
@@ -125,16 +116,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const [prettier] = await parse([QUESTIONS.prettier]);
 
         // Create the basic project
-        let command: string;
-        if (cli === 'expo') {
-            command = `${NPM7_PREFIX} && npx -p expo-cli expo init --name=${name} --template=${
-                isTs ? 'expo-template-blank-typescript' : 'blank'
-            } "${name}"`;
-        } else {
-            command = `${NPM7_PREFIX} && npx -p react-native@0.64.1 react-native init ${name} ${
-                isTs ? '--template react-native-template-typescript@6.6.4' : '--template react-native@0.64.1'
-            }`;
-        }
+        const command = `${NPM7_PREFIX} && npx -p react-native@0.64.1 react-native init ${name} ${
+            isTs ? '--template react-native-template-typescript@6.6.4' : '--template react-native@0.64.1'
+        }`;
 
         const spinner = print.spin('Creating a new React Native project (this may take a few minutes)...');
         const timer = system.startTimer();
@@ -144,7 +128,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created skeleton React Native project in ${timer() / 1000} seconds`);
 
-        return { name, language, lint, prettier, cli, template };
+        return { name, language, lint, prettier, template };
     };
 
     toolbox.createProject = {

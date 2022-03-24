@@ -24,12 +24,6 @@ export const QUESTIONS = {
         type: 'radio',
         choices: ['TypeScript', 'JavaScript'],
     },
-    cli: {
-        optionName: 'cli',
-        question: 'Which CLI should we use?',
-        type: 'radio',
-        choices: ['React Native Community (recommended)', 'Expo'],
-    },
     framework: {
         optionName: 'framework',
         question: 'Project Framework:',
