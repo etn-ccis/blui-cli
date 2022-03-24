@@ -4,12 +4,13 @@
 
 ### Changed
 
-- Update angular projects to use angular 13.
-- Updated bundle size budgets when building angular projects.
+-   Updated dependencies to the latest (#116)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/116].
+-   Update angular projects to use angular 13.
+-   Updated bundle size budgets when building angular projects.
 
 ### Removed
 
--   Removed ability to generate new Ionic projects. 
+-   Removed ability to generate new Ionic projects.
 
 ### Added
 
