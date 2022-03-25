@@ -4,6 +4,7 @@
 
 ### Changed
 
+-   Updated dependencies to the latest ([#116](https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/116)).
 -   Update angular projects to use angular 13.
 -   Updated bundle size budgets when building angular projects.
 
@@ -14,7 +15,7 @@
 
 ### Added
 
--   Added functionality to enforce valid template selection (#52)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/52].
+-   Added functionality to enforce valid template selection ([#52](https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/52)).
 
 ## v1.8.2 (December 16, 2021)
 
