@@ -34,7 +34,9 @@ or
 $ npm install -g @brightlayer-ui/cli
 ```
 
-> **NOTE:** If you are using NPM v7, the CLI will not work via npx — you _must_ install it globally. Check periodically to make sure you have the latest version.
+> **NOTE:** If you are using NPM v7+, the CLI will not work via npx — you _must_ install it globally. Check periodically to make sure you have the latest version.
+
+> **NOTE:** If you are using NPM v7+, overly strict `peerDependencies` that collide will not be installed which causes issues with certain templates. This can be resolved by adding `legacy-peer-deps=true` to your npm global config `.npmrc` file.
 
 ### Available Commands
 
