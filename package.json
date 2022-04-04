@@ -1,8 +1,8 @@
 {
     "name": "@brightlayer-ui/cli",
-    "version": "2.0.0-beta.0",
+    "version": "2.0.0",
     "description": "A command-line interface for quickly scaffolding Brightlayer UI applications",
-     "scripts": {
+    "scripts": {
         "lint": "eslint \"src/**/**.ts\"",
         "lint:fix": "eslint \"src/**/**.ts\" --fix",
         "prettier:check": "prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --check",
@@ -22,7 +22,11 @@
         "generate:licenses": "npm-license-crawler -onlyDirectDependencies -json LICENSES.json"
     },
     "dependencies": {
+        "@angular/cli": "^13.3.1",
+        "create-react-app": "^5.0.0",
         "gluegun": "^5.1.0",
+        "react-native": "^0.68.0",
+        "react-native-asset": "^2.0.1",
         "ts-node": "^10.7.0",
         "typescript": "^4.6.2"
     },
