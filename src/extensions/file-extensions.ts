@@ -24,7 +24,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`);
         const installCommand = dev
-            ? `cd ${folder} && ${isYarn ? 'yarn add --dev' : 'npm install --save-dev'}`
+            ? `cd ${folder} && ${isYarn ? 'yarn add --dev' : 'npm install --save-dev --legacy-peer-deps'}`
             : `cd ${folder} && ${isYarn ? 'yarn add' : 'npm install --save'}`;
 
         // Install Dependencies
