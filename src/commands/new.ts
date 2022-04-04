@@ -27,15 +27,12 @@ module.exports = {
             case 'react':
                 await addBLUI.react(await createProject.react());
                 break;
-            case 'ionic':
-                await addBLUI.ionic(await createProject.ionic());
-                break;
             case 'reactnative':
                 await addBLUI.reactNative(await createProject.reactNative());
                 break;
             default:
                 print.error('You must specify one of the supported frameworks.');
-                print.info('Brightlayer UI only supports Angular, React, Ionic and React-Native.');
+                print.info('Brightlayer UI only supports Angular, React and React-Native.');
                 return;
         }
     },

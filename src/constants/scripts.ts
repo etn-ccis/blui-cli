@@ -1,6 +1,5 @@
 export const SCRIPTS = {
     angular: [{ name: 'start', command: 'ng serve --open' }],
-    ionic: [],
     reactNative: [],
 };
 
@@ -20,7 +19,6 @@ const BASE_LINT_SCRIPTS = {
 };
 export const LINT_SCRIPTS = {
     angular: BASE_LINT_SCRIPTS.ts,
-    ionic: BASE_LINT_SCRIPTS.ts,
     react: BASE_LINT_SCRIPTS.tsx,
     reactNative: BASE_LINT_SCRIPTS.root,
 };
@@ -59,7 +57,6 @@ const BASE_PRETTIER_SCRIPTS = {
 };
 export const PRETTIER_SCRIPTS = {
     angular: BASE_PRETTIER_SCRIPTS.ts,
-    ionic: BASE_PRETTIER_SCRIPTS.ts,
     react: BASE_PRETTIER_SCRIPTS.tsx,
     reactNative: BASE_PRETTIER_SCRIPTS.root,
 };

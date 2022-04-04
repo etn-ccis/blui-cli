@@ -3,198 +3,176 @@ orbs:
     codecov: codecov/codecov@1.1.3
     gh: circleci/github-cli@1.0.3
 jobs:
-  build_cli:
-    working_directory: ~/@brightlayer-ui-cli
-    docker:
-      - image: circleci/node:14.17.0-browsers
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v2-dependencies-{{ checksum "yarn.lock" }}
-      - run:
-          name: Install Dependencies
-          command: |
-            yarn install --frozen-lockfile
-      - save_cache:
-          name: Save Cache
-          paths:
-            - node_modules
-          key: v2-dependencies-{{ checksum "yarn.lock" }}
-      - run:
-          name: Prettier Check
-          command: |
-            yarn prettier:check
-      - run:
-          name: Lint
-          command: |
-            yarn lint
-      - run:
-          name: Unit Tests
-          command: |
-            yarn test --coverage --watchAll=false
-      - run:
-          name: Build
-          command: |
-            yarn build
-      # Save the dist folder for use in future jobs.
-      - persist_to_workspace:
-          root: .
-          paths:
-            - node_modules
-            - build
-            - bin
-            - coverage
-  coverage_report:
+    build_cli:
         working_directory: ~/@brightlayer-ui-cli
         docker:
-            - image: circleci/node:12.9.1-browsers
+            - image: cimg/node:14.19.0-browsers
+        resource_class: large
+        steps:
+            - checkout
+            - restore_cache:
+                  keys:
+                      - v2-dependencies-{{ checksum "yarn.lock" }}
+            - run:
+                  name: Install Dependencies
+                  command: |
+                      yarn install --frozen-lockfile
+            - save_cache:
+                  name: Save Cache
+                  paths:
+                      - node_modules
+                  key: v2-dependencies-{{ checksum "yarn.lock" }}
+            - run:
+                  name: Prettier Check
+                  command: |
+                      yarn prettier:check
+            - run:
+                  name: Lint
+                  command: |
+                      yarn lint
+            - run:
+                  name: Unit Tests
+                  command: |
+                      yarn test --coverage --watchAll=false
+            - run:
+                  name: Build
+                  command: |
+                      yarn build
+            # Save the dist folder for use in future jobs.
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - node_modules
+                      - build
+                      - bin
+                      - coverage
+    coverage_report:
+        working_directory: ~/@brightlayer-ui-cli
+        docker:
+            - image: cimg/node:14.19.0-browsers
         steps:
             - checkout
             - attach_workspace:
-                at: .
+                  at: .
             - codecov/upload:
-                file: './coverage/clover.xml'
-                token: c928f23e-512b-48eb-aacf-f57c2fc9516f
+                  file: './coverage/clover.xml'
+                  token: c928f23e-512b-48eb-aacf-f57c2fc9516f
 
-  build_angular:
-      working_directory: ~/@brightlayer-ui-cli
-      docker:
-          - image: circleci/node:14.17.0-browsers
-      steps:
-        - checkout
-        - attach_workspace:
-            at: .
-        - run:
-            name: Build Angular Project
-            command: |
-              bin/blui new angular --name=angulartest --lint --prettier --template=blank
+    build_angular:
+        working_directory: ~/@brightlayer-ui-cli
+        docker:
+            - image: cimg/node:14.19.0-browsers
+        steps:
+            - checkout
+            - attach_workspace:
+                  at: .
+            - run:
+                  name: Build Angular Project
+                  command: |
+                      bin/blui new angular --name=angulartest --lint --prettier --template=blank
 
-  build_react:
-    working_directory: ~/@brightlayer-ui-cli
-    docker:
-        - image: circleci/node:14.17.0-browsers
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: Build React Project
-          command: |
-            bin/blui new react --name=reacttest --lint --prettier --language=typescript --template=blank
+    build_react:
+        working_directory: ~/@brightlayer-ui-cli
+        docker:
+            - image: cimg/node:14.19.0-browsers
+        steps:
+            - checkout
+            - attach_workspace:
+                  at: .
+            - run:
+                  name: Build React Project
+                  command: |
+                      bin/blui new react --name=reacttest --lint --prettier --language=typescript --template=blank
 
+    build_react_native:
+        working_directory: ~/@brightlayer-ui-cli
+        docker:
+            - image: cimg/node:14.19.0-browsers
+        steps:
+            - checkout
+            - attach_workspace:
+                  at: .
+            - run:
+                  name: Build React Native Project
+                  command: |
+                      bin/blui new react-native --name=reactnativetest --lint --prettier --language=typescript
 
-  build_react_native:
-    working_directory: ~/@brightlayer-ui-cli
-    docker:
-        - image: circleci/node:14.17.0-browsers
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: Build React Native Project
-          # TODO: Using Expo for the test now because react-native link has stopped working on CircleCI
-          command: |
-            bin/blui new react-native --name=reactnativetest --cli=expo --lint --prettier --language=typescript
-            
-  build_ionic:
-    working_directory: ~/@brightlayer-ui-cli
-    docker:
-        - image: circleci/node:14.17.0-browsers
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: Build Ionic Project
-          command: |
-            bin/blui new ionic --name=ionictest --lint --prettier --template=blank
-  publish:
-    docker:
-      - image: circleci/node:14.17.0-browsers
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: Authenticate with registry
-          command:  |
-            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-            echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-      - run:
-          name: Publish @brightlayer-ui/cli
-          command:  |
-            yarn publish:package -b $CIRCLE_BRANCH
-  tag:
-    docker:
-      - image: circleci/node:14.17.0-browsers
-    steps:
-      - checkout
-      - gh/setup
-      - run:
-          name: Tag @brightlayer-ui/cli
-          command: |
-            yarn tag:package -b $CIRCLE_BRANCH -s -blui-cli
+    publish:
+        docker:
+            - image: cimg/node:14.19.0-browsers
+        steps:
+            - checkout
+            - attach_workspace:
+                  at: .
+            - run:
+                  name: Authenticate with registry
+                  command: |
+                      echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+                      echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+            - run:
+                  name: Publish @brightlayer-ui/cli
+                  command: |
+                      yarn publish:package -b $CIRCLE_BRANCH
+    tag:
+        docker:
+            - image: cimg/node:14.19.0-browsers
+        steps:
+            - checkout
+            - gh/setup
+            - run:
+                  name: Tag @brightlayer-ui/cli
+                  command: |
+                      yarn tag:package -b $CIRCLE_BRANCH -s -blui-cli
 workflows:
-  version: 2
-  blui_cli:
-    jobs:
-      - build_cli
-      - build_angular:
-          requires:
+    version: 2
+    blui_cli:
+        jobs:
             - build_cli
-          filters:
-            branches:
-              only:
-                - master
-                - dev
-      - build_react:
-          requires:
-            - build_cli
-          filters:
-            branches:
-              only:
-                - master
-                - dev
-      #- build_react_native:
-      #    requires:
-      #      - build_cli
-      #    filters:
-      #      branches:
-      #       only:
-      #          - master
-      #          - dev
-      # - build_ionic:
-      #    requires:
-      #      - build_cli
-      #    filters:
-      #      branches:
-      #        only:
-      #          - master
-      #          - dev
-      - publish:
-          requires:
-            - build_angular
-          #  - build_ionic
-            - build_react
-          #  - build_react_native
-          filters:
-            branches:
-              only:
-                - master
-                - dev
-      - tag:
-          requires:
-            - publish
-          filters:
-            branches:
-              only:
-                - master
-      - coverage_report:
-                   requires:
-                        - build_cli
-                   filters:
-                        branches:
-                            only:
-                                - master
+            - build_angular:
+                  requires:
+                      - build_cli
+                  filters:
+                      branches:
+                          only:
+                              - master
+                              - dev
+            - build_react:
+                  requires:
+                      - build_cli
+                  filters:
+                      branches:
+                          only:
+                              - master
+                              - dev
+            #- build_react_native:
+            #    requires:
+            #      - build_cli
+            #    filters:
+            #      branches:
+            #       only:
+            #          - master
+            #          - dev
+            - publish:
+                  requires:
+                      - build_angular
+                      - build_react
+                  #  - build_react_native
+                  filters:
+                      branches:
+                          only:
+                              - master
+                              - dev
+            - tag:
+                  requires:
+                      - publish
+                  filters:
+                      branches:
+                          only:
+                              - master
+            - coverage_report:
+                  requires:
+                      - build_cli
+                  filters:
+                      branches:
+                          only:
+                              - master

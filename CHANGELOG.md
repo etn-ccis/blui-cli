@@ -1,4 +1,22 @@
 # Changelog
+
+## v2.0.0 (April 4, 2022)
+
+### Changed
+
+-   Updated dependencies to the latest ([#116](https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/116)).
+-   Update angular projects to use angular 13.
+-   Updated bundle size budgets when building angular projects.
+
+### Removed
+
+-   Removed ability to generate new Ionic projects. (#115)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/115]
+-   Removed ability to generate new React Native projects using Expo. (#114)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/114]
+
+### Added
+
+-   Added functionality to enforce valid template selection ([#52](https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/52)).
+
 ## v1.8.2 (December 16, 2021)
 
 ### Changed
@@ -10,6 +28,7 @@
 Previous versions listed after this indicator refer to our deprecated `@pxblue` packages.
 
 ---
+
 ## v1.8.2 (November 1, 2021)
 
 ### Changed
