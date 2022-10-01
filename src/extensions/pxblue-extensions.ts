@@ -507,13 +507,12 @@ module.exports = (toolbox: GluegunToolbox): void => {
         printSuccess(name);
         printInstructions([
             `iOS:`,
-            `• cd ${name}/ios`,
-            `• pod install`,
-            `• cd ..`,
+            `• cd ${name}/ios && pod install && cd ..`,
             `• ${isYarn ? 'yarn' : 'npm run'} ios`,
             ``,
             `Android:`,
             `• Have an Android emulator running`,
+            `• cd ${name}`,
             `• ${isYarn ? 'yarn' : 'npm run'} android`,
         ]);
         print.warning(
