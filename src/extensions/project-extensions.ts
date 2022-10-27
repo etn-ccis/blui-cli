@@ -116,8 +116,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const [prettier] = await parse([QUESTIONS.prettier]);
 
         // Create the basic project
-        const command = `${NPM7_PREFIX} && npx -p react-native@0.64.1 react-native init ${name} ${
-            isTs ? '--template react-native-template-typescript@6.6.4' : '--template react-native@0.64.1'
+        const command = `${NPM7_PREFIX} && npx react-native init ${name} ${
+            isTs ? '--template react-native-template-typescript' : '--template react-native'
         }`;
 
         const spinner = print.spin('Creating a new React Native project (this may take a few minutes)...');
