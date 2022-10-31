@@ -2932,10 +2932,10 @@ cosmiconfig@^5.0.5, cosmiconfig@^5.1.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-create-react-app@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/create-react-app/-/create-react-app-5.0.0.tgz#443bb597f7fea2235f6c4570c4fb5da4d68d502f"
-  integrity sha512-r1hJymk28l9HiGNatNq92txdua5pq5z4jHsYRG4g2BME7cDtRcCiuUsZzT1tPqjapSHT0Zwpwnp0gdTaqPzyBA==
+create-react-app@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/create-react-app/-/create-react-app-5.0.1.tgz#b0d30d89aaa4f09bbd8bc2f2bcb3fb5637e01af6"
+  integrity sha512-UkxTKK8I9HuZZHqkNq/JkKXDgdLeiRGc+bL58Iae2g+7WwFomAj4wppn6JfqlZM2IKYRlZtgLlmVr5oZfdd1xg==
   dependencies:
     chalk "^4.1.2"
     commander "^4.1.1"
