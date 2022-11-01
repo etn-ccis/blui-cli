@@ -514,11 +514,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
             ``,
             `Android:`,
             `• Have an Android emulator running`,
+            `• cd ${name}`,
             `• ${isYarn ? 'yarn' : 'npm run'} android`,
         ]);
-        print.warning(
-            'Due to some issues with the latest version of Xcode, we have disabled Flipper in the iOS project (refer to https://github.com/facebook/react-native/issues/31179).'
-        );
         print.info('');
     };
 

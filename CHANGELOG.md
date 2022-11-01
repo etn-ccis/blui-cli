@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.1.0 (November 1, 2022)
+
+### Changed
+
+-   Updated generated projects to build with the latest version of React native.
+
 ## v2.0.0 (April 4, 2022)
 
 ### Changed
