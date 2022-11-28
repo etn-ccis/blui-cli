@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.2.0 (Not yet published)
+
+### Changed
+
+-   Update angular projects to use angular 14.
+
 ## v2.1.0 (November 1, 2022)
 
 ### Changed
