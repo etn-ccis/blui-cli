@@ -1,4 +1,4 @@
-export type Language = 'ts' | 'js';
+export type Language = 'ts';
 
 export type Template = 'Blank' | 'Basic Routing' | 'Authentication';
 
