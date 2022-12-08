@@ -65,20 +65,20 @@ module.exports = (toolbox: GluegunToolbox): void => {
         switch (templateNameParam.toLocaleLowerCase()) {
             case 'basic routing':
             case 'routing': // to allow for --template=routing instead of --template="basic routing"
-                templateName = isTs ? '@brightlayer-ui/routing-typescript' : '@brightlayer-ui/routing';
+                templateName = '@brightlayer-ui/routing-typescript';
                 break;
             case 'authentication':
-                templateName = isTs ? '@brightlayer-ui/authentication-typescript' : '@brightlayer-ui/authentication';
+                templateName = '@brightlayer-ui/authentication-typescript';
                 break;
             case 'blank':
-                templateName = isTs ? '@brightlayer-ui/blank-typescript' : '@brightlayer-ui/blank';
+                templateName = '@brightlayer-ui/blank-typescript';
                 break;
             default:
                 // allow users to specify a local file to test
                 if (isLocal) {
                     templateName = templateNameParam;
                 } else {
-                    templateName = isTs ? '@brightlayer-ui/blank-typescript' : '@brightlayer-ui/blank';
+                    templateName = '@brightlayer-ui/blank-typescript';
                 }
         }
 
@@ -116,8 +116,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const [prettier] = await parse([QUESTIONS.prettier]);
 
         // Create the basic project
-        const command = `${NPM7_PREFIX} && npx react-native init ${name} ${
-            isTs ? '--template react-native-template-typescript' : '--template react-native'
+        const command = `${NPM7_PREFIX} && npx react-native init ${name} '--template react-native-template-typescript'
         }`;
 
         const spinner = print.spin('Creating a new React Native project (this may take a few minutes)...');

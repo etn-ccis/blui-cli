@@ -318,27 +318,19 @@ module.exports = (toolbox: GluegunToolbox): void => {
         switch (templateNameParam.toLocaleLowerCase()) {
             case 'basic routing':
             case 'routing':
-                templatePackage = ts
-                    ? '@brightlayer-ui/react-native-template-routing-typescript'
-                    : '@brightlayer-ui/react-native-template-routing';
+                templatePackage = '@brightlayer-ui/react-native-template-routing-typescript';
                 break;
             case 'authentication':
-                templatePackage = ts
-                    ? '@brightlayer-ui/react-native-template-authentication-typescript'
-                    : '@brightlayer-ui/react-native-template-authentication';
+                templatePackage = '@brightlayer-ui/react-native-template-authentication-typescript';
                 break;
             case 'blank':
-                templatePackage = ts
-                    ? '@brightlayer-ui/react-native-template-blank-typescript'
-                    : '@brightlayer-ui/react-native-template-blank';
+                templatePackage = '@brightlayer-ui/react-native-template-blank-typescript';
                 break;
             default:
                 // allow users to specify a local file to test
                 templatePackage = isLocal
                     ? templateNameParam
-                    : ts
-                    ? '@brightlayer-ui/react-native-template-blank-typescript'
-                    : '@brightlayer-ui/react-native-template-blank';
+                    : '@brightlayer-ui/react-native-template-blank-typescript';
         }
 
         // Clone the template repo (if applicable)
