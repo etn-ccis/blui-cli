@@ -4,15 +4,7 @@
  */
 import { GluegunToolbox } from 'gluegun';
 import { NPM7_PREFIX, QUESTIONS } from '../constants';
-import {
-    assignJsTs,
-    AngularProps,
-    ReactProps,
-    ReactNativeProps,
-    Template,
-    Language,
-    getVersionString,
-} from '../utilities';
+import { AngularProps, ReactProps, ReactNativeProps, Template, Language, getVersionString } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, parse, print } = toolbox;
@@ -40,21 +32,14 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
     const createReactProject = async (): Promise<ReactProps> => {
         let lint = true;
-        let language: Language = 'ts';
+        const language: Language = 'ts';
 
         // Choose a name & template
         const [name, template]: [string, Template] = await parse([QUESTIONS.name, QUESTIONS.template]);
         const isLocal = template.startsWith('file:');
 
-        // Choose a language
-        const [languageTemp]: [string] = await parse([QUESTIONS.language]);
-        language = assignJsTs(languageTemp);
-        const isTs = language === 'ts';
-
         // Choose code formatting options
-        if (isTs) {
-            [lint] = await parse([QUESTIONS.lint]);
-        }
+        [lint] = await parse([QUESTIONS.lint]);
         const [prettier]: [boolean] = await parse([QUESTIONS.prettier]);
 
         // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
@@ -96,6 +81,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const createReactNativeProject = async (): Promise<ReactNativeProps> => {
+        const language: Language = 'ts';
+
         // Choose a name
         const [name]: [string] = await parse([QUESTIONS.name]);
 
@@ -103,16 +90,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let template = '';
         [template] = await parse([QUESTIONS.template]);
 
-        // Choose a language
-        const [languageTemp]: [string] = await parse([QUESTIONS.language]);
-        const language = assignJsTs(languageTemp);
-        const isTs = language === 'ts';
-
         // Choose code formatting options
         let lint = true;
-        if (isTs) {
-            [lint] = await parse([QUESTIONS.lint]);
-        }
+        [lint] = await parse([QUESTIONS.lint]);
         const [prettier] = await parse([QUESTIONS.prettier]);
 
         // Create the basic project

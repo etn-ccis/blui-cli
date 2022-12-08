@@ -55,7 +55,7 @@ The following table list out some options for the `blui new` command. All these 
 | <code>--template=<blank\|routing\|authentication></code> | Template to use to start the project                                                                                                                                            |
 | `--lint`                                                 | (TypeScript projects only) Install and configure [Brightlayer UI lint package](https://www.npmjs.com/package/@brightlayer-ui/eslint-config) (omit or `--lint=false` to disable) |
 | `--prettier`                                             | Install and configure [Brightlayer UI prettier package](https://www.npmjs.com/package/@brightlayer-ui/prettier-config) (omit or `--prettier=false` to disable)                  |
-| <code>--language=<typescript\|javascript></code>         | (React & React Native Only) The language in which the project will be generated                                                                                                 |
+| <code>--language=<typescript></code>                     | (React & React Native Only) The language in which the project will be generated                                                                                                 |
 
 ## Detailed Usage
 

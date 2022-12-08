@@ -18,12 +18,6 @@ export const QUESTIONS = {
         type: 'confirm',
         initial: true,
     },
-    language: {
-        optionName: 'language',
-        question: 'Language',
-        type: 'radio',
-        choices: ['TypeScript', 'JavaScript'],
-    },
     framework: {
         optionName: 'framework',
         question: 'Project Framework:',
