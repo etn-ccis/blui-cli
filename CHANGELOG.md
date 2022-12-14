@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.3.0 (Unreleased)
+
+### Removed
+
+-   Removed language selection question from React and React native.
+
+### Changed
+
+-   React and React native blui cli generated project to use Typescript only.
+
 ## v2.2.0 (November 29, 2022)
 
 ### Changed
