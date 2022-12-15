@@ -4,7 +4,7 @@
 
 ### Removed
 
--   Removed language selection question from React and React native.
+-   Removed language option from React and React native.
 
 ### Changed
 
