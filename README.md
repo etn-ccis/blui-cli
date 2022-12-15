@@ -68,9 +68,8 @@ To start a new project with Brightlayer UI integration follow the steps below. W
     - Blank: a basic application with a simple placeholder homepage
     - Routing: integrates React Router with a simple drawer navigation and several placeholder routes
     - Authentication: integrates the [react](https://www.npmjs.com/package/@brightlayer-ui/react-auth-workflow), [angular](https://www.npmjs.com/package/@brightlayer-ui/angular-auth-workflow), or [react native](https://www.npmjs.com/package/@brightlayer-ui/react-native-auth-workflow) auth-workflow login and registration screens plus everything from the routing template
-5. If you are creating a React or React Native project, you will be prompted to choose JavaScript or Typescript for your project language.
-6. You will be asked if you want to use the Brightlayer UI Linting configuration and code formatting packages (recommended).
-7. The CLI will install all of the necessary dependencies for your project and integrate the Brightlayer UI components, themes, and fonts. When complete, the CLI should present you instructions for running your project.
+5. You will be asked if you want to use the Brightlayer UI Linting configuration and code formatting packages (recommended).
+6. The CLI will install all of the necessary dependencies for your project and integrate the Brightlayer UI components, themes, and fonts. When complete, the CLI should present you instructions for running your project.
     > **Note for React Native projects:** There are additional steps you must run for your project to run on iOS. Follow the on-screen instructions for running `pod install` to link the react-native-vector-icons package. If you are using xCode 11+, you will also need to update the Build Phases in xCode to avoid duplicated resources errors (refer to [this issue](https://github.com/oblador/react-native-vector-icons/issues/1074)).
 
 ### Testing / Debugging Templates (For Maintainers)
