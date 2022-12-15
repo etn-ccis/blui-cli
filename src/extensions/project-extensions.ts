@@ -4,7 +4,7 @@
  */
 import { GluegunToolbox } from 'gluegun';
 import { NPM7_PREFIX, QUESTIONS } from '../constants';
-import { AngularProps, ReactProps, ReactNativeProps, Template, Language, getVersionString } from '../utilities';
+import { AngularProps, ReactProps, ReactNativeProps, Template, getVersionString } from '../utilities';
 
 module.exports = (toolbox: GluegunToolbox): void => {
     const { system, parse, print } = toolbox;
@@ -32,7 +32,6 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
     const createReactProject = async (): Promise<ReactProps> => {
         let lint = true;
-        const language: Language = 'ts';
 
         // Choose a name & template
         const [name, template]: [string, Template] = await parse([QUESTIONS.name, QUESTIONS.template]);
@@ -77,12 +76,10 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created skeleton React project in ${timer() / 1000} seconds`);
 
-        return { name, language, lint, prettier };
+        return { name, lint, prettier };
     };
 
     const createReactNativeProject = async (): Promise<ReactNativeProps> => {
-        const language: Language = 'ts';
-
         // Choose a name
         const [name]: [string] = await parse([QUESTIONS.name]);
 
@@ -106,7 +103,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         print.info(output);
         print.success(`Created skeleton React Native project in ${timer() / 1000} seconds`);
 
-        return { name, language, lint, prettier, template };
+        return { name, lint, prettier, template };
     };
 
     toolbox.createProject = {

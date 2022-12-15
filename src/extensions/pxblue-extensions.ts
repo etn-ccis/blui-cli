@@ -11,7 +11,6 @@ import {
     STYLES,
     PRETTIER_DEPENDENCIES,
     PRETTIER_SCRIPTS,
-    PRETTIER_CONFIG,
     NPM7_PREFIX,
 } from '../constants';
 import { JEST } from '../constants/jest';
@@ -253,13 +252,12 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addBLUIReact = async (props: ReactProps): Promise<void> => {
-        const { name, lint, prettier, language } = props;
+        const { name, lint, prettier } = props;
         const folder = `./${name}`;
-        const ts = language === 'ts';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
         // Install ESLint Packages (optional)
-        if (ts && lint) {
+        if (lint) {
             await fileModify.installDependencies({
                 folder: folder,
                 dependencies: LINT_DEPENDENCIES.react,
@@ -287,7 +285,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
-        packageJSON = updateScripts(packageJSON, lint && ts ? LINT_SCRIPTS.react : []);
+        packageJSON = updateScripts(packageJSON, lint ? LINT_SCRIPTS.react : []);
         packageJSON = updateScripts(packageJSON, prettier ? PRETTIER_SCRIPTS.react : []);
         packageJSON = updateBrowsersListJson(packageJSON);
         if (prettier) packageJSON.prettier = '@brightlayer-ui/prettier-config';
@@ -304,9 +302,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
     };
 
     const addBLUIReactNative = async (props: ReactNativeProps): Promise<void> => {
-        const { name, lint, prettier, language, template } = props;
+        const { name, lint, prettier, template } = props;
         const folder = `./${name}`;
-        const ts = language === 'ts';
         const isYarn = filesystem.exists(`./${folder}/yarn.lock`) === 'file';
 
         // determine the version of the template to use (--alpha, --beta, or explicit --template=name@x.x.x)
@@ -438,7 +435,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         templateSpinner.stop();
 
         // Install ESLint Packages (optional)
-        if (ts && lint) {
+        if (lint) {
             await fileModify.installDependencies({
                 folder: folder,
                 dependencies: LINT_DEPENDENCIES.reactNative,
@@ -467,22 +464,14 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         // Update package.json
         let packageJSON: any = filesystem.read(`${folder}/package.json`, 'json');
-        packageJSON = updateScripts(
-            packageJSON,
-            SCRIPTS.reactNative.concat(lint && ts ? LINT_SCRIPTS.reactNative : [])
-        );
+        packageJSON = updateScripts(packageJSON, SCRIPTS.reactNative.concat(lint ? LINT_SCRIPTS.reactNative : []));
         packageJSON = updateScripts(
             packageJSON,
             SCRIPTS.reactNative.concat(prettier ? PRETTIER_SCRIPTS.reactNative : [])
         );
-        if (prettier && ts) packageJSON.prettier = '@brightlayer-ui/prettier-config';
+        if (prettier) packageJSON.prettier = '@brightlayer-ui/prettier-config';
         packageJSON.scripts.test = 'jest';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
-
-        // Update prettier.rc for JS projects
-        if (!ts && prettier) {
-            filesystem.write(`${folder}/.prettierrc.js`, PRETTIER_CONFIG.rc);
-        }
 
         // Configure Jest
         packageJSON.jest.transformIgnorePatterns = JEST.TRANSFORM_IGNORE_PATTERNS;
