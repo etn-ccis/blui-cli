@@ -1,5 +1,3 @@
-export type Language = 'ts' | 'js';
-
 export type Template = 'Blank' | 'Basic Routing' | 'Authentication';
 
 export type AngularProps = {
@@ -10,13 +8,11 @@ export type AngularProps = {
 };
 export type ReactProps = {
     name: string;
-    language: Language;
     lint: boolean;
     prettier: boolean;
 };
 export type ReactNativeProps = {
     name: string;
-    language: Language;
     lint: boolean;
     prettier: boolean;
     template: string;

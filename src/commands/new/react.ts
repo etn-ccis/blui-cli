@@ -6,7 +6,7 @@ module.exports = {
     description: 'Creates a new react project',
     run: async (toolbox: GluegunToolbox): Promise<void> => {
         toolbox.fancyPrint.welcomeLogo();
-        const { name, language, lint, prettier } = await toolbox.createProject.react();
-        await toolbox.addBLUI.react({ name, language, lint, prettier });
+        const { name, lint, prettier } = await toolbox.createProject.react();
+        await toolbox.addBLUI.react({ name, lint, prettier });
     },
 };
