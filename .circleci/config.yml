@@ -113,16 +113,6 @@ jobs:
                   name: Publish @brightlayer-ui/cli
                   command: |
                       yarn publish:package -b $CIRCLE_BRANCH
-    tag:
-        docker:
-            - image: cimg/node:14.19.0-browsers
-        steps:
-            - checkout
-            - gh/setup
-            - run:
-                  name: Tag @brightlayer-ui/cli
-                  command: |
-                      yarn tag:package -b $CIRCLE_BRANCH -s -blui-cli
 workflows:
     version: 2
     blui_cli:
@@ -162,13 +152,6 @@ workflows:
                           only:
                               - master
                               - dev
-            - tag:
-                  requires:
-                      - publish
-                  filters:
-                      branches:
-                          only:
-                              - master
             - coverage_report:
                   requires:
                       - build_cli
