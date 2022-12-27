@@ -8,7 +8,7 @@
         "prettier:check": "prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --check",
         "prettier": "prettier \"src/**/**.{ts,tsx,js,jsx,json,css,scss,html}\" --write",
         "publish:package": "set npm_config_yes=true && npx -p @brightlayer-ui/publish blui-publish",
-        "tag:package": "npx -p @brightlayer-ui/tag blui-tag",
+        "tag:package": "npx -p @brightlayer-ui/tag blui-tag -s -blui-cli",
         "clean-build": "rm -rf ./build",
         "compile": "tsc -p .",
         "copy-templates": "if [ -e ./src/templates ]; then cp -a ./src/templates ./build/; fi",
