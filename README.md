@@ -66,7 +66,7 @@ To start a new project with Brightlayer UI integration follow the steps below. W
 2. Choose your desired framework from the list
     - Alternatively, you can pre-select a framework by running `npx -p @brightlayer-ui/cli blui new <framework>`
 3. You will be prompted to enter a name for your project. Make sure the name you select meets the requirements of the CLI for your chosen framework.
-4. You will be prompted to choose a template from our list of [angular](https://github.com/brightlayer-ui/angular-cli-templates/tree/master), [react](https://github.com/brightlayer-ui/react-cli-templates/tree/master), or [react native](https://github.com/brightlayer-ui/react-native-cli-templates/tree/master) templates to scaffold your project:
+4. You will be prompted to choose a template from our list of [angular](https://github.com/etn-ccis/blui-angular-cli-templates/tree/master), [react](https://github.com/etn-ccis/blui-react-cli-templates/tree/master), or [react native](https://github.com/etn-ccis/blui-react-native-cli-templates/tree/master) templates to scaffold your project:
     - Blank: a basic application with a simple placeholder homepage
     - Routing: integrates React Router with a simple drawer navigation and several placeholder routes
     - Authentication: integrates the [react](https://www.npmjs.com/package/@brightlayer-ui/react-auth-workflow), [angular](https://www.npmjs.com/package/@brightlayer-ui/angular-auth-workflow), or [react native](https://www.npmjs.com/package/@brightlayer-ui/react-native-auth-workflow) auth-workflow login and registration screens plus everything from the routing template
