@@ -14,7 +14,7 @@
     "typescript@3.9.10": {
         "licenses": "Apache-2.0",
         "repository": "https://github.com/Microsoft/TypeScript",
-        "licenseUrl": "https://github.com/Microsoft/TypeScript/raw/master/LICENSE.txt",
+        "licenseUrl": "https://github.com/Microsoft/TypeScript/raw/main/LICENSE.txt",
         "parents": "@brightlayer-ui/cli"
     }
 }
