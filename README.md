@@ -2,6 +2,8 @@
 
 This Command Line Interface is a utility for creating new Brightlayer UI applications with automatic integration of themes, components, etc.
 
+> Watch our video tutorial [here](https://brightlayer-ui.github.io/development/cli)!
+
 ## Prerequisites
 
 In order to use this utility you must have the following installed:
