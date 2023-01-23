@@ -1,14 +1,10 @@
 # Changelog
 
-## v3.0.0 (Unreleased)
+## v3.0.0 (January 25, 2023)
 
 ### Removed
 
--   Removed language option from React and React native.
-
-### Changed
-
--   React and React native blui cli generated project to use Typescript only.
+-   Removed language option from React and React native. The CLI can now only generate React and React Native projects in Typescript.
 
 ## v2.2.0 (November 29, 2022)
 
