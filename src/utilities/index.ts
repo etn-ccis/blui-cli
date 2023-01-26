@@ -1,5 +1,5 @@
 import { SUPPORTED_BROWSERS } from '../constants';
-import { PackageJSON, Script, Language } from './types';
+import { PackageJSON, Script } from './types';
 export * from './types';
 
 export const updateScripts = (packageFile: PackageJSON, scripts: Script[] = []): PackageJSON => {
@@ -21,18 +21,6 @@ export const updateBrowsersListJson = (browsersJSON: any): any => {
 
 // convert the string to lower case, and remove all the spaces and dashes.
 export const stringToLowerCaseNoSpace = (str: string): string => str.toLowerCase().replace(/[- ]/gi, '');
-
-export const assignJsTs = (str: string): Language => {
-    switch (stringToLowerCaseNoSpace(str)) {
-        case 'ts':
-        case 'typescript':
-            return 'ts';
-        case 'js':
-        case 'javascript':
-        default:
-            return 'js';
-    }
-};
 
 export const getVersionString = (params: { [key: string]: any }, template: string): [string, string] => {
     const templateArray = template.split('@');

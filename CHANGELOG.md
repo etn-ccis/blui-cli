@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.0 (January 25, 2023)
+
+### Removed
+
+-   Removed language option from React and React native. The CLI can now only generate React and React Native projects in Typescript.
+
 ## v2.2.0 (November 29, 2022)
 
 ### Changed
@@ -16,18 +22,18 @@
 
 ### Changed
 
--   Updated dependencies to the latest ([#116](https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/116)).
+-   Updated dependencies to the latest ([#116](https://github.com/etn-ccis/blui-cli/issues/116)).
 -   Update angular projects to use angular 13.
 -   Updated bundle size budgets when building angular projects.
 
 ### Removed
 
--   Removed ability to generate new Ionic projects. (#115)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/115]
--   Removed ability to generate new React Native projects using Expo. (#114)[https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/114]
+-   Removed ability to generate new Ionic projects ([#115](https://github.com/etn-ccis/blui-cli/issues/115)).
+-   Removed ability to generate new React Native projects using Expo ([#114](https://github.com/etn-ccis/blui-cli/issues/114)).
 
 ### Added
 
--   Added functionality to enforce valid template selection ([#52](https://github.com/brightlayer-ui/brightlayer-ui-cli/issues/52)).
+-   Added functionality to enforce valid template selection ([#52](https://github.com/etn-ccis/blui-cli/issues/52)).
 
 ## v1.8.2 (December 16, 2021)
 
