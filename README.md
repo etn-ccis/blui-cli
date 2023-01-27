@@ -1,5 +1,7 @@
 # Brightlayer UI CLI
 
+[![](https://img.shields.io/circleci/project/github/etn-ccis/blui-cli/master.svg?style=flat)](https://circleci.com/gh/etn-ccis/blui-cli/tree/master) [![codecov](https://codecov.io/gh/etn-ccis/blui-cli/branch/master/graph/badge.svg?token=MBG1I61LHD)](https://codecov.io/gh/etn-ccis/blui-cli)
+
 This Command Line Interface is a utility for creating new Brightlayer UI applications with automatic integration of themes, components, etc.
 
 > Watch our video tutorial [here](https://brightlayer-ui.github.io/development/cli)!
