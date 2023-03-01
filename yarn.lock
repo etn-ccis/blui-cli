@@ -5505,7 +5505,7 @@ lodash.upperfirst@^4.3.1:
   resolved "https://registry.yarnpkg.com/lodash.upperfirst/-/lodash.upperfirst-4.3.1.tgz#1365edf431480481ef0d1c68957a5ed99d49f7ce"
   integrity sha1-E2Xt9DFIBIHvDRxolXpe2Z1J984=
 
-lodash@^4.17.14, lodash@^4.17.21, lodash@^4.7.0:
+lodash@4.17.21, lodash@^4.17.14, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -6929,11 +6929,12 @@ react-is@^17.0.1:
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
 react-native-asset@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-asset/-/react-native-asset-2.0.1.tgz#902526212b9da9ab4340b1e9a29fbf1d632ffb87"
-  integrity sha512-rhMnbRiGFXWs0nvZZ4SxmwsdiGs15EfTFLszPZT8uCPTwdO/AAlZ284Kf8S+evbmql3kQcajKGWFx2EUGDlOqg==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-asset/-/react-native-asset-2.1.0.tgz#11d07ff7316f16baf5ae79e87efa7fc5d9916e8e"
+  integrity sha512-Z1605leJo7EJkHMUKk8bCJRQ16xugXuYD4fjzIhKYOihDk7kiNED/266G+hnlse9fUFVQvtFX233/wt112RZTw==
   dependencies:
     fs-extra "^7.0.1"
+    lodash "4.17.21"
     npmlog "^4.1.2"
     plist "^3.0.1"
     sha1-file "^1.0.4"
