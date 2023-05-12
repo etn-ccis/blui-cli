@@ -34,7 +34,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let lint = true;
 
         // Choose a name & template
-        const [name, template]: [string, Template] = await parse([QUESTIONS.name, QUESTIONS.template]);
+        const [name, template]: [string, Template] = await parse([QUESTIONS.name, QUESTIONS.seedUItemplate]);
         const isLocal = template.startsWith('file:');
 
         // Choose code formatting options
@@ -56,6 +56,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 break;
             case 'blank':
                 templateName = '@brightlayer-ui/blank-typescript';
+                break;
+            case 'seed ui':
+                templateName = '@brightlayer-ui/seedui-typescript';
                 break;
             default:
                 // allow users to specify a local file to test
