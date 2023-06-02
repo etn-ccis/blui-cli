@@ -22,7 +22,7 @@
         "generate:licenses": "npm-license-crawler -onlyDirectDependencies -json LICENSES.json"
     },
     "dependencies": {
-        "@angular/cli": "^14.0.0",
+        "@angular/cli": "^15.2.0",
         "create-react-app": "^5.0.1",
         "gluegun": "^5.1.0",
         "react-native": "^0.71.7",

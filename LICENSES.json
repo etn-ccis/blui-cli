@@ -1,20 +1,44 @@
 {
-    "gluegun@4.7.0": {
+    "@angular/cli@15.2.8": {
+        "licenses": "MIT",
+        "repository": "https://github.com/angular/angular-cli",
+        "licenseUrl": "https://github.com/angular/angular-cli/raw/master/LICENSE",
+        "parents": "@brightlayer-ui/cli"
+    },
+    "create-react-app@5.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/create-react-app",
+        "licenseUrl": "https://github.com/facebook/create-react-app/raw/master/LICENSE",
+        "parents": "@brightlayer-ui/cli"
+    },
+    "gluegun@5.1.0": {
         "licenses": "MIT",
         "repository": "https://github.com/infinitered/gluegun",
         "licenseUrl": "https://github.com/infinitered/gluegun/raw/master/LICENSE",
         "parents": "@brightlayer-ui/cli"
     },
-    "ts-node@7.0.1": {
+    "react-native-asset@2.1.0": {
+        "licenses": "ISC",
+        "repository": "https://github.com/unimonkiez/react-native-asset",
+        "licenseUrl": "https://github.com/unimonkiez/react-native-asset",
+        "parents": "@brightlayer-ui/cli"
+    },
+    "react-native@0.71.7": {
+        "licenses": "MIT",
+        "repository": "github:facebook/react-native",
+        "licenseUrl": "github:facebook/react-native",
+        "parents": "@brightlayer-ui/cli"
+    },
+    "ts-node@10.7.0": {
         "licenses": "MIT",
         "repository": "https://github.com/TypeStrong/ts-node",
         "licenseUrl": "https://github.com/TypeStrong/ts-node/raw/master/LICENSE",
         "parents": "@brightlayer-ui/cli"
     },
-    "typescript@3.9.10": {
+    "typescript@4.6.3": {
         "licenses": "Apache-2.0",
         "repository": "https://github.com/Microsoft/TypeScript",
-        "licenseUrl": "https://github.com/Microsoft/TypeScript/raw/main/LICENSE.txt",
+        "licenseUrl": "https://github.com/Microsoft/TypeScript/raw/master/LICENSE.txt",
         "parents": "@brightlayer-ui/cli"
     }
 }

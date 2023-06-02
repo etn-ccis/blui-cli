@@ -199,7 +199,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 experimentalDecorators: true,
                 moduleResolution: 'node',
                 importHelpers: true,
-                target: 'es2015',
+                target: 'ES2022',
                 module: 'es2020',
                 lib: ['es2018', 'dom'],
             },
