@@ -23,12 +23,8 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const timer = system.startTimer();
         const output = await system.run(command);
 
-        const browsersList = `cd ${name} && ng generate config browserslist`;
-        const browserslistrc = await system.run(browsersList);
-
         spinner.stop();
         print.info(output);
-        print.info(browserslistrc);
         print.success(`Created skeleton Angular project in ${timer() / 1000} seconds`);
 
         return { name, lint, prettier, template };

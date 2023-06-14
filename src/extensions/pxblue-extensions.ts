@@ -207,10 +207,11 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.write(`${folder}/tsconfig.json`, tsconfigJSON, { jsonIndent: 4 });
 
         // Update browsers list
-        let browsers = filesystem.read(`${folder}/.browserslistrc`, 'utf8');
-        browsers = updateBrowsersListFile(browsers);
-        filesystem.write(`${folder}/.browserslistrc`, browsers);
-
+        if (filesystem.exists(pathInFolder(`${folder}/.browserslistrc`))) {
+            let browsers = filesystem.read(`${folder}/.browserslistrc`, 'utf8');
+            browsers = updateBrowsersListFile(browsers);
+            filesystem.write(`${folder}/.browserslistrc`, browsers);
+        }
         // Update index.html
         let html = filesystem.read(`${folder}/src/index.html`, 'utf8');
         html = html
