@@ -247,11 +247,11 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.write(`${folder}/src/styles.scss`, STYLES);
 
         templateSpinner.stop();
-        
-        // run eslint and prettier command to clean up the code 
+
+        // run eslint and prettier command to clean up the code
         templateSpinner = print.spin('Running ESlint and Prettier command...');
 
-        const lintPrettierCmd = await system.run(`cd ${name} && yarn lint --fix && yarn prettier:check`);
+        const lintPrettierCmd = await system.run(`cd ${name} && yarn lint --fix && yarn prettier`);
         print.info(lintPrettierCmd);
 
         templateSpinner.stop();
