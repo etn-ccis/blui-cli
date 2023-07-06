@@ -248,6 +248,14 @@ module.exports = (toolbox: GluegunToolbox): void => {
 
         templateSpinner.stop();
 
+        // run eslint and prettier command to clean up the code
+        templateSpinner = print.spin('Running ESlint and Prettier command...');
+
+        const lintPrettierCmd = await system.run(`cd ${name} && yarn lint --fix && yarn prettier`);
+        print.info(lintPrettierCmd);
+
+        templateSpinner.stop();
+
         printSuccess(name);
         printInstructions([`cd ${name}`, `${isYarn ? 'yarn' : 'npm'} start`]);
     };
