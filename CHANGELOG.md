@@ -6,13 +6,6 @@
 
 -   Update angular projects to use angular 15.
 
-
-## v3.1.0 (Unreleased)
-
-### Added
-
--   Added new Seed UI template for react framework.
-
 ## v3.0.0 (January 25, 2023)
 
 ### Removed

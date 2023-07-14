@@ -35,6 +35,6 @@ export const QUESTIONS = {
         optionName: 'template',
         question: 'Choose a starting template:',
         type: 'radio',
-        choices: ['Blank', 'Basic Routing', 'Authentication', 'Seed UI'] as Template[],
+        choices: ['Blank', 'Basic Routing', 'Authentication'] as Template[],
     },
 };
