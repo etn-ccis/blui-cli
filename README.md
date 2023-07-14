@@ -1,5 +1,7 @@
 # Brightlayer UI CLI
 
+[![](https://img.shields.io/circleci/project/github/etn-ccis/blui-cli/master.svg?style=flat)](https://circleci.com/gh/etn-ccis/blui-cli/tree/master) [![codecov](https://codecov.io/gh/etn-ccis/blui-cli/branch/master/graph/badge.svg?token=MBG1I61LHD)](https://codecov.io/gh/etn-ccis/blui-cli)
+
 This Command Line Interface is a utility for creating new Brightlayer UI applications with automatic integration of themes, components, etc.
 
 > Watch our video tutorial [here](https://brightlayer-ui.github.io/development/cli)!
@@ -54,7 +56,7 @@ The following table list out some options for the `blui new` command. All these 
 | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code>--framework=<angular\|react\|react-native></code>  | The framework in which the project will be generated.                                                                                                                           |
 | `--name=<name>`                                          | Project name                                                                                                                                                                    |
-| <code>--template=<blank\|routing\|authentication></code> | Template to use to start the project                                                                                                                                            |
+| <code>--template=<blank\|routing\|authentication></code> | Template to use to start the project                                                                                                                                           |
 | `--lint`                                                 | (TypeScript projects only) Install and configure [Brightlayer UI lint package](https://www.npmjs.com/package/@brightlayer-ui/eslint-config) (omit or `--lint=false` to disable) |
 | `--prettier`                                             | Install and configure [Brightlayer UI prettier package](https://www.npmjs.com/package/@brightlayer-ui/prettier-config) (omit or `--prettier=false` to disable)                  |
 

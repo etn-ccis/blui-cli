@@ -18,7 +18,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
             QUESTIONS.prettier,
         ]);
 
-        const command = `${NPM7_PREFIX} && npx -p @angular/cli@^13.2.6 ng new ${name} --directory "${name}" --style=scss`;
+        const command = `${NPM7_PREFIX} && npx -p @angular/cli@^15.2.0 ng new ${name} --directory "${name}" --style=scss`;
         const spinner = print.spin('Creating a new Angular project (this may take a few minutes)...');
         const timer = system.startTimer();
         const output = await system.run(command);
@@ -34,7 +34,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         let lint = true;
 
         // Choose a name & template
-        const [name, template]: [string, Template] = await parse([QUESTIONS.name, QUESTIONS.template]);
+        const [name, template]: [string, Template] = await parse([QUESTIONS.name, QUESTIONS.seedUItemplate]);
         const isLocal = template.startsWith('file:');
 
         // Choose code formatting options
@@ -57,6 +57,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
             case 'blank':
                 templateName = '@brightlayer-ui/blank-typescript';
                 break;
+            // case 'seed ui':
+            //     templateName = '@brightlayer-ui/seedui-typescript';
+            //     break;
             default:
                 // allow users to specify a local file to test
                 if (isLocal) {

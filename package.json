@@ -1,6 +1,6 @@
 {
     "name": "@brightlayer-ui/cli",
-    "version": "3.0.0",
+    "version": "4.0.0",
     "description": "A command-line interface for quickly scaffolding Brightlayer UI applications",
     "scripts": {
         "lint": "eslint \"src/**/**.ts\"",
@@ -22,28 +22,27 @@
         "generate:licenses": "npm-license-crawler -onlyDirectDependencies -json LICENSES.json"
     },
     "dependencies": {
-        "@angular/cli": "^14.0.0",
+        "@angular/cli": "^15.2.0",
         "create-react-app": "^5.0.1",
-        "gluegun": "^5.1.0",
-        "react-native": "^0.70.0",
+        "gluegun": "^5.1.2",
+        "react-native": "^0.71.7",
         "react-native-asset": "^2.0.1",
-        "ts-node": "^10.7.0",
-        "typescript": "^4.6.2"
+        "ts-node": "^10.9.1",
+        "typescript": "^4.8.4"
     },
     "devDependencies": {
         "@brightlayer-ui/eslint-config": "^3.0.0",
         "@brightlayer-ui/prettier-config": "^1.0.3",
-        "@types/jest": "^27.4.1",
-        "@types/node": "^17.0.23",
+        "@types/jest": "^29.5.2",
+        "@types/node": "^18.11.9",
         "@typescript-eslint/eslint-plugin": "^5.16.0",
         "@typescript-eslint/parser": "^5.16.0",
-        "codecov": "^3.8.3",
-        "eslint": "^8.11.0",
+        "eslint": "^8.27.0",
         "eslint-config-prettier": "^8.5.0",
-        "jest": "^27.5.1",
+        "jest": "^29.5.0",
         "npm-license-crawler": "^0.2.1",
-        "prettier": "^2.6.0",
-        "ts-jest": "^27.1.3"
+        "prettier": "^2.8.3",
+        "ts-jest": "^29.1.0"
     },
     "repository": {
         "url": "https://github.com/etn-ccis/blui-cli",

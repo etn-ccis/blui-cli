@@ -1,5 +1,11 @@
 # Changelog
 
+## v4.0.0 (July 14, 2023)
+
+### Changed
+
+-   Update angular projects to use angular 15.
+
 ## v3.0.0 (January 25, 2023)
 
 ### Removed
