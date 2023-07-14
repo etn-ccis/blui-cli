@@ -1,6 +1,6 @@
 {
     "name": "@brightlayer-ui/cli",
-    "version": "4.0.0-alpha.2",
+    "version": "4.0.0",
     "description": "A command-line interface for quickly scaffolding Brightlayer UI applications",
     "scripts": {
         "lint": "eslint \"src/**/**.ts\"",
