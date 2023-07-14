@@ -199,7 +199,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
                 experimentalDecorators: true,
                 moduleResolution: 'node',
                 importHelpers: true,
-                target: 'es2015',
+                target: 'ES2022',
                 module: 'es2020',
                 lib: ['es2018', 'dom'],
             },
@@ -207,10 +207,11 @@ module.exports = (toolbox: GluegunToolbox): void => {
         filesystem.write(`${folder}/tsconfig.json`, tsconfigJSON, { jsonIndent: 4 });
 
         // Update browsers list
-        let browsers = filesystem.read(`${folder}/.browserslistrc`, 'utf8');
-        browsers = updateBrowsersListFile(browsers);
-        filesystem.write(`${folder}/.browserslistrc`, browsers);
-
+        if (filesystem.exists(pathInFolder(`${folder}/.browserslistrc`))) {
+            let browsers = filesystem.read(`${folder}/.browserslistrc`, 'utf8');
+            browsers = updateBrowsersListFile(browsers);
+            filesystem.write(`${folder}/.browserslistrc`, browsers);
+        }
         // Update index.html
         let html = filesystem.read(`${folder}/src/index.html`, 'utf8');
         html = html
@@ -244,6 +245,14 @@ module.exports = (toolbox: GluegunToolbox): void => {
         // Update styles.scss
         filesystem.remove(`${folder}/src/styles.scss`);
         filesystem.write(`${folder}/src/styles.scss`, STYLES);
+
+        templateSpinner.stop();
+
+        // run eslint and prettier command to clean up the code
+        templateSpinner = print.spin('Running ESlint and Prettier command...');
+
+        const lintPrettierCmd = await system.run(`cd ${name} && yarn lint --fix && yarn prettier`);
+        print.info(lintPrettierCmd);
 
         templateSpinner.stop();
 
