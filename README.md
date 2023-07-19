@@ -56,7 +56,7 @@ The following table list out some options for the `blui new` command. All these 
 | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code>--framework=<angular\|react\|react-native></code>  | The framework in which the project will be generated.                                                                                                                           |
 | `--name=<name>`                                          | Project name                                                                                                                                                                    |
-| <code>--template=<blank\|routing\|authentication></code> | Template to use to start the project                                                                                                                                           |
+| <code>--template=<blank\|routing\|authentication\|seed ui></code> | Template to use to start the project                                                                                                                                           |
 | `--lint`                                                 | (TypeScript projects only) Install and configure [Brightlayer UI lint package](https://www.npmjs.com/package/@brightlayer-ui/eslint-config) (omit or `--lint=false` to disable) |
 | `--prettier`                                             | Install and configure [Brightlayer UI prettier package](https://www.npmjs.com/package/@brightlayer-ui/prettier-config) (omit or `--prettier=false` to disable)                  |
 
@@ -72,6 +72,7 @@ To start a new project with Brightlayer UI integration follow the steps below. W
     - Blank: a basic application with a simple placeholder homepage
     - Routing: integrates React Router with a simple drawer navigation and several placeholder routes
     - Authentication: integrates the [react](https://www.npmjs.com/package/@brightlayer-ui/react-auth-workflow), [angular](https://www.npmjs.com/package/@brightlayer-ui/angular-auth-workflow), or [react native](https://www.npmjs.com/package/@brightlayer-ui/react-native-auth-workflow) auth-workflow login and registration screens plus everything from the routing template
+    - Seed UI: integrates the seed ui authorization feature like self invite, admin invite, registration screens along with basic routing.
 5. You will be asked if you want to use the Brightlayer UI Linting configuration and code formatting packages (recommended).
 6. The CLI will install all of the necessary dependencies for your project and integrate the Brightlayer UI components, themes, and fonts. When complete, the CLI should present you instructions for running your project.
     > **Note for React Native projects:** There are additional steps you must run for your project to run on iOS. Follow the on-screen instructions for running `pod install` to link the react-native-vector-icons package. If you are using xCode 11+, you will also need to update the Build Phases in xCode to avoid duplicated resources errors (refer to [this issue](https://github.com/oblador/react-native-vector-icons/issues/1074)).
@@ -96,7 +97,7 @@ Now you may use it as if it is installed locally, such as running `blui new` fro
 If you are a library maintainer and you need to test out different versions of the templates during development, there are several ways to do this:
 
 1.  Use `--alpha` or `--beta` flags on the command line. This will install the latest alpha or beta version of the template package from NPM, respectively.
-2.  Use `--template=<blank|routing|authentication>@x.x.x` to specify a specific version of the template package to install from NPM.
+2.  Use `--template=<blank|routing|authentication|seed ui>@x.x.x` to specify a specific version of the template package to install from NPM.
 3.  Use a local template file via `--template=file:./path/to/folder`. When using this syntax, the directory that you point to should contain all of the necessary files for a template. This is usually the "template name" folder (e.g., `./myTemplates/authentication`, not `./myTemplates/authentication/template`).
     -   If you are working in a local copy of a Brightlayer UI CLI templates repository, assuming that folder is in your current working directory, the paths would be:
         -   `--template=file:./angular-cli-templates/src/app/<name>`
