@@ -13,7 +13,6 @@ import {
     PRETTIER_SCRIPTS,
     NPM7_PREFIX,
 } from '../constants';
-import { JEST } from '../constants/jest';
 import {
     updateScripts,
     updateBrowsersListFile,
@@ -482,11 +481,19 @@ module.exports = (toolbox: GluegunToolbox): void => {
         packageJSON.scripts.test = 'jest';
         filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
 
+        const JestConfig = `module.exports = {
+    preset: 'react-native',
+    transformIgnorePatterns: ['node_modules/(@react-native-community|react-navigation|@react-navigation/.*)'],
+    setupFiles: ['./jestSetupFile.js', './node_modules/react-native-gesture-handler/jestSetup.js'],
+    moduleNameMapper: {
+        '\\\\.svg': '<rootDir>/__mocks__/svgMock.js',
+        '.+\\\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
+        '\\\\.(css|less)$': 'identity-obj-proxy',
+    },
+};`;
         // Configure Jest
-        packageJSON.jest.transformIgnorePatterns = JEST.TRANSFORM_IGNORE_PATTERNS;
-        packageJSON.jest.setupFiles = JEST.SETUP_FILES;
-        packageJSON.jest.moduleNameMapper = JEST.MODULE_NAME_MAPPER;
-        filesystem.write(`${folder}/package.json`, packageJSON, { jsonIndent: 4 });
+        // @TODO: fix this... write to jest.config.js instead of package json
+        filesystem.write(`${folder}/jest.config.js`, JestConfig);
 
         // Link native modules
         const command = `cd ${folder} && ${NPM7_PREFIX} && npx react-native-asset`;

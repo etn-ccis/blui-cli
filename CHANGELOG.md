@@ -6,6 +6,10 @@
 
 - Added new Seed UI template for react framework.
 
+### Fixed
+
+- Issue where the latest react-native project generation would fail to update the jest configuration.
+
 ## v4.0.0 (July 14, 2023)
 
 ### Changed
