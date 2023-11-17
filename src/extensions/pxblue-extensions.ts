@@ -484,7 +484,7 @@ module.exports = (toolbox: GluegunToolbox): void => {
         const JestConfig = `module.exports = {
     preset: 'react-native',
     transformIgnorePatterns: [
-        "node_modules/(?!(|react-native|@react-native/*|react-native-vector-icons|react-native-animatable|react-native-reanimated|react-native-iphone-x-helper|react-native-modal|react-native-collapsible|@react-native/polyfills|react-native-status-bar-height|react-native-webview|react-native-webview/*)/)"
+        "node_modules/(?!(|react-native|@react-native/*|@brightlayer-ui/react-native-components|react-native-vector-icons|react-native-animatable|react-native-reanimated|react-native-iphone-x-helper|react-native-modal|react-native-collapsible|@react-native/polyfills|react-native-status-bar-height|react-native-webview|react-native-webview/*)/)"
     ],
     setupFiles: ['./jestSetupFile.js', './node_modules/react-native-gesture-handler/jestSetup.js'],
     moduleNameMapper: {
