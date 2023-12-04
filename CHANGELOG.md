@@ -1,10 +1,6 @@
 # Changelog
 
-## v4.1.0 (Unreleased)
-
-### Added
-
-- Added new Seed UI template for react framework.
+## v4.1.0 (December 5, 2023)
 
 ### Fixed
 
