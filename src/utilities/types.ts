@@ -1,4 +1,4 @@
-export type Template = 'Blank' | 'Basic Routing' | 'Authentication';
+export type Template = 'Blank' | 'Basic Routing' | 'Authentication' | 'Seed UI';
 
 export type AngularProps = {
     name: string;
