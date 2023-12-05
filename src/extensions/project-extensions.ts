@@ -57,9 +57,9 @@ module.exports = (toolbox: GluegunToolbox): void => {
             case 'blank':
                 templateName = '@brightlayer-ui/blank-typescript';
                 break;
-            case 'seed ui':
-                templateName = '@brightlayer-ui/seedui-typescript';
-                break;
+            // case 'seed ui':
+            //     templateName = '@brightlayer-ui/seedui-typescript';
+            //     break;
             default:
                 // allow users to specify a local file to test
                 if (isLocal) {
