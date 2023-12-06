@@ -1,5 +1,12 @@
 # Changelog
 
+## v4.1.0 (December 6, 2023)
+
+### Fixed
+
+- Issue where the latest react-native project generation would fail to update the jest configuration.
+- Issue projects build generation for react-native Authentication and Routing template. ([#188](https://github.com/etn-ccis/blui-cli/issues/188)).
+
 ## v4.0.0 (July 14, 2023)
 
 ### Changed
