@@ -6,7 +6,7 @@ jobs:
     build_cli:
         working_directory: ~/@brightlayer-ui-cli
         docker:
-            - image: cimg/node:16.19.1-browsers
+            - image: cimg/node:18.17.0-browsers
         resource_class: large
         steps:
             - checkout
@@ -49,7 +49,7 @@ jobs:
     coverage_report:
         working_directory: ~/@brightlayer-ui-cli
         docker:
-            - image: cimg/node:16.19.1-browsers
+            - image: cimg/node:18.17.0-browsers
         steps:
             - checkout
             - attach_workspace:
@@ -61,7 +61,7 @@ jobs:
     build_angular:
         working_directory: ~/@brightlayer-ui-cli
         docker:
-            - image: cimg/node:16.19.1-browsers
+            - image: cimg/node:18.17.0-browsers
         steps:
             - checkout
             - attach_workspace:
@@ -74,7 +74,7 @@ jobs:
     build_react:
         working_directory: ~/@brightlayer-ui-cli
         docker:
-            - image: cimg/node:16.19.1-browsers
+            - image: cimg/node:18.17.0-browsers
         steps:
             - checkout
             - attach_workspace:
@@ -87,7 +87,7 @@ jobs:
     build_react_native:
         working_directory: ~/@brightlayer-ui-cli
         docker:
-            - image: cimg/node:16.19.1-browsers
+            - image: cimg/node:18.17.0-browsers
         steps:
             - checkout
             - attach_workspace:
@@ -99,7 +99,7 @@ jobs:
 
     publish:
         docker:
-            - image: cimg/node:16.19.1-browsers
+            - image: cimg/node:18.17.0-browsers
         steps:
             - checkout
             - attach_workspace:
