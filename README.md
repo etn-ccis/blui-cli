@@ -2,6 +2,8 @@
 
 [![](https://img.shields.io/circleci/project/github/etn-ccis/blui-cli/master.svg?style=flat)](https://circleci.com/gh/etn-ccis/blui-cli/tree/master) [![codecov](https://codecov.io/gh/etn-ccis/blui-cli/branch/master/graph/badge.svg?token=MBG1I61LHD)](https://codecov.io/gh/etn-ccis/blui-cli)
 
+**This repository has been archived. For creating new projects, please use the [Brightlayer UI React Templates](https://github.com/etn-ccis/blui-react-cli-templates) or the [Brightlayer UI React Native Templates](https://github.com/etn-ccis/blui-react-native-cli-templates).**
+
 This Command Line Interface is a utility for creating new Brightlayer UI applications with automatic integration of themes, components, etc.
 
 > Watch our video tutorial [here](https://brightlayer-ui.github.io/development/cli)!
@@ -103,3 +105,4 @@ If you are a library maintainer and you need to test out different versions of t
         -   `--template=file:./angular-cli-templates/src/app/<name>`
         -   `--template=file:./react-cli-templates/<name>`
         -   `--template=file:./react-native-cli-templates/<name>`
+
